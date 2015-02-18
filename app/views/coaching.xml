@@ -1,0 +1,32 @@
+<Alloy>
+	<TabGroup id="coachingTab">
+		<Tab title="Assessment" icon="KS_nav_ui.png">
+			<Window>
+				<TableView id="assessmentTable" onClick="goAssessment">
+                	<TableViewRow title="Shooting"/>
+        		</TableView>
+    		</Window>
+		</Tab>
+		<Tab title="Next Training" icon="KS_nav_views.png">
+			<Window title="Training <Date>">
+				<TableView id="trainingTable" onClick="goTraining">
+                	<TableViewRow title="WLC Men's League"/>
+        		</TableView>
+			</Window>
+		</Tab>
+		<Tab title="Drills" icon="KS_nav_views.png">
+			<Window title="Drills">
+				<TableView id="drillsTable" onClick="goDrills">
+                	<TableViewRow title="Shooting" />
+        		</TableView>
+			</Window>
+		</Tab>
+		<Tab title="Videos" icon="KS_nav_views.png">
+			<Window title="Videos">
+				<TableView id="videosTable" onClick="goVideos">
+                	<TableViewRow title="Shooting" />
+        		</TableView>
+			</Window>
+		</Tab>
+	</TabGroup>
+</Alloy>

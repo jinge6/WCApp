@@ -1,0 +1,5 @@
+<Alloy>
+	<Window backgroundColor="white">
+		 <Label>Details of the training videos</Label>
+    </Window>
+</Alloy>
