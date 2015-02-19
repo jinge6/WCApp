@@ -1,6 +1,20 @@
-var args = arguments[0] || {};
+var args = arguments[0] || { };
 
 var coachingWindow = Alloy.createController('coaching').getView();
+
+getCoachingAssignments();
+getTrainingAssignments();
+
+function prettyDate(dateString) {
+  var day, formatted, jsDate, month;
+
+  jsDate = new Date(dateString);
+  day = jsDate.getMonth() + 1 < 10 ? "0" + (jsDate.getMonth() + 1) : "" + (jsDate.getMonth() + 1);
+  month = jsDate.getDate() < 10 ? "0" + (jsDate.getDate()) : "" + (jsDate.getDate());
+
+  formatted = "" + day + "/" + month + "/" + (jsDate.getFullYear());
+  return formatted;
+};
 
 function goAssignment(e){
 	if (e.source == 1)
@@ -37,3 +51,93 @@ Ti.App.addEventListener('goVideos', function(e) {
 	var videosView = Alloy.createController('videos').getView();
 	$.navAssignment.openWindow(videosView);
 });
+
+function getCoachingAssignments()
+{
+	var tableData = [];
+	
+	var credentials = {
+				email: Ti.App.Properties.getString('email'),
+				auth_token: Ti.App.Properties.getString('auth_token')
+		};
+
+	var xhr = Ti.Network.createHTTPClient(
+	{
+		onload: function() 
+		{
+		 	var tableData = [];
+
+			json = JSON.parse(this.responseText);
+			
+			for (var i=0; i<json.length; i++)
+			{
+				var row = Ti.UI.createTableViewRow({className: 'row', height: 80});
+				
+				var sectionHeader = Ti.UI.createTableViewSection({headerTitle: 'Coaching', height: 20});
+				var assignmentName = Ti.UI.createLabel({text: json[i]["name"], top: 10, left: 80, font: { fontSize:12, fontWeight: 'bold' }});
+				row.add(assignmentName);
+				var assignmentDescription = Ti.UI.createLabel({text: json[i]["description"], top: 25, left: 80, font: { fontSize:10}});
+				row.add(assignmentDescription);
+				var assignmentStartDate = Ti.UI.createLabel({text: 'Start: ' + prettyDate(json[i]["startDate"]), top: 60, left: 80, font: { fontSize:8}});
+				row.add(assignmentStartDate);
+				var assignmentEndDate = Ti.UI.createLabel({text: 'End: ' + prettyDate(json[i]["endDate"]), top: 60, left: 160, font: { fontSize:8}});
+				row.add(assignmentEndDate);
+			  	var assignmentLogo = Ti.UI.createImageView({image: json[i]["logo_url"], left: 15});
+			  	row.add(assignmentLogo);
+			  	sectionHeader.add(row);
+			  	
+			  	tableData.push(sectionHeader);
+			}	
+			$.trainingTable.setData(tableData);
+		}
+	});
+		
+	xhr.open('GET','http://localhost:3000/assignments.json');
+	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
+	xhr.send();	
+}
+
+function getTrainingAssignments()
+{
+	var tableData = [];
+	
+	var credentials = {
+				email: Ti.App.Properties.getString('email'),
+				auth_token: Ti.App.Properties.getString('auth_token')
+		};
+
+	var xhr = Ti.Network.createHTTPClient(
+	{
+		onload: function() 
+		{
+		 	var tableData = [];
+
+			json = JSON.parse(this.responseText);
+			
+			for (var i=0; i<json.length; i++)
+			{
+				var row = Ti.UI.createTableViewRow({className: 'row', height: 80});
+				
+				var sectionHeader = Ti.UI.createTableViewSection({headerTitle: 'Athlete'});
+				var assignmentName = Ti.UI.createLabel({text: json[i]["name"], top: 10, left: 80, font: { fontSize:12, fontWeight: 'bold' }});
+				row.add(assignmentName);
+				var assignmentDescription = Ti.UI.createLabel({text: json[i]["description"], top: 25, left: 80, font: { fontSize:10}});
+				row.add(assignmentDescription);
+				var assignmentStartDate = Ti.UI.createLabel({text: 'Start: ' + prettyDate(json[i]["startDate"]), top: 60, left: 80, font: { fontSize:8}});
+				row.add(assignmentStartDate);
+				var assignmentEndDate = Ti.UI.createLabel({text: 'End: ' + prettyDate(json[i]["endDate"]), top: 60, left: 160, font: { fontSize:8}});
+				row.add(assignmentEndDate);
+			  	var assignmentLogo = Ti.UI.createImageView({image: json[i]["logo_url"], left: 15});
+			  	row.add(assignmentLogo);
+			  	sectionHeader.add(row);
+			  	
+			  	tableData.push(sectionHeader);
+			}	
+			$.trainingTable.appendSection(tableData);
+		}
+	});
+		
+	xhr.open('GET','http://localhost:3000/development.json');
+	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
+	xhr.send();	
+}

@@ -1,0 +1,12 @@
+"Label": {
+	font: {
+		fontSize: 6,
+		fontFamily: 'Helvetica Neue',
+		color : 'black'
+	},
+	textAlign: 'left'
+}
+
+"TableViewRow": {
+	backgroundColor: "red"
+}
