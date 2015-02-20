@@ -1,12 +1,6 @@
 <Alloy>
 	<Window>
-		 <ListView id="assessedList">
-	        <ListSection headerTitle="Shooting">
-	            <ListItem title="Basic">Work on this one thing</ListItem>
-	        </ListSection>
-	        <ListSection headerTitle="Dodging">
-	            <ListItem title="Intermediate">Work on this one thing</ListItem>
-	        </ListSection>
-	    </ListView>
+		 <TableView id="trainingTable">
+		</TableView>
     </Window>
 </Alloy>

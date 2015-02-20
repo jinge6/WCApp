@@ -1,7 +1,5 @@
 var args = arguments[0] || { };
 
-var coachingWindow = Alloy.createController('coaching').getView();
-
 getCoachingAssignments();
 getTrainingAssignments();
 
@@ -19,11 +17,12 @@ function prettyDate(dateString) {
 function goAssignment(e){
 	if (e.source == 1)
 	{
-		var trainingWindow = Alloy.createController('training').getView();
+		var trainingWindow = Alloy.createController('training', e.rowData.assignment_id).getView();
 		$.navAssignment.openWindow(trainingWindow);
 	}
 	else
 	{
+		var coachingWindow = Alloy.createController('coaching', e.rowData.assignment_id).getView();
 		$.navAssignment.openWindow(coachingWindow);
 	}
 };
@@ -42,7 +41,8 @@ Ti.App.addEventListener('goDrills', function(e) {
 
 //add behavior for goTraining
 Ti.App.addEventListener('goTraining', function(e) {
-	var trainingView = Alloy.createController('training').getView();
+	console.log('ass goTraining: ' + e.rowData.assignment_id);
+	var trainingView = Alloy.createController('training', e.rowData.assignment_id).getView();
 	$.navAssignment.openWindow(trainingView);
 });
 
@@ -71,9 +71,9 @@ function getCoachingAssignments()
 			
 			for (var i=0; i<json.length; i++)
 			{
-				var row = Ti.UI.createTableViewRow({className: 'row', height: 80});
+				var row = Ti.UI.createTableViewRow({className: 'row', height: 80, assignment_id: json[i]["id"]});
 				
-				var sectionHeader = Ti.UI.createTableViewSection({headerTitle: 'Coaching', height: 20});
+				var sectionHeader = Ti.UI.createTableViewSection({headerTitle: 'Coaching', height: 30});
 				var assignmentName = Ti.UI.createLabel({text: json[i]["name"], top: 10, left: 80, font: { fontSize:12, fontWeight: 'bold' }});
 				row.add(assignmentName);
 				var assignmentDescription = Ti.UI.createLabel({text: json[i]["description"], top: 25, left: 80, font: { fontSize:10}});
@@ -100,11 +100,6 @@ function getCoachingAssignments()
 function getTrainingAssignments()
 {
 	var tableData = [];
-	
-	var credentials = {
-				email: Ti.App.Properties.getString('email'),
-				auth_token: Ti.App.Properties.getString('auth_token')
-		};
 
 	var xhr = Ti.Network.createHTTPClient(
 	{
@@ -116,9 +111,9 @@ function getTrainingAssignments()
 			
 			for (var i=0; i<json.length; i++)
 			{
-				var row = Ti.UI.createTableViewRow({className: 'row', height: 80});
+				var row = Ti.UI.createTableViewRow({className: 'row', height: 80, assignment_id: json[i]["id"]});
 				
-				var sectionHeader = Ti.UI.createTableViewSection({headerTitle: 'Athlete'});
+				var sectionHeader = Ti.UI.createTableViewSection({headerTitle: 'Athlete', height: 30});
 				var assignmentName = Ti.UI.createLabel({text: json[i]["name"], top: 10, left: 80, font: { fontSize:12, fontWeight: 'bold' }});
 				row.add(assignmentName);
 				var assignmentDescription = Ti.UI.createLabel({text: json[i]["description"], top: 25, left: 80, font: { fontSize:10}});

@@ -2,12 +2,6 @@
 	<NavigationWindow id="navAssignment" platform="ios">
 		<Window title="Home">
 			<TableView id="trainingTable" onClick="goAssignment">
-				<TableViewSection headerTitle="Training">
-            		<TableViewRow title="WLC Men's League" data="1"/>
-            	</TableViewSection>
-				<TableViewSection headerTitle="Coaching">
-            		<TableViewRow title="WLC Men's League"/>
-            	</TableViewSection>
     		</TableView>
 		</Window>
 	</NavigationWindow>

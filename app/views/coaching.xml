@@ -1,16 +1,14 @@
 <Alloy>
 	<TabGroup id="coachingTab">
-		<Tab title="Assessment" icon="KS_nav_ui.png">
+		<Tab id="assessmentTab" title="Assessment" icon="KS_nav_ui.png">
 			<Window>
 				<TableView id="assessmentTable" onClick="goAssessment">
-                	<TableViewRow title="Shooting"/>
         		</TableView>
     		</Window>
 		</Tab>
-		<Tab title="Next Training" icon="KS_nav_views.png">
+		<Tab id="nextTrainingTab" title="Next Training" icon="KS_nav_views.png">
 			<Window title="Training <Date>">
 				<TableView id="trainingTable" onClick="goTraining">
-                	<TableViewRow title="WLC Men's League"/>
         		</TableView>
 			</Window>
 		</Tab>

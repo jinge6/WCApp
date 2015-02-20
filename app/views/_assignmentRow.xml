@@ -1,6 +1,0 @@
-<Alloy>
-	<Label id="name" class="rowLogo"></Label>
-	<Label id="description" class="rowTextSmall"></Label>
-	<Label id="start" class="rowTextSmall"></Label>
-	<Label id="end" class="rowTextSmall"></Label>
-</Alloy>
