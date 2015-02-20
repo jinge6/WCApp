@@ -11,8 +11,12 @@ $.nextTrainingTab.addEventListener('focus', function(e){
     getTrainingDrills(assignment_id);
 });
 
+$.videosTab.addEventListener('focus', function(e){
+    getVideoCategories(assignment_id);
+});
+
 function goAssessment(e){
-	getAssessment(assignment_id);
+	Ti.App.fireEvent('goAssessment',e);
 };
 
 function goTraining(e){
@@ -23,9 +27,9 @@ function goDrills(e){
 	Ti.App.fireEvent('goDrills',e);
 };
 
-function goVideos(e){
-	Ti.App.fireEvent('goVideos',e);
-};
+$.videoCategoriesTable.addEventListener('click', function(e){
+	Ti.App.fireEvent('goVideos',{assignment_id: e.rowData.assignment_id, strength_id: e.rowData.strength_id});
+});
 
 function getTrainingDrills(assignment_id)
 {
@@ -47,7 +51,7 @@ function getTrainingDrills(assignment_id)
 				
 				for (var i=0; i<json["drills"].length; i++)
 				{
-					var row = Ti.UI.createTableViewRow({height: 80});
+					var row = Ti.UI.createTableViewRow({height: 80, hasChild: true});
 					var drillName = Ti.UI.createLabel({text: json["drills"][i]["name"], top: 5, left: 80, font: { fontSize:12, fontWeight: 'bold' }});
 					row.add(drillName);
 					var drillDescription = Ti.UI.createTextArea({value: json["drills"][i]["description"], top: 20, left: 80, font: { fontSize:10}, width: 210, height : 50});
@@ -94,6 +98,46 @@ function getAssessment(assignment_id)
 	});
 		
 	xhr.open('GET','http://localhost:3000/assignments/' + assignment_id + '/assignments/focus.json');
+	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
+	xhr.send();	
+}
+
+function getVideoCategories(assignment_id)
+{
+	var tableData = [];
+
+	var xhr = Ti.Network.createHTTPClient(
+	{
+		onload: function() 
+		{
+		 	var tableData = [];
+
+			json = JSON.parse(this.responseText);
+			
+			if (json.length != 0)
+			{
+				var row = Ti.UI.createTableViewRow({height: 60, hasChild: true, assignment_id: assignment_id, strength_id: '0' });
+				var name = Ti.UI.createLabel({text: 'Highlights', top: 5, left: 10, font: { fontSize:14, fontWeight: 'bold' }});
+				row.add(name);
+				var description = Ti.UI.createLabel({text: 'A collection of highlight videos', top: 25, left: 10, font: { fontSize:10 }});
+				row.add(description);
+				tableData.push(row);
+					
+				for (var i=0; i<json.length; i++)
+				{
+					var row = Ti.UI.createTableViewRow({height: 60, hasChild: true, assignment_id: assignment_id, strength_id: json[i]["id"]});
+					var name = Ti.UI.createLabel({text: json[i]["name"], top: 5, left: 10, font: { fontSize:14, fontWeight: 'bold' }});
+					row.add(name);
+					var description = Ti.UI.createLabel({text: json[i]["description"], top: 25, left: 10, font: { fontSize:10 }});
+					row.add(description);
+					tableData.push(row);
+				}
+			}	
+			$.videoCategoriesTable.setData(tableData);
+		}
+	});
+		
+	xhr.open('GET','http://localhost:3000/activities/' + assignment_id + '/strengths.json');
 	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
 	xhr.send();	
 }

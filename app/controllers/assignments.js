@@ -41,14 +41,13 @@ Ti.App.addEventListener('goDrills', function(e) {
 
 //add behavior for goTraining
 Ti.App.addEventListener('goTraining', function(e) {
-	console.log('ass goTraining: ' + e.rowData.assignment_id);
-	var trainingView = Alloy.createController('training', e.rowData.assignment_id).getView();
+	var trainingView = Alloy.createController('training', [e.rowData.assignment_id, e.rowData.strength]).getView();
 	$.navAssignment.openWindow(trainingView);
 });
 
 //add behavior for goVideos
 Ti.App.addEventListener('goVideos', function(e) {
-	var videosView = Alloy.createController('videos').getView();
+	var videosView = Alloy.createController('videos', [e.assignment_id, e.strength_id]).getView();
 	$.navAssignment.openWindow(videosView);
 });
 
@@ -71,9 +70,11 @@ function getCoachingAssignments()
 			
 			for (var i=0; i<json.length; i++)
 			{
-				var row = Ti.UI.createTableViewRow({className: 'row', height: 80, assignment_id: json[i]["id"]});
+				var row = Ti.UI.createTableViewRow({className: 'row', height: 80, assignment_id: json[i]["id"], hasChild: true});
 				
 				var sectionHeader = Ti.UI.createTableViewSection({headerTitle: 'Coaching', height: 30});
+				var assignmentLogo = Ti.UI.createImageView({image: json[i]["logo_url"], left: 15});
+			  	row.add(assignmentLogo);
 				var assignmentName = Ti.UI.createLabel({text: json[i]["name"], top: 10, left: 80, font: { fontSize:12, fontWeight: 'bold' }});
 				row.add(assignmentName);
 				var assignmentDescription = Ti.UI.createLabel({text: json[i]["description"], top: 25, left: 80, font: { fontSize:10}});
@@ -82,8 +83,6 @@ function getCoachingAssignments()
 				row.add(assignmentStartDate);
 				var assignmentEndDate = Ti.UI.createLabel({text: 'End: ' + prettyDate(json[i]["endDate"]), top: 60, left: 160, font: { fontSize:8}});
 				row.add(assignmentEndDate);
-			  	var assignmentLogo = Ti.UI.createImageView({image: json[i]["logo_url"], left: 15});
-			  	row.add(assignmentLogo);
 			  	sectionHeader.add(row);
 			  	
 			  	tableData.push(sectionHeader);
@@ -111,7 +110,7 @@ function getTrainingAssignments()
 			
 			for (var i=0; i<json.length; i++)
 			{
-				var row = Ti.UI.createTableViewRow({className: 'row', height: 80, assignment_id: json[i]["id"]});
+				var row = Ti.UI.createTableViewRow({className: 'row', height: 80, assignment_id: json[i]["id"], hasChild: true});
 				
 				var sectionHeader = Ti.UI.createTableViewSection({headerTitle: 'Athlete', height: 30});
 				var assignmentName = Ti.UI.createLabel({text: json[i]["name"], top: 10, left: 80, font: { fontSize:12, fontWeight: 'bold' }});

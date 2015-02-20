@@ -1,5 +1,6 @@
 <Alloy>
-	<Window backgroundColor="white">
-		 <Label>Details of the training videos</Label>
-    </Window>
+	<Window title="Videos">
+		<TableView id="videosTable" onClick="showVideo">
+		</TableView>
+	</Window>
 </Alloy>

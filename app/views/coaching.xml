@@ -19,10 +19,9 @@
         		</TableView>
 			</Window>
 		</Tab>
-		<Tab title="Videos" icon="KS_nav_views.png">
+		<Tab id="videosTab" title="Videos" icon="KS_nav_views.png">
 			<Window title="Videos">
-				<TableView id="videosTable" onClick="goVideos">
-                	<TableViewRow title="Shooting" />
+				<TableView id="videoCategoriesTable">
         		</TableView>
 			</Window>
 		</Tab>
