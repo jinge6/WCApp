@@ -13,7 +13,7 @@ else
 function doSignIn(e){
 	
 	var signInPost = signInPost = {
-				email: email_property.length==0?$.email.value:email_property,
+				email: (email_property != null && email_property.length==0)?$.email.value:email_property,
 			    password: $.password.value,
 			    auth_token: auth_token_property,
 			    remember_me: '1',

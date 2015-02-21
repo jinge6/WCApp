@@ -66,28 +66,18 @@ function getTrainingDrills(assignment_id)
 				  	{
 				  		imageName = 'missing_thumbnail.png';
 				  	}
-				  	var diagram = Ti.UI.createImageView({image: imageName, left: 5});
+				  	var diagram = Ti.UI.createImageView({image: imageName, left: 5, touchEnabled: false});
 				  	row.add(diagram);
-					var drillName = Ti.UI.createLabel({text: json["drills"][i]["name"], top: 5, left: 105, font: { fontSize:12, fontWeight: 'bold' }});
+					var drillName = Ti.UI.createLabel({text: json["drills"][i]["name"], top: 10, left: 105, font: { fontSize:12, fontWeight: 'bold' }});
 					row.add(drillName);
-					var concatStrengths = null;
+					var leftOffset = 110;
 					for (var j=0; j<json["drills"][i]["strengths"].length; j++)
 					{
-						if (concatStrengths != null)
-						{
-							concatStrengths = concatStrengths + ' | ' + json["drills"][i]["strengths"][j]["name"];
-						}
-						else
-						{
-							concatStrengths = json["drills"][i]["strengths"][j]["name"];
-						}
-						
+						var color = getPerformanceColor(json["drills"][i]["strengths"][j]["performance_id"]);
+						var strength = Ti.UI.createTextArea({value: json["drills"][i]["strengths"][j]["name"], top: 40, borderRadius: 3, textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER, left: leftOffset, color: 'white', font: { fontSize:10, fontWeight: 'bold'}, backgroundColor: color});
+						row.add(strength);
+						leftOffset += 100;
 					}
-					var strengths = Ti.UI.createLabel({text: concatStrengths, top: 20, left: 105, font: { fontSize:10 }});
-					row.add(strengths);
-					
-					var drillDescription = Ti.UI.createTextArea({value: json["drills"][i]["description"], top: 32, left: 105, font: { fontSize:10}, width: 210, height : 50});
-					row.add(drillDescription);
 					tableData.push(row);
 				}
 			}	
@@ -115,27 +105,23 @@ function getAssessment(assignment_id)
 			
 			if (json.length != 0)
 			{
+				focusOnTop = json["focusontop"];
+				var color;
 				for (var i=0; i<json["assessments"].length; i++)
 				{
-					var row = Ti.UI.createTableViewRow({height: 60});
-					var color;
-					if (json["assessments"][i]["level"] == "1")
+					var color = 'white';
+					if (i < focusOnTop)
 					{
-						color = "#FF1919";
+						color = 'DFF0D8';
 					}
-					else if(json["assessments"][i]["level"] == "2")
-					{
-						color = "#FFA319";
-					}
-					else
-					{
-						color = "#33AD33";
-					}
+					var row = Ti.UI.createTableViewRow({height: 60, backgroundColor: color});
+					var color = getPerformanceColor(json["assessments"][i]["level"]);
+					
 					var strength = Ti.UI.createLabel({text: json["assessments"][i]["strength"], top: 10, left: 20, font: { fontSize:12, fontWeight: 'bold' }});
 					row.add(strength);
 					var description = Ti.UI.createLabel({text: json["assessments"][i]["description"], top: 35, left: 20, font: { fontSize:10}});
 					row.add(description);
-					var assessment = Ti.UI.createLabel({text: json["assessments"][i]["assessment"], top: 25, left: 200, color: 'white', font: { fontSize:10}, backgroundColor: color});
+					var assessment = Ti.UI.createTextArea({value: json["assessments"][i]["assessment"], top: 8, borderRadius: 3, textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER, left: 220, color: 'white', font: { fontSize:10, fontWeight: 'bold'}, backgroundColor: color});
 					row.add(assessment);
 					tableData.push(row);
 				}
