@@ -1,18 +1,6 @@
 var args = arguments[0] || { };
 
 getCoachingAssignments();
-getTrainingAssignments();
-
-function prettyDate(dateString) {
-  var day, formatted, jsDate, month;
-
-  jsDate = new Date(dateString);
-  day = jsDate.getMonth() + 1 < 10 ? "0" + (jsDate.getMonth() + 1) : "" + (jsDate.getMonth() + 1);
-  month = jsDate.getDate() < 10 ? "0" + (jsDate.getDate()) : "" + (jsDate.getDate());
-
-  formatted = "" + day + "/" + month + "/" + (jsDate.getFullYear());
-  return formatted;
-};
 
 function goAssignment(e){
 	if (e.source == 1)
@@ -68,20 +56,28 @@ function getCoachingAssignments()
 
 			json = JSON.parse(this.responseText);
 			
+			var sectionName;
+			var sectionHeader;
+			
 			for (var i=0; i<json.length; i++)
 			{
 				var row = Ti.UI.createTableViewRow({className: 'row', height: 80, assignment_id: json[i]["id"], hasChild: true});
 				
-				var sectionHeader = Ti.UI.createTableViewSection({headerTitle: 'Coaching', height: 30});
+				if (sectionName != json[i]["role"])
+				{
+					sectionHeader = Ti.UI.createTableViewSection({headerTitle: json[i]["role"], height: 30});
+					sectionName = json[i]["role"];
+				}
+				
 				var assignmentLogo = Ti.UI.createImageView({image: json[i]["logo_url"], left: 15});
 			  	row.add(assignmentLogo);
 				var assignmentName = Ti.UI.createLabel({text: json[i]["name"], top: 10, left: 80, font: { fontSize:12, fontWeight: 'bold' }});
 				row.add(assignmentName);
 				var assignmentDescription = Ti.UI.createLabel({text: json[i]["description"], top: 25, left: 80, font: { fontSize:10}});
 				row.add(assignmentDescription);
-				var assignmentStartDate = Ti.UI.createLabel({text: 'Start: ' + prettyDate(json[i]["startDate"]), top: 60, left: 80, font: { fontSize:8}});
+				var assignmentStartDate = Ti.UI.createLabel({text: 'Start: ' + json[i]["startDate"], top: 50, left: 80, font: { fontSize:8}});
 				row.add(assignmentStartDate);
-				var assignmentEndDate = Ti.UI.createLabel({text: 'End: ' + prettyDate(json[i]["endDate"]), top: 60, left: 160, font: { fontSize:8}});
+				var assignmentEndDate = Ti.UI.createLabel({text: 'End: ' + json[i]["endDate"], top: 60, left: 80, font: { fontSize:8}});
 				row.add(assignmentEndDate);
 			  	sectionHeader.add(row);
 			  	
@@ -92,46 +88,6 @@ function getCoachingAssignments()
 	});
 		
 	xhr.open('GET','http://localhost:3000/assignments.json');
-	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
-	xhr.send();	
-}
-
-function getTrainingAssignments()
-{
-	var tableData = [];
-
-	var xhr = Ti.Network.createHTTPClient(
-	{
-		onload: function() 
-		{
-		 	var tableData = [];
-
-			json = JSON.parse(this.responseText);
-			
-			for (var i=0; i<json.length; i++)
-			{
-				var row = Ti.UI.createTableViewRow({className: 'row', height: 80, assignment_id: json[i]["id"], hasChild: true});
-				
-				var sectionHeader = Ti.UI.createTableViewSection({headerTitle: 'Athlete', height: 30});
-				var assignmentName = Ti.UI.createLabel({text: json[i]["name"], top: 10, left: 80, font: { fontSize:12, fontWeight: 'bold' }});
-				row.add(assignmentName);
-				var assignmentDescription = Ti.UI.createLabel({text: json[i]["description"], top: 25, left: 80, font: { fontSize:10}});
-				row.add(assignmentDescription);
-				var assignmentStartDate = Ti.UI.createLabel({text: 'Start: ' + prettyDate(json[i]["startDate"]), top: 60, left: 80, font: { fontSize:8}});
-				row.add(assignmentStartDate);
-				var assignmentEndDate = Ti.UI.createLabel({text: 'End: ' + prettyDate(json[i]["endDate"]), top: 60, left: 160, font: { fontSize:8}});
-				row.add(assignmentEndDate);
-			  	var assignmentLogo = Ti.UI.createImageView({image: json[i]["logo_url"], left: 15});
-			  	row.add(assignmentLogo);
-			  	sectionHeader.add(row);
-			  	
-			  	tableData.push(sectionHeader);
-			}	
-			$.trainingTable.appendSection(tableData);
-		}
-	});
-		
-	xhr.open('GET','http://localhost:3000/development.json');
 	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
 	xhr.send();	
 }

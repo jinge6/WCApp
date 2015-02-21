@@ -51,10 +51,38 @@ function getTrainingDrills(assignment_id)
 				
 				for (var i=0; i<json["drills"].length; i++)
 				{
+					var imageName = "";
 					var row = Ti.UI.createTableViewRow({height: 80, hasChild: true});
-					var drillName = Ti.UI.createLabel({text: json["drills"][i]["name"], top: 5, left: 80, font: { fontSize:12, fontWeight: 'bold' }});
+					if ((json["drills"][i]["thumb"]).indexOf("notfound") == -1)
+					{
+						imageName = json["drills"][i]["thumb"];
+						
+				  	}
+				  	else
+				  	{
+				  		imageName = 'missing_thumbnail.png'
+				  	}
+				  	var diagram = Ti.UI.createImageView({image: imageName, left: 5});
+				  	row.add(diagram);
+					var drillName = Ti.UI.createLabel({text: json["drills"][i]["name"], top: 5, left: 105, font: { fontSize:12, fontWeight: 'bold' }});
 					row.add(drillName);
-					var drillDescription = Ti.UI.createTextArea({value: json["drills"][i]["description"], top: 20, left: 80, font: { fontSize:10}, width: 210, height : 50});
+					var concatStrengths = null;
+					for (var j=0; j<json["drills"][i]["strengths"].length; j++)
+					{
+						if (concatStrengths != null)
+						{
+							concatStrengths = concatStrengths + ' | ' + json["drills"][i]["strengths"][j]["name"];
+						}
+						else
+						{
+							concatStrengths = json["drills"][i]["strengths"][j]["name"];
+						}
+						
+					}
+					var strengths = Ti.UI.createLabel({text: concatStrengths, top: 20, left: 105, font: { fontSize:10 }});
+					row.add(strengths);
+					
+					var drillDescription = Ti.UI.createTextArea({value: json["drills"][i]["description"], top: 32, left: 105, font: { fontSize:10}, width: 210, height : 50});
 					row.add(drillDescription);
 					tableData.push(row);
 				}
@@ -85,10 +113,25 @@ function getAssessment(assignment_id)
 			{
 				for (var i=0; i<json["assessments"].length; i++)
 				{
-					var sectionHeader = Ti.UI.createTableViewSection({headerTitle: json["assessments"][i]["strength"]});
-					tableData.push(sectionHeader);
-					var row = Ti.UI.createTableViewRow({height: 40});
-					var assessment = Ti.UI.createLabel({text: json["assessments"][i]["assessment"], top: 5, left: 80, font: { fontSize:12, fontWeight: 'bold' }});
+					var row = Ti.UI.createTableViewRow({height: 60});
+					var color;
+					if (json["assessments"][i]["level"] == "1")
+					{
+						color = "#FF1919";
+					}
+					else if(json["assessments"][i]["level"] == "2")
+					{
+						color = "#FFA319";
+					}
+					else
+					{
+						color = "#33AD33";
+					}
+					var strength = Ti.UI.createLabel({text: json["assessments"][i]["strength"], top: 20, left: 20, font: { fontSize:12, fontWeight: 'bold' }});
+					row.add(strength);
+					var description = Ti.UI.createLabel({text: json["assessments"][i]["description"], top: 30, left: 20, font: { fontSize:10}});
+					row.add(description);
+					var assessment = Ti.UI.createLabel({text: json["assessments"][i]["assessment"], top: 25, left: 200, color: 'white', font: { fontSize:10}, backgroundColor: color});
 					row.add(assessment);
 					tableData.push(row);
 				}
