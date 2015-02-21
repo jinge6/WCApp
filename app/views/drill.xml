@@ -1,0 +1,6 @@
+<Alloy>
+	<Window backgroundColor="white">
+		<TableView id="drillTable">
+		</TableView>
+    </Window>
+</Alloy>

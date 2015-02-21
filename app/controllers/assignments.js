@@ -1,18 +1,10 @@
 var args = arguments[0] || { };
 
-getCoachingAssignments();
+getAssignments();
 
 function goAssignment(e){
-	if (e.source == 1)
-	{
-		var trainingWindow = Alloy.createController('training', e.rowData.assignment_id).getView();
-		$.navAssignment.openWindow(trainingWindow);
-	}
-	else
-	{
-		var coachingWindow = Alloy.createController('coaching', e.rowData.assignment_id).getView();
-		$.navAssignment.openWindow(coachingWindow);
-	}
+	var assignmentDetailWindow = Alloy.createController('assignmentDetail', e.rowData.assignment_id).getView();
+	$.navAssignment.openWindow(assignmentDetailWindow);
 };
 
 //add behavior for goAssessments
@@ -27,10 +19,10 @@ Ti.App.addEventListener('goDrills', function(e) {
 	$.navAssignment.openWindow(drillsView);
 });
 
-//add behavior for goTraining
-Ti.App.addEventListener('goTraining', function(e) {
-	var trainingView = Alloy.createController('training', [e.rowData.assignment_id, e.rowData.strength]).getView();
-	$.navAssignment.openWindow(trainingView);
+//add behavior for showing drills
+Ti.App.addEventListener('showDrill', function(e) {
+	var drillView = Alloy.createController('drill', [e.drill_id]).getView();
+	$.navAssignment.openWindow(drillView);
 });
 
 //add behavior for goVideos
@@ -39,7 +31,7 @@ Ti.App.addEventListener('goVideos', function(e) {
 	$.navAssignment.openWindow(videosView);
 });
 
-function getCoachingAssignments()
+function getAssignments()
 {
 	var tableData = [];
 	

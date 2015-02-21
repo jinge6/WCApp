@@ -31,6 +31,10 @@ $.videoCategoriesTable.addEventListener('click', function(e){
 	Ti.App.fireEvent('goVideos',{assignment_id: e.rowData.assignment_id, strength_id: e.rowData.strength_id});
 });
 
+$.trainingTable.addEventListener('click', function(e){
+	Ti.App.fireEvent('showDrill',{drill_id: e.rowData.drill_id});
+});
+
 function getTrainingDrills(assignment_id)
 {
 	var tableData = [];
@@ -52,7 +56,7 @@ function getTrainingDrills(assignment_id)
 				for (var i=0; i<json["drills"].length; i++)
 				{
 					var imageName = "";
-					var row = Ti.UI.createTableViewRow({height: 80, hasChild: true});
+					var row = Ti.UI.createTableViewRow({height: 80, hasChild: true, drill_id: json["drills"][i]["id"]});
 					if ((json["drills"][i]["thumb"]).indexOf("notfound") == -1)
 					{
 						imageName = json["drills"][i]["thumb"];
@@ -60,7 +64,7 @@ function getTrainingDrills(assignment_id)
 				  	}
 				  	else
 				  	{
-				  		imageName = 'missing_thumbnail.png'
+				  		imageName = 'missing_thumbnail.png';
 				  	}
 				  	var diagram = Ti.UI.createImageView({image: imageName, left: 5});
 				  	row.add(diagram);
@@ -127,9 +131,9 @@ function getAssessment(assignment_id)
 					{
 						color = "#33AD33";
 					}
-					var strength = Ti.UI.createLabel({text: json["assessments"][i]["strength"], top: 20, left: 20, font: { fontSize:12, fontWeight: 'bold' }});
+					var strength = Ti.UI.createLabel({text: json["assessments"][i]["strength"], top: 10, left: 20, font: { fontSize:12, fontWeight: 'bold' }});
 					row.add(strength);
-					var description = Ti.UI.createLabel({text: json["assessments"][i]["description"], top: 30, left: 20, font: { fontSize:10}});
+					var description = Ti.UI.createLabel({text: json["assessments"][i]["description"], top: 35, left: 20, font: { fontSize:10}});
 					row.add(description);
 					var assessment = Ti.UI.createLabel({text: json["assessments"][i]["assessment"], top: 25, left: 200, color: 'white', font: { fontSize:10}, backgroundColor: color});
 					row.add(assessment);

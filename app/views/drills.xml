@@ -1,8 +1,0 @@
-<Alloy>
-	<Window backgroundColor="white">
-		 <Label top="30">This is the details of a drill</Label>
-		 <Label  top="130">This is the details of a drill</Label>
-		 <Label  top="230">This is the details of a drill</Label>
-		 <Label  top="330">This is the details of a drill</Label>
-    </Window>
-</Alloy>
