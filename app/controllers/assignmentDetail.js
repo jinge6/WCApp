@@ -15,6 +15,10 @@ $.videosTab.addEventListener('focus', function(e){
     getVideoCategories(assignment_id);
 });
 
+$.drillsTab.addEventListener('focus', function(e){
+    getDrillBrowseCategories(assignment_id);
+});
+
 function goAssessment(e){
 	Ti.App.fireEvent('goAssessment',e);
 };
@@ -33,6 +37,10 @@ $.videoCategoriesTable.addEventListener('click', function(e){
 
 $.trainingTable.addEventListener('click', function(e){
 	Ti.App.fireEvent('showDrill',{drill_id: e.rowData.drill_id});
+});
+
+$.drillsTable.addEventListener('click', function(e){
+	Ti.App.fireEvent('showDrillBrowse',{strength_id: e.rowData.strength_id});
 });
 
 function getTrainingDrills(assignment_id)
@@ -101,7 +109,6 @@ function getAssessment(assignment_id)
 		 	var tableData = [];
 
 			json = JSON.parse(this.responseText);
-			console.log(this.responseText);
 			
 			if (json.length != 0)
 			{
@@ -131,6 +138,39 @@ function getAssessment(assignment_id)
 	});
 		
 	xhr.open('GET','http://localhost:3000/assignments/' + assignment_id + '/assignments/focus.json');
+	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
+	xhr.send();	
+}
+
+function getDrillBrowseCategories(assignment_id)
+{
+	var tableData = [];
+
+	var xhr = Ti.Network.createHTTPClient(
+	{
+		onload: function() 
+		{
+		 	var tableData = [];
+
+			json = JSON.parse(this.responseText);
+			
+			if (json.length != 0)
+			{					
+				for (var i=0; i<json.length; i++)
+				{
+					var row = Ti.UI.createTableViewRow({height: 60, hasChild: true, strength_id: json[i]["id"]});
+					var name = Ti.UI.createLabel({text: json[i]["name"], top: 5, left: 10, font: { fontSize:14, fontWeight: 'bold' }});
+					row.add(name);
+					var description = Ti.UI.createLabel({text: json[i]["description"], top: 25, left: 10, font: { fontSize:10 }});
+					row.add(description);
+					tableData.push(row);
+				}
+			}	
+			$.drillsTable.setData(tableData);
+		}
+	});
+		
+	xhr.open('GET','http://localhost:3000/activities/' + assignment_id + '/strengths.json');
 	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
 	xhr.send();	
 }

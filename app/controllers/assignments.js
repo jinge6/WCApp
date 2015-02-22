@@ -25,6 +25,12 @@ Ti.App.addEventListener('showDrill', function(e) {
 	$.navAssignment.openWindow(drillView);
 });
 
+//add behavior for showing drills
+Ti.App.addEventListener('showDrillBrowse', function(e) {
+	var drillView = Alloy.createController('drillBrowse', [e.strength_id]).getView();
+	$.navAssignment.openWindow(drillView);
+});
+
 //add behavior for goVideos
 Ti.App.addEventListener('goVideos', function(e) {
 	var videosView = Alloy.createController('videos', [e.assignment_id, e.strength_id]).getView();

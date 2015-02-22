@@ -1,0 +1,5 @@
+<Alloy>
+	<Window backgroundColor="white">
+		<Label>Hello Partner</Label>
+	</Window>
+</Alloy>

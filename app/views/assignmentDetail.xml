@@ -12,9 +12,9 @@
         		</TableView>
 			</Window>
 		</Tab>
-		<Tab title="Drills" icon="KS_nav_views.png">
+		<Tab id="drillsTab" title="Drills" icon="KS_nav_views.png">
 			<Window title="Drills">
-				<TableView id="drillsTable" onClick="goDrills">
+				<TableView id="drillsTable">
                 	<TableViewRow title="Shooting" />
         		</TableView>
 			</Window>
