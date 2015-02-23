@@ -1,12 +1,8 @@
 <Alloy>
-	<Window>
-		 <ListView id="assessedList">
-	        <ListSection headerTitle="Shooting">
-	            <ListItem title="Basic">Work on this one thing</ListItem>
-	        </ListSection>
-	        <ListSection headerTitle="Dodging">
-	            <ListItem title="Intermediate">Work on this one thing</ListItem>
-	        </ListSection>
-	    </ListView>
+	<Window backgroundColor="white">
+		<TextArea id="assessmentTextArea" top="20" left="200"/>
+		<Label id="strength" top="20" left="10" color="black" />
+		<Label id="description" top="40" left="10" color="black" />
+		<Label id="summary" top="70" left="10" color="black" />
     </Window>
 </Alloy>

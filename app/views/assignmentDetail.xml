@@ -2,20 +2,19 @@
 	<TabGroup id="coachingTab">
 		<Tab id="assessmentTab" title="Assessment" icon="KS_nav_ui.png">
 			<Window>
-				<TableView id="assessmentTable" onClick="goAssessment">
+				<TableView id="assessmentTable">
         		</TableView>
     		</Window>
 		</Tab>
 		<Tab id="nextTrainingTab" title="Next Training" icon="KS_nav_views.png">
 			<Window title="Training <Date>">
-				<TableView id="trainingTable" onClick="goTraining">
+				<TableView id="trainingTable">
         		</TableView>
 			</Window>
 		</Tab>
 		<Tab id="drillsTab" title="Drills" icon="KS_nav_views.png">
 			<Window title="Drills">
 				<TableView id="drillsTable">
-                	<TableViewRow title="Shooting" />
         		</TableView>
 			</Window>
 		</Tab>

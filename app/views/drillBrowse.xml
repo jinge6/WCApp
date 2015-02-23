@@ -1,5 +1,6 @@
 <Alloy>
 	<Window backgroundColor="white">
-		<Label>Hello Partner</Label>
+		<TableView id="drillBrowseTable">
+        </TableView>
 	</Window>
 </Alloy>

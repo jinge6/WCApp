@@ -3,13 +3,13 @@ var args = arguments[0] || { };
 getAssignments();
 
 function goAssignment(e){
-	var assignmentDetailWindow = Alloy.createController('assignmentDetail', e.rowData.assignment_id).getView();
+	var assignmentDetailWindow = Alloy.createController('assignmentDetail', [e.rowData.assignment_id, e.rowData.role]).getView();
 	$.navAssignment.openWindow(assignmentDetailWindow);
 };
 
 //add behavior for goAssessments
-Ti.App.addEventListener('goAssessments', function(e) {
-	var assessmentView = Alloy.createController('assessment').getView();
+Ti.App.addEventListener('goAssessment', function(e) {
+	var assessmentView = Alloy.createController('assessment', [e.strength, e.strengthDescription, e.level, e.summary, e.assessment]).getView();
 	$.navAssignment.openWindow(assessmentView);
 });
 
@@ -27,7 +27,7 @@ Ti.App.addEventListener('showDrill', function(e) {
 
 //add behavior for showing drills
 Ti.App.addEventListener('showDrillBrowse', function(e) {
-	var drillView = Alloy.createController('drillBrowse', [e.strength_id]).getView();
+	var drillView = Alloy.createController('drillBrowse', [e.strength_id, e.role, e.assignment_id]).getView();
 	$.navAssignment.openWindow(drillView);
 });
 
@@ -59,7 +59,7 @@ function getAssignments()
 			
 			for (var i=0; i<json.length; i++)
 			{
-				var row = Ti.UI.createTableViewRow({className: 'row', height: 80, assignment_id: json[i]["id"], hasChild: true});
+				var row = Ti.UI.createTableViewRow({className: 'row', height: 80, assignment_id: json[i]["id"], role: json[i]["role"], hasChild: true});
 				
 				if (sectionName != json[i]["role"])
 				{

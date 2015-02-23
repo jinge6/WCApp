@@ -38,11 +38,13 @@ function button(args,onclick) {
  * will be used to render the view
  * 
  */
-function RatingView(initialRating, max, totalRatings) {
+function RatingView(initialRating, max, totalRatings, topOffset, leftOffset) {
 	//create and populate the rating object
 	var instance = view({
 		layout:'horizontal',
-		height:30
+		height:30,
+		top: topOffset,
+		left: leftOffset
 	});
 	
 	var rating; 		// instance variable indicating 
