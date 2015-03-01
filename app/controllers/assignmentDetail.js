@@ -8,6 +8,15 @@ $.assessmentTab.addEventListener('focus', function(e){
     getAssessment(assignment_id, role);
 });
 
+$.assessmentTable.addEventListener('move', function(e){
+    alert('moved from ' + e.index);
+    $.assessmentTab.moving = false;
+});
+
+$.assessmentTable.addEventListener("longpress", function(e){
+    $.assessmentTab.moving = true;
+});
+
 $.nextTrainingTab.addEventListener('focus', function(e){
     getTrainingDrills(assignment_id);
 });
@@ -141,7 +150,8 @@ function getAssessment(assignment_id, role)
 		
 	if (role == "coach")
 	{
-		$.assessmentTable.touchEnabled = false;
+		$.assessmentTable.moveable = true;
+		$.assessmentTable.editable = true;
 		xhr.open('GET','http://localhost:3000/assignments/' + assignment_id + '/assignments/focus.json');
 	}
 	else

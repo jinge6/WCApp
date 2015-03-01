@@ -6,9 +6,46 @@ var assignment_id = args[2];
 
 getDrillsToBrowse(strength_id);
 
-$.drillBrowseTable.addEventListener('click', function(e){
-    Ti.App.fireEvent('showDrill',{drill_id: e.rowData.drill_id});
+$.drillBrowseTable.addEventListener('singletap', function(e){
+	if (e.source.is_rating == 1)
+	{
+		var rating = parseInt(e.source.rating) + 1;
+		sendRating(e.rowData.drill_id, rating);
+		getDrillsToBrowse(strength_id);
+		alert('Thanks for rating this drill!');
+	}
+	else
+	{
+		Ti.App.fireEvent('showDrill',{drill_id: e.rowData.drill_id});
+	}
 });
+
+var current_row;
+
+$.drillBrowseTable.addEventListener('swipe', function(e){
+	if (!!current_row) {
+		current_row.v2.animate({
+			opacity: 1,
+			duration: 500
+		});
+	};
+
+	current_row = Ti.Platform.osname == 'android' ? this : e.row; // it looks like android does not have the e.row property for this event.
+
+	current_row.v2.animate({
+		opacity: 0,
+		duration: 500
+	});
+});	
+
+function sendRating(drill_id, rating)
+{
+	var xhr = Ti.Network.createHTTPClient();
+		
+	xhr.open('GET','http://localhost:3000/drill_reviews/rate.json?rating=' + rating + '&drill_id=' + drill_id);
+	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
+	xhr.send();	
+}
 
 function getDrillsToBrowse(strength_id)
 {
@@ -37,22 +74,51 @@ function getDrillsToBrowse(strength_id)
 				  	{
 				  		imageName = 'missing_thumbnail.png';
 				  	}
+				  	var defaultView = Ti.UI.createView({
+						backgroundColor: '#fff',
+						height: Ti.UI.SIZE
+					});
+				  	
+				  	
 				  	var diagram = Ti.UI.createImageView({image: imageName, left: 5, touchEnabled: false});
-				  	row.add(diagram);
+				  	defaultView.add(diagram);
 					var drillName = Ti.UI.createLabel({text: json["drills"][i]["name"], top: 10, left: 105, font: { fontSize:12, fontWeight: 'bold' }});
-					row.add(drillName);
+					defaultView.add(drillName);
 					
 					var drillRating = new RatingView(json["drills"][i]["rating"], 5, json["drills"][i]["total_ratings"], 50, 105);
 					drillRating.touchEnabled = false;
-					row.add(drillRating);
+					defaultView.add(drillRating);
 					
 					var leftOffset = 110;
 					for (var j=0; j<json["drills"][i]["strengths"].length; j++)
 					{
 						var strength = Ti.UI.createLabel({text: json["drills"][i]["strengths"][j]["name"], top: 30, left: leftOffset, font: { fontSize:10}});
-						row.add(strength);
+						defaultView.add(strength);
 						leftOffset += 100;
 					}
+					
+					var hiddenView = Ti.UI.createView({
+						height:Ti.UI.SIZE,
+						width:Ti.UI.SIZE,
+						backgroundColor:'white'
+					});
+					
+					var newRating = new RatingView(0, 5, null, 20, 105);
+					
+					hiddenView.add(newRating);
+					var howGoodLabel = Ti.UI.createLabel({
+						text: "How good is this drill?",
+						color:'black',
+						top: 20,
+						left: '50',
+						visible: false
+					});
+					hiddenView.add(howGoodLabel);
+					
+					row.add(hiddenView);
+					row.v2 = defaultView;
+					row.add(defaultView);
+					
 					tableData.push(row);
 				}
 			}	

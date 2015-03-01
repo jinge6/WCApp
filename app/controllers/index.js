@@ -13,7 +13,7 @@ else
 function doSignIn(e){
 	
 	var signInPost = signInPost = {
-				email: (email_property != null && email_property.length==0)?$.email.value:email_property,
+				email: (email_property != null && email_property.length>0)?email_property:$.email.value,
 			    password: $.password.value,
 			    auth_token: auth_token_property,
 			    remember_me: '1',
@@ -25,10 +25,11 @@ function doSignIn(e){
 		{
 		 	// handle the response
 		 	json = JSON.parse(this.responseText);
+		 	console.log(this.responseText);
 		 	if (json["success"] == 1)
 		 	{
 		 		// if these don't exist then set them
-				Ti.App.Properties.setString('email', email_property.length==0?$.email.value:email_property);
+				Ti.App.Properties.setString('email', (email_property != null && email_property.length>0)?email_property:$.email.value);
 				Ti.App.Properties.setString('auth_token', json["auth_token"]);
 				
 				if ($.index.visible)
@@ -44,6 +45,7 @@ function doSignIn(e){
 		 		if (auth_token_property != null)
 		 		{
 		 			alert('Email or password was incorrect');
+		 			$.index.open();
 		 		}
 		 	}
 		}

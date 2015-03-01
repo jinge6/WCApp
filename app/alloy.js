@@ -64,7 +64,9 @@ function RatingView(initialRating, max, totalRatings, topOffset, leftOffset) {
 		var star = image({
 			height:24,
 			width:24,
-			left:5
+			left:5,
+			is_rating:1,
+			rating:i
 		});
 		
 		(function() {
@@ -75,6 +77,7 @@ function RatingView(initialRating, max, totalRatings, topOffset, leftOffset) {
 			var index = i;
 			star.addEventListener('click', function() {
 				setRating(index+1);
+				Ti.App.fireEvent('ratingChanged', {currentValue: rating});
 			});
 		})();
 		
