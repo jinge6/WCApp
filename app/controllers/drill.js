@@ -1,6 +1,7 @@
 var args = arguments[0] || {};
 
 var drill_id = args;
+var animateObjects = new Array();
 
 getDrill(drill_id);
 
@@ -55,10 +56,24 @@ function getDrill(drill_id)
 					row2.add(stepDescription);
 					tableData.push(row2);
 					
-					var row3 = Ti.UI.createTableViewRow({height: 200});
+					var row3 = Ti.UI.createTableViewRow();
 					
-					var stepDiagram = Ti.UI.createImageView({image: json["steps"][i]["thumb"], left: 10});
+					var stepDiagram = Ti.UI.createImageView({image: json["steps"][i]["background"]+'.png', width: 320, height: 273});
 					row3.add(stepDiagram);
+					var scalingFactor = 320/500;
+					animateObjects = JSON.parse(decodeURIComponent(json["steps"][i]["layers"]));
+					
+					for (var i=0; i<animateObjects.length; i++)
+			        {
+			            if (animateObjects[i][0] == 1)
+			            {
+			            	xPos = (parseInt(animateObjects[i][2]) * scalingFactor) - 29;
+			                yPos = (parseInt(animateObjects[i][3]) * scalingFactor) - 29;
+			                console.log(animateObjects[i][1]+'.png'+ ' x ' + xPos + ' y ' + yPos);
+			            	var moveable = Ti.UI.createImageView({image: animateObjects[i][1]+'.png', left: xPos, top: yPos});
+							row3.add(moveable);
+			            }
+			        }
 					tableData.push(row3);
 				}
 				

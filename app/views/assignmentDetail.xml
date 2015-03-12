@@ -1,9 +1,7 @@
 <Alloy>
 	<TabGroup id="coachingTab">
 		<Tab id="assessmentTab" title="Assessment" icon="KS_nav_ui.png">
-			<Window>
-				<TableView id="assessmentTable">
-        		</TableView>
+			<Window id="assessmentWin">
     		</Window>
 		</Tab>
 		<Tab id="nextTrainingTab" title="Next Training" icon="KS_nav_views.png">

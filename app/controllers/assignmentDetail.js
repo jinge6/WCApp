@@ -8,15 +8,6 @@ $.assessmentTab.addEventListener('focus', function(e){
     getAssessment(assignment_id, role);
 });
 
-$.assessmentTable.addEventListener('move', function(e){
-    alert('moved from ' + e.index);
-    $.assessmentTab.moving = false;
-});
-
-$.assessmentTable.addEventListener("longpress", function(e){
-    $.assessmentTab.moving = true;
-});
-
 $.nextTrainingTab.addEventListener('focus', function(e){
     getTrainingDrills(assignment_id);
 });
@@ -37,8 +28,22 @@ function goDrills(e){
 	Ti.App.fireEvent('goDrills',e);
 };
 
-$.assessmentTable.addEventListener('click', function(e){
+// create table view
+var assessmentTable = Titanium.UI.createTableView({
+	moveable:true
+});
+
+assessmentTable.addEventListener('click', function(e){
 	Ti.App.fireEvent('goAssessment',{summary: e.rowData.summary, strength: e.rowData.strength, strengthDescription: e.rowData.strengthDescription, level: e.rowData.level, assessment: e.rowData.assessment});
+});
+
+assessmentTable.addEventListener('move', function(e){
+    alert('moved from ' + e.index);
+    $.assessmentTab.moving = false;
+});
+
+assessmentTable.addEventListener("longpress", function(e){
+    $.assessmentTab.moving = true;
 });
 
 $.videoCategoriesTable.addEventListener('click', function(e){
@@ -131,7 +136,7 @@ function getAssessment(assignment_id, role)
 					{
 						color = 'DFF0D8';
 					}
-					var row = Ti.UI.createTableViewRow({height: 60, hasChild: (role != "coach"), backgroundColor: color, strength: json["assessments"][i]["strength"], strengthDescription: json["assessments"][i]["description"], summary: json["assessments"][i]["summary"], level: json["assessments"][i]["level"], assessment: json["assessments"][i]["assessment"]});
+					var row = Ti.UI.createTableViewRow({height: 60, moveable: (role == "coach"), hasChild: (role != "coach"), backgroundColor: color, strength: json["assessments"][i]["strength"], strengthDescription: json["assessments"][i]["description"], summary: json["assessments"][i]["summary"], level: json["assessments"][i]["level"], assessment: json["assessments"][i]["assessment"]});
 					
 					var color = getPerformanceColor(json["assessments"][i]["level"]);
 					
@@ -144,18 +149,20 @@ function getAssessment(assignment_id, role)
 					tableData.push(row);
 				}
 			}	
-			$.assessmentTable.setData(tableData);
+			assessmentTable.setData(tableData);
+			// add table view to the window
+			$.assessmentWin.add(assessmentTable);
 		}
 	});
 		
 	if (role == "coach")
 	{
-		$.assessmentTable.moveable = true;
-		$.assessmentTable.editable = true;
+		
 		xhr.open('GET','http://localhost:3000/assignments/' + assignment_id + '/assignments/focus.json');
 	}
 	else
 	{
+		assessmentTable.moveable = false;
 		xhr.open('GET','http://localhost:3000/development/' + assignment_id + '/development/assessment.json?id=' + assignment_id);
 	}
 	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
