@@ -37,15 +37,6 @@ assessmentTable.addEventListener('click', function(e){
 	Ti.App.fireEvent('goAssessment',{summary: e.rowData.summary, strength: e.rowData.strength, strengthDescription: e.rowData.strengthDescription, level: e.rowData.level, assessment: e.rowData.assessment});
 });
 
-assessmentTable.addEventListener('move', function(e){
-    alert('moved from ' + e.index);
-    $.assessmentTab.moving = false;
-});
-
-assessmentTable.addEventListener("longpress", function(e){
-    $.assessmentTab.moving = true;
-});
-
 $.videoCategoriesTable.addEventListener('click', function(e){
 	Ti.App.fireEvent('goVideos',{assignment_id: e.rowData.assignment_id, strength_id: e.rowData.strength_id});
 });

@@ -2,6 +2,76 @@ var args = arguments[0] || {};
 
 var drill_id = args;
 var animateObjects = new Array();
+var moveables = new Array();
+var scalingFactor = 320/500;
+var currentLayer = 2;
+
+//add behavior for goAssessments
+Ti.App.addEventListener('runAnimation', function(e) {
+	if (animateObjects.length > 0)
+    {
+    	if (currentLayer > 2)
+    	{
+    		currentLayer = 2;
+    		resetMoveables();
+    	}
+    	else
+    	{
+        	kickoffAnimation(true, currentLayer);
+        }
+    }
+});
+
+function resetMoveables()
+{
+	kickoffAnimation(false, 1);
+}
+
+function animationHandler()
+{
+	kickoffAnimation(true, currentLayer++);
+}
+
+function kickoffAnimation(animateAll, moveToLayer)
+{
+    if (animateObjects != null && animateObjects.length > 0)
+    {
+        for (var i = 0; i < animateObjects.length; i++)
+        {
+            if (animateObjects[i][0] == moveToLayer)
+            {
+            	var previousXPos;
+            	var previousYPos;
+            	var currentMoveable = animateObjects[i][1];
+            	
+            	for (var j = 0; j < animateObjects.length; j++)
+            	{
+            		if ((animateObjects[j][0] == moveToLayer-1) && (animateObjects[j][1] == currentMoveable))
+            		{
+            			previousXPos = (parseInt(animateObjects[j][2]) * scalingFactor) - 29;
+            			previousYPos = (parseInt(animateObjects[j][3]) * scalingFactor) - 29;
+            			break;
+            		}
+            	}
+            	
+				var newXPos = (parseInt(animateObjects[i][2]) * scalingFactor) - 29;
+			    var newYPos = (parseInt(animateObjects[i][3]) * scalingFactor) - 29;
+			    var thePlayer = moveables[animateObjects[i][1]];
+				var t1 = Ti.UI.create2DMatrix();
+				
+				t1 = t1.translate((newXPos - previousXPos), (newYPos - previousYPos));
+				var a1 = Ti.UI.createAnimation();
+				a1.transform = t1;
+				a1.duration = 1500;
+				if (animateAll)
+				{
+					a1.addEventListener('complete',animationHandler);
+				}
+				thePlayer.animate(a1);
+            }
+        }
+    }
+}
 
 getDrill(drill_id);
 
@@ -59,8 +129,11 @@ function getDrill(drill_id)
 					var row3 = Ti.UI.createTableViewRow();
 					
 					var stepDiagram = Ti.UI.createImageView({image: json["steps"][i]["background"]+'.png', width: 320, height: 273});
+					stepDiagram.addEventListener('click', function(e){
+						Ti.App.fireEvent('runAnimation');
+					});
+					
 					row3.add(stepDiagram);
-					var scalingFactor = 320/500;
 					animateObjects = JSON.parse(decodeURIComponent(json["steps"][i]["layers"]));
 					
 					for (var i=0; i<animateObjects.length; i++)
@@ -69,9 +142,9 @@ function getDrill(drill_id)
 			            {
 			            	xPos = (parseInt(animateObjects[i][2]) * scalingFactor) - 29;
 			                yPos = (parseInt(animateObjects[i][3]) * scalingFactor) - 29;
-			                console.log(animateObjects[i][1]+'.png'+ ' x ' + xPos + ' y ' + yPos);
 			            	var moveable = Ti.UI.createImageView({image: animateObjects[i][1]+'.png', left: xPos, top: yPos});
 							row3.add(moveable);
+							moveables[animateObjects[i][1]] = moveable;
 			            }
 			        }
 					tableData.push(row3);
