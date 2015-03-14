@@ -3,7 +3,7 @@ var args = arguments[0] || { };
 getAssignments();
 
 function goAssignment(e){
-	var assignmentDetailWindow = Alloy.createController('assignmentDetail', [e.rowData.assignment_id, e.rowData.role]).getView();
+	var assignmentDetailWindow = Alloy.createController('assignmentDetail', [e.rowData.assignment_id, e.rowData.role, e.rowData.activity_id]).getView();
 	$.navAssignment.openWindow(assignmentDetailWindow);
 };
 
@@ -27,7 +27,7 @@ Ti.App.addEventListener('showDrill', function(e) {
 
 //add behavior for showing drills
 Ti.App.addEventListener('showDrillBrowse', function(e) {
-	var drillView = Alloy.createController('drillBrowse', [e.strength_id, e.role, e.assignment_id]).getView();
+	var drillView = Alloy.createController('drillBrowse', [e.strength_id, e.role, e.assignment_id, e.activity_id]).getView();
 	$.navAssignment.openWindow(drillView);
 });
 
@@ -59,7 +59,7 @@ function getAssignments()
 			
 			for (var i=0; i<json.length; i++)
 			{
-				var row = Ti.UI.createTableViewRow({className: 'row', height: 80, assignment_id: json[i]["id"], role: json[i]["role"], hasChild: true});
+				var row = Ti.UI.createTableViewRow({className: 'row', height: 80, assignment_id: json[i]["id"], role: json[i]["role"], activity_id: json[i]["activity_id"], hasChild: true});
 				
 				if (sectionName != json[i]["role"])
 				{

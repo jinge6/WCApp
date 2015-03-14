@@ -3,6 +3,7 @@ var args = arguments[0] || {};
 // args contains the assignment_id we are dealing with
 var assignment_id = args[0];
 var role = args[1];
+var activity_id = args[2];
 
 $.assessmentTab.addEventListener('focus', function(e){
     getAssessment(assignment_id, role);
@@ -13,11 +14,11 @@ $.nextTrainingTab.addEventListener('focus', function(e){
 });
 
 $.videosTab.addEventListener('focus', function(e){
-    getVideoCategories(assignment_id);
+    getVideoCategories(assignment_id, activity_id);
 });
 
 $.drillsTab.addEventListener('focus', function(e){
-    getDrillBrowseCategories(assignment_id);
+    getDrillBrowseCategories(assignment_id, activity_id);
 });
 
 function goTraining(e){
@@ -29,16 +30,14 @@ function goDrills(e){
 };
 
 // create table view
-var assessmentTable = Titanium.UI.createTableView({
-	moveable:true
-});
+var assessmentTable = Titanium.UI.createTableView();
 
 assessmentTable.addEventListener('click', function(e){
 	Ti.App.fireEvent('goAssessment',{summary: e.rowData.summary, strength: e.rowData.strength, strengthDescription: e.rowData.strengthDescription, level: e.rowData.level, assessment: e.rowData.assessment});
 });
 
 $.videoCategoriesTable.addEventListener('click', function(e){
-	Ti.App.fireEvent('goVideos',{assignment_id: e.rowData.assignment_id, strength_id: e.rowData.strength_id});
+	Ti.App.fireEvent('goVideos',{assignment_id: e.rowData.assignment_id, strength_id: e.rowData.strength_id, activity_id: activity_id});
 });
 
 $.trainingTable.addEventListener('click', function(e){
@@ -46,7 +45,7 @@ $.trainingTable.addEventListener('click', function(e){
 });
 
 $.drillsTable.addEventListener('click', function(e){
-	Ti.App.fireEvent('showDrillBrowse',{strength_id: e.rowData.strength_id, role: role, assignment_id: assignment_id});
+	Ti.App.fireEvent('showDrillBrowse',{strength_id: e.rowData.strength_id, role: role, assignment_id: assignment_id, activity_id: activity_id});
 });
 
 function getTrainingDrills(assignment_id)

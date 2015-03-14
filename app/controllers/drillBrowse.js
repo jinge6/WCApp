@@ -3,6 +3,7 @@ var args = arguments[0] || {};
 var strength_id = args[0];
 var role = args[1];
 var assignment_id = args[2];
+var activity_id = args[3];
 
 getDrillsToBrowse(strength_id);
 
@@ -57,6 +58,7 @@ function getDrillsToBrowse(strength_id)
 		{
 		 	var tableData = [];
 
+			console.log(this.responseText);
 			json = JSON.parse(this.responseText);
 			
 			if (json.length != 0)
@@ -128,11 +130,11 @@ function getDrillsToBrowse(strength_id)
 		
 	if (role == "coach")
 	{	
-		xhr.open('GET','http://localhost:3000/drills.json?filter=strength&id=' + strength_id);
+		xhr.open('GET','http://localhost:3000/drills.json?filter=strength&id=' + strength_id + '&activity_id='+ activity_id);
 	}
 	else
 	{
-		xhr.open('GET','http://localhost:3000/development/' + assignment_id + '/development/suggested.json?filter=strength&sid=' + strength_id);
+		xhr.open('GET','http://localhost:3000/development/' + assignment_id + '/development/suggested.json?filter=strength&sid=' + strength_id + '&activity_id='+ activity_id);
 	}
 	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
 	xhr.send();	

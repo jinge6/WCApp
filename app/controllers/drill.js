@@ -2,37 +2,55 @@ var args = arguments[0] || {};
 
 var drill_id = args;
 var animateObjects = new Array();
+var layerEvents = new Array();
 var moveables = new Array();
-var scalingFactor = 320/500;
-var currentLayer = 2;
+var xScalingFactor = 320/550;
+var yScalingFactor = 273/470;
+var currentLayer = 1;
+var eventsProcessed = 1;
 
 //add behavior for goAssessments
 Ti.App.addEventListener('runAnimation', function(e) {
+	layerEvents = [];
 	if (animateObjects.length > 0)
     {
-    	if (currentLayer > 2)
+    	if (currentLayer > 1)
     	{
-    		currentLayer = 2;
-    		resetMoveables();
+    		eventsProcessed = 1;
+    		kickoffAnimation(false, 1, currentLayer-1);
+    		currentLayer = 1;
     	}
     	else
     	{
-        	kickoffAnimation(true, currentLayer);
+			currentLayer = 1;
+    		eventsProcessed = 1;
+        	kickoffAnimation(true, 2, 1);
         }
     }
 });
 
-function resetMoveables()
+Ti.App.addEventListener('updatePosition', function(evtData){
+      animationHandler(evtData.layer);   
+});
+
+function animationHandler(layer)
 {
-	kickoffAnimation(false, 1);
+	console.log('animationHandler running. EventsProcess: ' + eventsProcessed);
+	var expectEventsForThisLayer = layerEvents[layer];
+	if (expectEventsForThisLayer == eventsProcessed)
+	{
+		eventsProcessed = 1;
+		currentLayer = layer + 1;
+		kickoffAnimation(true, currentLayer, layer);
+	}
+	else
+	{
+		eventsProcessed++;
+	}
+	
 }
 
-function animationHandler()
-{
-	kickoffAnimation(true, currentLayer++);
-}
-
-function kickoffAnimation(animateAll, moveToLayer)
+function kickoffAnimation(animateAll, moveToLayer, fromLayer)
 {
     if (animateObjects != null && animateObjects.length > 0)
     {
@@ -43,34 +61,85 @@ function kickoffAnimation(animateAll, moveToLayer)
             	var previousXPos;
             	var previousYPos;
             	var currentMoveable = animateObjects[i][1];
+            	var stillSearching = true;
+            	var j=0;
+            	var previousMovingLayer = fromLayer;
             	
-            	for (var j = 0; j < animateObjects.length; j++)
+            	while(stillSearching)
             	{
-            		if ((animateObjects[j][0] == moveToLayer-1) && (animateObjects[j][1] == currentMoveable))
+            		if ((animateObjects[j][0] == previousMovingLayer) && (animateObjects[j][1] == currentMoveable))
             		{
-            			previousXPos = (parseInt(animateObjects[j][2]) * scalingFactor) - 29;
-            			previousYPos = (parseInt(animateObjects[j][3]) * scalingFactor) - 29;
-            			break;
+            			previousXPos = parseInt(animateObjects[j][2]) * xScalingFactor;
+            			previousYPos = parseInt(animateObjects[j][3]) * yScalingFactor;
+            			stillSearching = false;
+            		}
+            		if (j <  animateObjects.length-1)
+            		{
+            			j++;
+            		}
+            		else
+            		{
+            			previousMovingLayer--;
+            			j=0;
             		}
             	}
             	
-				var newXPos = (parseInt(animateObjects[i][2]) * scalingFactor) - 29;
-			    var newYPos = (parseInt(animateObjects[i][3]) * scalingFactor) - 29;
+				var newXPos = parseInt(animateObjects[i][2])  * xScalingFactor;
+			    var newYPos = parseInt(animateObjects[i][3]) * yScalingFactor;
+			    var xPos = newXPos - previousXPos;
+			    var yPos = newYPos - previousYPos;
+			    
 			    var thePlayer = moveables[animateObjects[i][1]];
 				var t1 = Ti.UI.create2DMatrix();
+				console.log('Move ' + animateObjects[i][1] + ' from ' + fromLayer + ' to layer '+ animateObjects[i][0] + ' to x: ' + xPos - thePlayer.left+ ' y: ' + yPos - thePlayer.top);
+				//if (parseInt(animateObjects[i][0]) != 1)
+				//{
+				//	 t1 = t1.translate(xPos, yPos);
+				//}
+				//else
+				//{
+				//	 t1 = t1.translate(newXPos-thePlayer.left, newYPos-thePlayer.top);
+				//}
 				
-				t1 = t1.translate((newXPos - previousXPos), (newYPos - previousYPos));
+				t1 = t1.translate(newXPos-thePlayer.left, newYPos-thePlayer.top);
 				var a1 = Ti.UI.createAnimation();
 				a1.transform = t1;
 				a1.duration = 1500;
 				if (animateAll)
 				{
-					a1.addEventListener('complete',animationHandler);
+					a1.addEventListener('complete',function(e) {
+						Ti.App.fireEvent( 'updatePosition', { event:e, layer:moveToLayer });
+					});
 				}
+				if (layerEvents[moveToLayer] == null)
+				{
+					layerEvents[moveToLayer] = 1;
+				}
+				else
+				{
+					layerEvents[moveToLayer] = (layerEvents[moveToLayer])+1;
+				}
+				console.log('added layerEvent[' + moveToLayer +']. expect ' + layerEvents[moveToLayer]);
 				thePlayer.animate(a1);
             }
         }
     }
+}
+
+function eventsToExpect(layer)
+{
+	if (animateObjects.length > 0)
+	{
+		var moveableCount = 0;
+		for (var i = 0; i < animateObjects.length; i++)
+        {
+			if (parseInt(animateObjects[i][0]) == layer)
+			{
+				moveableCount++;
+			}
+		}
+	}
+	return moveableCount;
 }
 
 getDrill(drill_id);
@@ -140,8 +209,8 @@ function getDrill(drill_id)
 			        {
 			            if (animateObjects[i][0] == 1)
 			            {
-			            	xPos = (parseInt(animateObjects[i][2]) * scalingFactor) - 29;
-			                yPos = (parseInt(animateObjects[i][3]) * scalingFactor) - 29;
+			            	xPos = (parseInt(animateObjects[i][2]) * xScalingFactor);
+			                yPos = (parseInt(animateObjects[i][3]) * yScalingFactor);
 			            	var moveable = Ti.UI.createImageView({image: animateObjects[i][1]+'.png', left: xPos, top: yPos});
 							row3.add(moveable);
 							moveables[animateObjects[i][1]] = moveable;
