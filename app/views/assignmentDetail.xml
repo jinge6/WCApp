@@ -1,5 +1,5 @@
 <Alloy>
-	<TabGroup id="coachingTab">
+	<TabGroup id="assignmentTab">
 		<Tab id="assessmentTab" title="Assessment" icon="KS_nav_ui.png">
 			<Window id="assessmentWin">
     		</Window>

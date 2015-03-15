@@ -6,18 +6,13 @@ var args = arguments[0] || {};
  var summary = args[3];
  var assessment = args[4];
 
-var color = getPerformanceColor(level);
-$.assessmentTextArea.value = assessment;
-$.assessmentTextArea.borderRadius = 3;
-$.assessmentTextArea.textAlign = Titanium.UI.TEXT_ALIGNMENT_CENTER;
-$.assessmentTextArea.color = 'white';
-$.assessmentTextArea.font = { fontSize:10, fontWeight: 'bold'};
-$.assessmentTextArea.backgroundColor = color;
+$.performanceImage.image = getPerformanceImagePath(level);
+$.assessmentType.text = assessment;
 $.strength.text = strength;
-$.strength.font = { fontSize:14, fontWeight: 'bold'};
+$.strength.font = { fontWeight: 'bold'};
 $.description.text = description;
 $.description.font = { fontSize:10};
-if (summary != null)
+if (summary != "")
 {
 	$.summary.text = summary;
 }

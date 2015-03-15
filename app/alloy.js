@@ -146,3 +146,21 @@ function getPerformanceColor(level)
 	}
 	return color;
 }
+
+function getPerformanceImagePath(level)
+{
+	var path;
+	if (level == "1")
+	{
+		path = "basic_indicator.png";
+	}
+	else if(level == "2")
+	{
+		path = "intermediate_indicator.png";
+	}
+	else
+	{
+		path = "advanced_indicator.png";
+	}
+	return path;
+}

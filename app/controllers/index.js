@@ -32,10 +32,10 @@ function doSignIn(e){
 				Ti.App.Properties.setString('email', (email_property != null && email_property.length>0)?email_property:$.email.value);
 				Ti.App.Properties.setString('auth_token', json["auth_token"]);
 				
-				if ($.index.visible)
-				{
-					$.index.close();
-				}
+				//if ($.index.visible)
+				//{
+				//	$.index.hide();
+				//}
 				var assignmentsWindow = Alloy.createController('assignments').getView();
 	    		assignmentsWindow.open();
 		 	}

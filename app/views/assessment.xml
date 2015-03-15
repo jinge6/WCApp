@@ -1,8 +1,9 @@
 <Alloy>
 	<Window backgroundColor="white">
-		<TextArea id="assessmentTextArea" top="20" left="200"/>
-		<Label id="strength" top="20" left="10" color="black" />
-		<Label id="description" top="40" left="10" color="black" />
-		<Label id="summary" top="70" left="10" color="black" />
+		<ImageView id="performanceImage" top="20" left="10"/>
+		<Label id="assessmentType" top="20" left="200"/>
+		<Label id="strength" top="20" left="50" color="black" />
+		<Label id="description" top="50" left="50" color="black" />
+		<Label id="summary" top="70" left="50" color="black" />
     </Window>
 </Alloy>

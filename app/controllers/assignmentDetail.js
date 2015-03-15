@@ -5,6 +5,8 @@ var assignment_id = args[0];
 var role = args[1];
 var activity_id = args[2];
 
+$.assignmentTab.setActiveTab(1);
+
 $.assessmentTab.addEventListener('focus', function(e){
     getAssessment(assignment_id, role);
 });
@@ -121,20 +123,15 @@ function getAssessment(assignment_id, role)
 				var color;
 				for (var i=0; i<json["assessments"].length; i++)
 				{
-					var color = 'white';
-					if (i < focusOnTop)
-					{
-						color = 'DFF0D8';
-					}
-					var row = Ti.UI.createTableViewRow({height: 60, moveable: (role == "coach"), hasChild: (role != "coach"), backgroundColor: color, strength: json["assessments"][i]["strength"], strengthDescription: json["assessments"][i]["description"], summary: json["assessments"][i]["summary"], level: json["assessments"][i]["level"], assessment: json["assessments"][i]["assessment"]});
+					var row = Ti.UI.createTableViewRow({height: 60, moveable: (role == "Coach"), hasChild: (role != "Coach"), backgroundColor: color, strength: json["assessments"][i]["strength"], strengthDescription: json["assessments"][i]["description"], summary: json["assessments"][i]["summary"], level: json["assessments"][i]["level"], assessment: json["assessments"][i]["assessment"]});
 					
-					var color = getPerformanceColor(json["assessments"][i]["level"]);
-					
-					var strength = Ti.UI.createLabel({text: json["assessments"][i]["strength"], top: 10, left: 20, font: { fontSize:12, fontWeight: 'bold' }});
+					var strength = Ti.UI.createLabel({text: json["assessments"][i]["strength"], top: 20, left: 50, font: { fontSize:12, fontWeight: 'bold' }});
 					row.add(strength);
-					var description = Ti.UI.createLabel({text: json["assessments"][i]["description"], top: 40, left: 20, font: { fontSize:10}});
+					var description = Ti.UI.createLabel({text: json["assessments"][i]["description"], top: 40, left: 50, font: { fontSize:10}});
 					row.add(description);
-					var assessment = Ti.UI.createTextArea({value: json["assessments"][i]["assessment"], top: 6, borderRadius: 3, textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER, left: 200, color: 'white', font: { fontSize:10, fontWeight: 'bold'}, backgroundColor: color});
+					var performanceImage = Ti.UI.createImageView({image: getPerformanceImagePath(json["assessments"][i]["level"]), top: 6, left: 5, touchEnabled: false});
+				  	row.add(performanceImage);
+				  	var assessment = Ti.UI.createLabel({text: json["assessments"][i]["assessment"], top: 6, left: 50, font: { fontSize:10, fontWeight: 'bold'}});
 					row.add(assessment);
 					tableData.push(row);
 				}
