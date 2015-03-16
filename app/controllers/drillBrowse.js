@@ -89,17 +89,26 @@ function getDrillsToBrowse(strength_id)
 					var drillRating = new RatingView(json["drills"][i]["rating"], 5, json["drills"][i]["total_ratings"], 20, 105, true);
 					drillRating.touchEnabled = false;
 					defaultView.add(drillRating);
-							
-					var description = json["drills"][i]["description"];
-					var drillDescription = Ti.UI.createLabel({text: description.substring(0,37), top: 40, left: 110, font: { fontSize:10}});
-					defaultView.add(drillDescription);
 					
 					var leftOffset = 110;
-					for (var j=0; j<json["drills"][i]["strengths"].length; j++)
+					if (json["drills"][i]["strengths"].length > 0)
 					{
-						var strength = Ti.UI.createLabel({text: json["drills"][i]["strengths"][j]["name"], top: 55, left: leftOffset, font: { fontSize:10}});
-						defaultView.add(strength);
-						leftOffset += 100;
+						var teamPerformanceImage = Ti.UI.createImageView({image: getTeamPerformanceImagePath(json["drills"][i]["strengths"][0]["performance_id"]), left: leftOffset, top: 50, touchEnabled: false, height: 20, width: 20});
+				  		defaultView.add(teamPerformanceImage);
+				  		leftOffset += 25;
+						var athletePerformanceImage = Ti.UI.createImageView({image: getAthletePerformanceImagePath(json["drills"][i]["strengths"][0]["performance_id"]), left: leftOffset, top: 50, touchEnabled: false, height: 20, width: 20});
+				  		defaultView.add(athletePerformanceImage);
+						leftOffset += 25;
+						if (json["drills"][i]["strengths"].length == 1)
+						{
+							var strength = Ti.UI.createLabel({text: json["drills"][i]["strengths"][0]["name"], top: 50, left: leftOffset, font: { fontSize:8, fontWeight: 'bold'}});
+							defaultView.add(strength);
+						}
+						else
+						{
+							var strengthAndMore = Ti.UI.createLabel({text: json["drills"][i]["strengths"][0]["name"] + ' and ' + json["drills"][i]["strengths"].length-1 + ' more', top: 50, left: leftOffset, font: { fontSize:8, fontWeight: 'bold'}});
+							defaultView.add(strengthAndMore);
+						}
 					}
 					
 					var hiddenView = Ti.UI.createView({

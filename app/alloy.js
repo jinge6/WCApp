@@ -147,20 +147,38 @@ function getPerformanceColor(level)
 	return color;
 }
 
-function getPerformanceImagePath(level)
+function getAthletePerformanceImagePath(level)
 {
 	var path;
 	if (level == "1")
 	{
-		path = "basic_indicator.png";
+		path = "athlete_basic_indicator.png";
 	}
 	else if(level == "2")
 	{
-		path = "intermediate_indicator.png";
+		path = "athlete_intermediate_indicator.png";
 	}
 	else
 	{
-		path = "advanced_indicator.png";
+		path = "athlete_advanced_indicator.png";
+	}
+	return path;
+}
+
+function getTeamPerformanceImagePath(level)
+{
+	var path;
+	if (level == "1")
+	{
+		path = "team_basic_indicator.png";
+	}
+	else if(level == "2")
+	{
+		path = "team_intermediate_indicator.png";
+	}
+	else
+	{
+		path = "team_advanced_indicator.png";
 	}
 	return path;
 }

@@ -6,7 +6,9 @@ var args = arguments[0] || {};
  var summary = args[3];
  var assessment = args[4];
 
-$.performanceImage.image = getPerformanceImagePath(level);
+$.performanceImage.image = getAthletePerformanceImagePath(level);
+$.performanceImage.height = 20;
+$.performanceImage.width = 20;
 $.assessmentType.text = assessment;
 $.strength.text = strength;
 $.strength.font = { fontWeight: 'bold'};

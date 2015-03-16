@@ -167,6 +167,8 @@ function getDrill(drill_id)
 				row.add(drillName);
 				tableData.push(row);
 				
+				//TODO add strengths here
+				
 				var row2 = Ti.UI.createTableViewRow({height: 40});
 						
 				var drillDescription = Ti.UI.createLabel({text: json["description"], left: 10, font: { fontSize:10}});
