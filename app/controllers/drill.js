@@ -168,14 +168,14 @@ function getDrill(drill_id)
 				tableData.push(row);
 				
 				var row2 = Ti.UI.createTableViewRow({height: 40});
-				
+						
 				var drillDescription = Ti.UI.createLabel({text: json["description"], left: 10, font: { fontSize:10}});
 				row2.add(drillDescription);
 				tableData.push(row2);
 				
 				var row3 = Ti.UI.createTableViewRow({height: 25, left: 10});
 				
-				var drillRating = new RatingView(json["rating"], 5, json["total_ratings"]);
+				var drillRating = new RatingView(json["rating"], 5, json["total_ratings"], 0, 0, false);
 				drillRating.touchEnabled = false;
 				row3.add(drillRating);
 				tableData.push(row3);
@@ -235,7 +235,7 @@ function getDrill(drill_id)
 					tableData.push(row);
 					
 					var row2 = Ti.UI.createTableViewRow({height: 25});
-					var drillRating = new RatingView(json["rating"], 5, null);
+					var drillRating = new RatingView(json["reviews"][i]["rating"], 5, null, false);
 					drillRating.touchEnabled = false;
 					row2.add(drillRating);
 					tableData.push(row2);

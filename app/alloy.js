@@ -38,7 +38,7 @@ function button(args,onclick) {
  * will be used to render the view
  * 
  */
-function RatingView(initialRating, max, totalRatings, topOffset, leftOffset) {
+function RatingView(initialRating, max, totalRatings, topOffset, leftOffset, mini) {
 	//create and populate the rating object
 	var instance = view({
 		layout:'horizontal',
@@ -62,8 +62,8 @@ function RatingView(initialRating, max, totalRatings, topOffset, leftOffset) {
 	//current value of the rating
 	for (var i = 0; i < max; i++) {
 		var star = image({
-			height:24,
-			width:24,
+			height:mini?12:24,
+			width:mini?12:24,
 			left:5,
 			is_rating:1,
 			rating:i
@@ -111,13 +111,13 @@ function RatingView(initialRating, max, totalRatings, topOffset, leftOffset) {
 		
 		for (var i = 0, l = stars.length; i < l; i++) {
 			if (i >= rating) {
-				stars[i].image = 'star-off.png';
+				stars[i].image = mini?'half-star-off.png':'star-off.png';
 			}
 			else if (rating > i && rating < i+1) {
-				stars[i].image = 'star-half.png';
+				stars[i].image = mini?'half-star-half.png':'star-half.png';
 			}
 			else {
-				stars[i].image = 'star-on.png';
+				stars[i].image = mini?'half-star-on.png':'star-on.png';
 			}
 		}
 	}

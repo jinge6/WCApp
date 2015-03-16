@@ -85,6 +85,11 @@ function getTrainingDrills(assignment_id)
 				  	row.add(diagram);
 					var drillName = Ti.UI.createLabel({text: json["drills"][i]["name"], top: 10, left: 105, font: { fontSize:12, fontWeight: 'bold' }});
 					row.add(drillName);
+					var drillRating = new RatingView(json["drills"][i]["rating"], 5, json["drills"][i]["total_ratings"], 20, 105, true);
+					drillRating.touchEnabled = false;
+					row.add(drillRating);
+					
+					
 					var leftOffset = 110;
 					for (var j=0; j<json["drills"][i]["strengths"].length; j++)
 					{
