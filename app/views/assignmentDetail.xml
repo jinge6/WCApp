@@ -1,22 +1,22 @@
 <Alloy>
-	<TabGroup id="assignmentTab">
-		<Tab id="assessmentTab" title="Assessment" icon="KS_nav_ui.png">
+	<TabGroup id="assignmentTab" backgroundColor="#ff6633">
+		<Tab id="assessmentTab" title="Assessment" icon="assessment_tab.png">
 			<Window id="assessmentWin">
     		</Window>
 		</Tab>
-		<Tab id="nextTrainingTab" title="Next Training" icon="KS_nav_views.png">
+		<Tab id="nextTrainingTab" title="Next Training" icon="training_tab.png" >
 			<Window title="Training <Date>">
 				<TableView id="trainingTable">
         		</TableView>
 			</Window>
 		</Tab>
-		<Tab id="drillsTab" title="Drills" icon="KS_nav_views.png">
+		<Tab id="drillsTab" title="Drills" icon="drills_tab.png">
 			<Window title="Drills">
 				<TableView id="drillsTable">
         		</TableView>
 			</Window>
 		</Tab>
-		<Tab id="videosTab" title="Videos" icon="KS_nav_views.png">
+		<Tab id="videosTab" title="Videos" icon="video_Tab.png">
 			<Window title="Videos">
 				<TableView id="videoCategoriesTable">
         		</TableView>

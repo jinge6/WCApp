@@ -198,26 +198,52 @@ function getDrill(drill_id)
 					tableData.push(row2);
 					
 					var row3 = Ti.UI.createTableViewRow();
-					
-					var stepDiagram = Ti.UI.createImageView({image: json["steps"][i]["background"]+'.png', width: 320, height: 273});
-					stepDiagram.addEventListener('click', function(e){
-						Ti.App.fireEvent('runAnimation');
-					});
-					
-					row3.add(stepDiagram);
-					animateObjects = JSON.parse(decodeURIComponent(json["steps"][i]["layers"]));
-					
-					for (var i=0; i<animateObjects.length; i++)
-			        {
-			            if (animateObjects[i][0] == 1)
-			            {
-			            	xPos = (parseInt(animateObjects[i][2]) * xScalingFactor);
-			                yPos = (parseInt(animateObjects[i][3]) * yScalingFactor);
-			            	var moveable = Ti.UI.createImageView({image: animateObjects[i][1]+'.png', left: xPos, top: yPos});
-							row3.add(moveable);
-							moveables[animateObjects[i][1]] = moveable;
-			            }
-			        }
+					if (json["steps"][i]["layers"] != null && json["steps"][i]["layers"].length > 0)
+					{
+						var animatedDiagram = Ti.UI.createImageView({image: json["steps"][i]["background"]+'.png', width: 320, height: 273});
+						animatedDiagram.addEventListener('click', function(e){
+							Ti.App.fireEvent('runAnimation');
+						});
+						
+						row3.add(animatedDiagram);
+						animateObjects = JSON.parse(decodeURIComponent(json["steps"][i]["layers"]));
+						if (animateObjects != null && animateObjects.length > 0)
+						{
+							for (var i=0; i<animateObjects.length; i++)
+					        {
+					            if (animateObjects[i][0] == 1)
+					            {
+					            	xPos = (parseInt(animateObjects[i][2]) * xScalingFactor);
+					                yPos = (parseInt(animateObjects[i][3]) * yScalingFactor);
+					            	var moveable = Ti.UI.createImageView({image: animateObjects[i][1]+'.png', left: xPos, top: yPos});
+									row3.add(moveable);
+									moveables[animateObjects[i][1]] = moveable;
+					            }
+					        }
+				       	}
+					}
+					else if (json["steps"][i]["thumb"] != null && json["steps"][i]["thumb"].length > 0)
+					{
+						var stepDiagram = Ti.UI.createImageView({image: json["steps"][i]["thumb"], link: json["steps"][i]["link"]});
+						
+						if (json["steps"][i]["link"].length > 0)
+						{
+							var playButton = Ti.UI.createImageView({image: "play.png",link: json["steps"][i]["link"], left: 120, top: 80});
+							playButton.addEventListener('click', function(e){
+								Ti.Platform.openURL(e.source.link);
+							});
+							stepDiagram.addEventListener('click', function(e){
+								Ti.Platform.openURL(e.source.link);
+							});
+							row3.add(stepDiagram);
+							row3.add(playButton);
+						}
+						else
+						{
+							row3.add(stepDiagram);
+						}
+					}
+
 					tableData.push(row3);
 				}
 				
