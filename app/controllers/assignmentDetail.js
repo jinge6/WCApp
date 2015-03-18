@@ -35,7 +35,14 @@ function goDrills(e){
 var assessmentTable = Titanium.UI.createTableView();
 
 assessmentTable.addEventListener('click', function(e){
-	Ti.App.fireEvent('goAssessment',{summary: e.rowData.summary, strength: e.rowData.strength, strengthDescription: e.rowData.strengthDescription, level: e.rowData.level, assessment: e.rowData.assessment});
+	if (e.rowData.role == "Coach")
+	{
+		Ti.App.fireEvent('goFocus',{assignment_id: e.rowData.assignment_id, strength: e.rowData.strength});
+	}
+	else
+	{	
+		Ti.App.fireEvent('goAssessment',{summary: e.rowData.summary, strength: e.rowData.strength, strengthDescription: e.rowData.strengthDescription, level: e.rowData.level, assessment: e.rowData.assessment});
+	}
 });
 
 $.videoCategoriesTable.addEventListener('click', function(e){
@@ -208,7 +215,15 @@ function getAssessment(assignment_id, role)
 				var color;
 				for (var i=0; i<json["assessments"].length; i++)
 				{
-					var row = Ti.UI.createTableViewRow({height: 60, moveable: (role == "Coach"), hasChild: (role != "Coach"), backgroundColor: color, strength: json["assessments"][i]["strength"], strengthDescription: json["assessments"][i]["description"], summary: json["assessments"][i]["summary"], level: json["assessments"][i]["level"], assessment: json["assessments"][i]["assessment"]});
+					if (parseInt(json["assessments"][i]["priority"]) <= parseInt(focusOnTop))
+					{
+						color = '#DFF0D8';
+					}
+					else
+					{
+						color = 'white';
+					}
+					var row = Ti.UI.createTableViewRow({height: 60, role: role, assignment_id: assignment_id, backgroundColor: color, strength: json["assessments"][i]["strength"], strengthDescription: json["assessments"][i]["description"], summary: json["assessments"][i]["summary"], level: json["assessments"][i]["level"], assessment: json["assessments"][i]["assessment"]});
 					
 					var strength = Ti.UI.createLabel({text: json["assessments"][i]["strength"], top: 20, left: 50, font: { fontSize:12, fontWeight: 'bold' }});
 					row.add(strength);
@@ -227,7 +242,7 @@ function getAssessment(assignment_id, role)
 		}
 	});
 		
-	if (role == "coach")
+	if (role == "Coach")
 	{
 		
 		xhr.open('GET','http://localhost:3000/assignments/' + assignment_id + '/assignments/focus.json');

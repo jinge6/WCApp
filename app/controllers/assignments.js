@@ -13,6 +13,12 @@ Ti.App.addEventListener('goAssessment', function(e) {
 	$.navAssignment.openWindow(assessmentView);
 });
 
+//add behavior for goFocus
+Ti.App.addEventListener('goFocus', function(e) {
+		var focusView = Alloy.createController('focus', [e.assignment_id, e.strength]).getView();
+		$.navAssignment.openWindow(focusView);
+});
+
 //add behavior for goDrills
 Ti.App.addEventListener('goDrills', function(e) {
 	var drillsView = Alloy.createController('drills').getView();
