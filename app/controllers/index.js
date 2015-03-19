@@ -12,7 +12,7 @@ else
 
 function doSignIn(e){
 	
-	var signInPost = signInPost = {
+	var signInPost = {
 				email: (email_property != null && email_property.length>0)?email_property:$.email.value,
 			    password: $.password.value,
 			    auth_token: auth_token_property,

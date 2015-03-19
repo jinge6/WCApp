@@ -229,7 +229,7 @@ function getAssessment(assignment_id, role)
 					row.add(strength);
 					var description = Ti.UI.createLabel({text: json["assessments"][i]["description"], top: 40, left: 50, font: { fontSize:10}});
 					row.add(description);
-					var performanceImage = Ti.UI.createImageView({image: getAthletePerformanceImagePath(json["assessments"][i]["level"]), top: 10, left: 10, height:20, width:20, touchEnabled: false});
+					var performanceImage = Ti.UI.createImageView({image: role=="Coach"?getTeamPerformanceImagePath(json["assessments"][i]["level"]):getAthletePerformanceImagePath(json["assessments"][i]["level"]), top: 10, left: 10, height:20, width:20, touchEnabled: false});
 				  	row.add(performanceImage);
 				  	var assessment = Ti.UI.createLabel({text: json["assessments"][i]["assessment"], top: 6, left: 50, font: { fontSize:10, fontWeight: 'bold'}});
 					row.add(assessment);
