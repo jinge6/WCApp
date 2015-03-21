@@ -279,7 +279,7 @@ function getDrill(drill_id)
 		}
 	});
 		
-	xhr.open('GET','http://localhost:3000/drills/' + drill_id + '.json');
+	xhr.open('GET', webserver+'/drills/' + drill_id + '.json');
 	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
 	xhr.send();	
 }

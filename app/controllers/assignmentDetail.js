@@ -91,7 +91,7 @@ function sendRating(drill_id, rating)
 {
 	var xhr = Ti.Network.createHTTPClient();
 		
-	xhr.open('GET','http://localhost:3000/drill_reviews/rate.json?rating=' + rating + '&drill_id=' + drill_id);
+	xhr.open('GET', webserver+'/drill_reviews/rate.json?rating=' + rating + '&drill_id=' + drill_id);
 	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
 	xhr.send();	
 }
@@ -132,7 +132,7 @@ function getTrainingDrills(assignment_id)
 						backgroundColor: '#fff',
 						height: Ti.UI.SIZE
 					});
-				  	var diagram = Ti.UI.createImageView({image: imageName, left: 5, touchEnabled: false});
+				  	var diagram = Ti.UI.createImageView({image: imageName, left: 5});
 				  	defaultView.add(diagram);
 				  	var drillName = Ti.UI.createLabel({text: json["drills"][i]["name"], top: 10, left: 105, font: { fontSize:12, fontWeight: 'bold' }});
 					defaultView.add(drillName);
@@ -192,7 +192,7 @@ function getTrainingDrills(assignment_id)
 		}
 	});
 		
-	xhr.open('GET','http://localhost:3000/assignments/' + assignment_id + '/assignments/nexttraining.json');
+	xhr.open('GET', webserver+'/assignments/' + assignment_id + '/assignments/nexttraining.json');
 	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
 	xhr.send();	
 }
@@ -245,12 +245,12 @@ function getAssessment(assignment_id, role)
 	if (role == "Coach")
 	{
 		
-		xhr.open('GET','http://localhost:3000/assignments/' + assignment_id + '/assignments/focus.json');
+		xhr.open('GET', webserver+'/assignments/' + assignment_id + '/assignments/focus.json');
 	}
 	else
 	{
 		assessmentTable.moveable = false;
-		xhr.open('GET','http://localhost:3000/development/' + assignment_id + '/development/assessment.json?id=' + assignment_id);
+		xhr.open('GET', webserver+'/development/' + assignment_id + '/development/assessment.json?id=' + assignment_id);
 	}
 	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
 	xhr.send();	
@@ -284,7 +284,7 @@ function getDrillBrowseCategories(assignment_id)
 		}
 	});
 		
-	xhr.open('GET','http://localhost:3000/activities/' + assignment_id + '/strengths.json');
+	xhr.open('GET', webserver+'/activities/' + assignment_id + '/strengths.json');
 	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
 	xhr.send();	
 }
@@ -324,7 +324,7 @@ function getVideoCategories(assignment_id)
 		}
 	});
 		
-	xhr.open('GET','http://localhost:3000/activities/' + assignment_id + '/strengths.json');
+	xhr.open('GET', webserver+'/activities/' + assignment_id + '/strengths.json');
 	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
 	xhr.send();	
 }

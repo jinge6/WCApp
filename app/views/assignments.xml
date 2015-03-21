@@ -1,8 +1,10 @@
 <Alloy>
-	<NavigationWindow id="navAssignment" platform="ios">
-		<Window title="Home">
-			<TableView id="trainingTable" onClick="goAssignment">
-    		</TableView>
+	<Window id="navAssignment" title="Home" platform="android">
+  		<TableView id="trainingTable" onClick="goAssignment"></TableView>
+  	</Window>
+  	<NavigationWindow id="navAssignment" platform="ios">
+  		<Window title="Home">
+			<TableView id="trainingTable" onClick="goAssignment"></TableView>
 		</Window>
 	</NavigationWindow>
 </Alloy>

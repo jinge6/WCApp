@@ -32,6 +32,21 @@ function button(args,onclick) {
 	return btn;
 }
 
+var webserver;
+
+Ti.App.Properties.setString("Mode","Dev");
+var mode = Ti.App.Properties.getString("Mode");
+if (mode == "Dev")
+{
+	// dev mode logic
+	webserver = "http://10.2.25.49:3000";
+}
+else
+{
+	// prod mode logic
+	webserver = "http://winnerscircle.world";
+};
+
 /*
  * Our custom rating view component takes an initial
  * rating, and a maximum value for the rating, which

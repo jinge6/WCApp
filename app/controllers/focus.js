@@ -72,7 +72,7 @@ function getPriorities()
 		}
 	});
 	
-	xhr.open('GET','http://localhost:3000/assignments/' + assignment_id + '/assignments/focus.json');
+	xhr.open('GET', webserver+'/assignments/' + assignment_id + '/assignments/focus.json');
 	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
 	xhr.send();	
 }
@@ -87,7 +87,7 @@ function postReorderPriority(id, start, finish)
 		}
 	});
 	
-	xhr.open('POST','http://localhost:3000/assignments/update_row_order.json');
+	xhr.open('POST', webserver+'/assignments/update_row_order.json');
 	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
 	
 	var reorderPost = {'assignments[assignment_id]': id, 
@@ -100,7 +100,7 @@ function postFocusOnTop(id, changedFocusOnTop)
 {
 	var xhr = Ti.Network.createHTTPClient();
 	
-	xhr.open('POST','http://localhost:3000/assignments/update_focus_on_top.json');
+	xhr.open('POST', webserver+'/assignments/update_focus_on_top.json');
 	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
 	
 	var focusOnTopPost = {'assignments[assignment_id]': id, 

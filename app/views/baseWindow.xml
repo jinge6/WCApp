@@ -1,0 +1,7 @@
+<Alloy>
+  	<NavigationWindow id="navAssignment" platform="ios">
+		<Require id="defaultWin" src="assignments"></Require>
+	</NavigationWindow>
+	<!-- Android -->
+    <Require id="defaultWin" src="assignments" platform="android"></Require>
+</Alloy>

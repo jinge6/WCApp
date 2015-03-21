@@ -1,6 +1,7 @@
 var email_property = Ti.App.Properties.getString('email');
 var auth_token_property = Ti.App.Properties.getString('auth_token');
 
+console.log('email_property: ' + email_property);
 if (email_property != null && auth_token_property != null)
 {
 	doSignIn();
@@ -32,10 +33,6 @@ function doSignIn(e){
 				Ti.App.Properties.setString('email', (email_property != null && email_property.length>0)?email_property:$.email.value);
 				Ti.App.Properties.setString('auth_token', json["auth_token"]);
 				
-				//if ($.index.visible)
-				//{
-				//	$.index.hide();
-				//}
 				var assignmentsWindow = Alloy.createController('assignments').getView();
 	    		assignmentsWindow.open();
 		 	}
@@ -51,7 +48,7 @@ function doSignIn(e){
 		}
 	});
 	
-	xhr.open('POST','http://localhost:3000/users/sign_in');
+	xhr.open('POST',webserver+'/users/sign_in.json');
 	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
 	xhr.send(signInPost);
 };

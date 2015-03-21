@@ -39,7 +39,7 @@ function getVideos(assignment_id, strength_id)
 		}
 	});
 		
-	xhr.open('GET','http://localhost:3000/assignments/' + assignment_id + '/assignments/video.json?sid='+strength_id);
+	xhr.open('GET', webserver+'/assignments/' + assignment_id + '/assignments/video.json?sid='+strength_id);
 	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
 	xhr.send();	
 }

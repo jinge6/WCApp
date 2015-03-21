@@ -3,8 +3,15 @@ var args = arguments[0] || { };
 getAssignments();
 
 function goAssignment(e){
-	var assignmentDetailWindow = Alloy.createController('assignmentDetail', [e.rowData.assignment_id, e.rowData.role, e.rowData.activity_id]).getView();
-	$.navAssignment.openWindow(assignmentDetailWindow);
+	var assignmentDetailWindow = Alloy.createController('assignmentDetail', [e.row.assignment_id, e.row.role, e.row.activity_id]).getView();
+	if (Ti.Platform.osname == 'iphone')
+	{
+		$.navAssignment.openWindow(assignmentDetailWindow);
+	}
+	else
+	{
+		assignmentDetailWindow.open();
+	}
 };
 
 //add behavior for goAssessments
@@ -16,42 +23,72 @@ Ti.App.addEventListener('goAssessment', function(e) {
 //add behavior for goFocus
 Ti.App.addEventListener('goFocus', function(e) {
 		var focusView = Alloy.createController('focus', [e.assignment_id, e.strength]).getView();
-		$.navAssignment.openWindow(focusView);
+		if (Ti.Platform.osname == 'iphone')
+		{
+			$.navAssignment.openWindow(focusView);
+		}
+		else
+		{
+			focusView.open();
+		}
 });
 
 //add behavior for goDrills
 Ti.App.addEventListener('goDrills', function(e) {
 	var drillsView = Alloy.createController('drills').getView();
-	$.navAssignment.openWindow(drillsView);
+	if (Ti.Platform.osname == 'iphone')
+	{
+		$.navAssignment.openWindow(drillsView);
+	}
+	else
+	{
+		drillsView.open();
+	}
 });
 
 //add behavior for showing drills
 Ti.App.addEventListener('showDrill', function(e) {
 	var drillView = Alloy.createController('drill', [e.drill_id]).getView();
-	$.navAssignment.openWindow(drillView);
+	if (Ti.Platform.osname == 'iphone')
+	{
+		$.navAssignment.openWindow(drillView);
+	}
+	else
+	{
+		drillView.open();
+	}
 });
 
 //add behavior for showing drills
 Ti.App.addEventListener('showDrillBrowse', function(e) {
 	var drillView = Alloy.createController('drillBrowse', [e.strength_id, e.role, e.assignment_id, e.activity_id]).getView();
-	$.navAssignment.openWindow(drillView);
+	if (Ti.Platform.osname == 'iphone')
+	{
+		$.navAssignment.openWindow(drillView);
+	}
+	else
+	{
+		drillView.open();
+	}
 });
 
 //add behavior for goVideos
 Ti.App.addEventListener('goVideos', function(e) {
 	var videosView = Alloy.createController('videos', [e.assignment_id, e.strength_id]).getView();
-	$.navAssignment.openWindow(videosView);
+	if (Ti.Platform.osname == 'iphone')
+	{
+		$.navAssignment.openWindow(videosView);
+	}
+	else
+	{
+		videosView.open();
+	}
 });
 
 function getAssignments()
 {
 	var tableData = [];
 	
-	var credentials = {
-				email: Ti.App.Properties.getString('email'),
-				auth_token: Ti.App.Properties.getString('auth_token')
-		};
-
 	var xhr = Ti.Network.createHTTPClient(
 	{
 		onload: function() 
@@ -91,7 +128,7 @@ function getAssignments()
 		}
 	});
 		
-	xhr.open('GET','http://localhost:3000/assignments.json');
+	xhr.open('GET', webserver+'/assignments.json');
 	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
 	xhr.send();	
 }

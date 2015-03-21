@@ -45,7 +45,7 @@ function sendRating(drill_id, rating)
 {
 	var xhr = Ti.Network.createHTTPClient();
 		
-	xhr.open('GET','http://localhost:3000/drill_reviews/rate.json?rating=' + rating + '&drill_id=' + drill_id);
+	xhr.open('GET', webserver+'/drill_reviews/rate.json?rating=' + rating + '&drill_id=' + drill_id);
 	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
 	xhr.send();	
 }
@@ -144,11 +144,11 @@ function getDrillsToBrowse(strength_id)
 		
 	if (role == "coach")
 	{	
-		xhr.open('GET','http://localhost:3000/drills.json?filter=strength&id=' + strength_id + '&activity_id='+ activity_id);
+		xhr.open('GET', webserver+'/drills.json?filter=strength&id=' + strength_id + '&activity_id='+ activity_id);
 	}
 	else
 	{
-		xhr.open('GET','http://localhost:3000/development/' + assignment_id + '/development/suggested.json?filter=strength&sid=' + strength_id + '&activity_id='+ activity_id);
+		xhr.open('GET', webserver+'/development/' + assignment_id + '/development/suggested.json?filter=strength&sid=' + strength_id + '&activity_id='+ activity_id);
 	}
 	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
 	xhr.send();	
