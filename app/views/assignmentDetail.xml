@@ -1,23 +1,23 @@
 <Alloy>
-	<TabGroup id="assignmentTab" backgroundColor="#ff6633">
+	<TabGroup id="assignmentTab">
 		<Tab id="assessmentTab" title="Assessment" icon="assessment_tab.png">
-			<Window id="assessmentWin">
+			<Window id="assessmentWin" backgroundColor="white">
     		</Window>
 		</Tab>
 		<Tab id="nextTrainingTab" title="Next Training" icon="training_tab.png" >
-			<Window title="Training <Date>">
+			<Window title="Training" backgroundColor="white">
 				<TableView id="trainingTable">
         		</TableView>
 			</Window>
 		</Tab>
 		<Tab id="drillsTab" title="Drills" icon="drills_tab.png">
-			<Window title="Drills">
+			<Window title="Drills" backgroundColor="white">
 				<TableView id="drillsTable">
         		</TableView>
 			</Window>
 		</Tab>
 		<Tab id="videosTab" title="Videos" icon="video_Tab.png">
-			<Window title="Videos">
+			<Window title="Videos" backgroundColor="white">
 				<TableView id="videoCategoriesTable">
         		</TableView>
 			</Window>

@@ -197,6 +197,8 @@ function getTrainingDrills(assignment_id)
 	xhr.send();	
 }
 
+var assessedJSON;
+
 function getAssessment(assignment_id, role)
 {
 	var tableData = [];
@@ -207,38 +209,45 @@ function getAssessment(assignment_id, role)
 		{
 		 	var tableData = [];
 
-			json = JSON.parse(this.responseText);
+			assessedJSON = JSON.parse(this.responseText);
 			
-			if (json.length != 0)
+			if (assessedJSON.length != 0)
 			{
-				focusOnTop = json["focusontop"];
-				var color;
-				for (var i=0; i<json["assessments"].length; i++)
-				{
-					if (parseInt(json["assessments"][i]["priority"]) <= parseInt(focusOnTop))
-					{
-						color = '#DFF0D8';
-					}
-					else
-					{
-						color = 'white';
-					}
-					var row = Ti.UI.createTableViewRow({height: 60, role: role, assignment_id: assignment_id, backgroundColor: color, strength: json["assessments"][i]["strength"], strengthDescription: json["assessments"][i]["description"], summary: json["assessments"][i]["summary"], level: json["assessments"][i]["level"], assessment: json["assessments"][i]["assessment"]});
-					
-					var strength = Ti.UI.createLabel({text: json["assessments"][i]["strength"], top: 20, left: 50, font: { fontSize:12, fontWeight: 'bold' }});
-					row.add(strength);
-					var description = Ti.UI.createLabel({text: json["assessments"][i]["description"], top: 40, left: 50, font: { fontSize:10}});
-					row.add(description);
-					var performanceImage = Ti.UI.createImageView({image: role=="Coach"?getTeamPerformanceImagePath(json["assessments"][i]["level"]):getAthletePerformanceImagePath(json["assessments"][i]["level"]), top: 10, left: 10, height:20, width:20, touchEnabled: false});
-				  	row.add(performanceImage);
-				  	var assessment = Ti.UI.createLabel({text: json["assessments"][i]["assessment"], top: 6, left: 50, font: { fontSize:10, fontWeight: 'bold'}});
-					row.add(assessment);
-					tableData.push(row);
-				}
+				focusOnTop = assessedJSON["focusontop"];
+				tableData = buildAssessedTable(assessedJSON, focusOnTop);
 			}	
 			assessmentTable.setData(tableData);
+			if(role=="Coach")
+			{
+				assessmentTable.top = 100;
+				includeLabel = Ti.UI.createLabel({text: 'Include top ' + focusOnTop + ' priorities in Training', left: 20, top: 30});
+				includeSlider = Ti.UI.createSlider({
+					    top: 50,
+					    min: 1,
+					    max: tableData.length,
+					    width: '100%',
+					    value: focusOnTop
+				    });
+				includeSlider.addEventListener('touchend', function(e) {
+					console.log('touchend e.value', e.source.value);
+					this.value = Math.round(e.source.value);
+					focusOnTop = Math.round(e.source.value);
+				    includeLabel.text = 'Include top ' + focusOnTop + ' priorities in Training';
+				    postFocusOnTop(assignment_id, focusOnTop);
+				    tableData = buildAssessedTable(assessedJSON, this.value);
+				    assessmentTable.setData(tableData);
+				});
+				
+				includeSlider.addEventListener('change', function(e) {
+				    includeLabel.text = 'Include top ' + Math.round(e.source.value) + ' priorities in Training';
+				});
+				
+				$.assessmentWin.add(includeLabel);
+				$.assessmentWin.add(includeSlider);
+			}
 			// add table view to the window
 			$.assessmentWin.add(assessmentTable);
+
 		}
 	});
 		
@@ -254,6 +263,47 @@ function getAssessment(assignment_id, role)
 	}
 	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
 	xhr.send();	
+}
+
+function buildAssessedTable(assessedJSON, focusOnTop)
+{
+	var tableData = [];
+	var color;
+	for (var i=0; i<assessedJSON["assessments"].length; i++)
+	{
+		if (parseInt(assessedJSON["assessments"][i]["priority"]) <= parseInt(focusOnTop))
+		{
+			color = '#DFF0D8';
+		}
+		else
+		{
+			color = 'white';
+		}
+		var row = Ti.UI.createTableViewRow({height: 60, role: role, assignment_id: assignment_id, backgroundColor: color, strength: assessedJSON["assessments"][i]["strength"], strengthDescription: assessedJSON["assessments"][i]["description"], summary: assessedJSON["assessments"][i]["summary"], level: assessedJSON["assessments"][i]["level"], assessment: assessedJSON["assessments"][i]["assessment"]});
+		
+		var strength = Ti.UI.createLabel({text: assessedJSON["assessments"][i]["strength"], top: 20, left: 50, font: { fontSize:12, fontWeight: 'bold' }});
+		row.add(strength);
+		var description = Ti.UI.createLabel({text: assessedJSON["assessments"][i]["description"], top: 40, left: 50, font: { fontSize:10}});
+		row.add(description);
+		var performanceImage = Ti.UI.createImageView({image: role=="Coach"?getTeamPerformanceImagePath(assessedJSON["assessments"][i]["level"]):getAthletePerformanceImagePath(assessedJSON["assessments"][i]["level"]), top: 10, left: 10, height:20, width:20, touchEnabled: false});
+	  	row.add(performanceImage);
+	  	var assessment = Ti.UI.createLabel({text: assessedJSON["assessments"][i]["assessment"], top: 6, left: 50, font: { fontSize:10, fontWeight: 'bold'}});
+		row.add(assessment);
+		tableData.push(row);
+	}
+	return tableData;
+}
+
+function postFocusOnTop(id, changedFocusOnTop)
+{
+	var xhr = Ti.Network.createHTTPClient();
+	
+	xhr.open('POST', webserver+'/assignments/update_focus_on_top.json');
+	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
+	
+	var focusOnTopPost = {'assignments[assignment_id]': id, 
+		'assignments[focusOnTop]':changedFocusOnTop};
+	xhr.send(focusOnTopPost);
 }
 
 function getDrillBrowseCategories(assignment_id)

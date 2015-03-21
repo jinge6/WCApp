@@ -3,19 +3,12 @@ var args = arguments[0] || {};
 var assignment_id = args[0];
 var strength = args[1];
 var json;
-var picker;
-var includeSlider;
-var includeLabel;
 var currentPriorityLabel;
+var currentPriority;
+var updatedPriority;
 var orderedList = [];
-var focusOnTop;
 
 getPriorities();
-
-function includeChange()
-{
-	alert('do something here');
-}
 
 function initialise(json)
 {
@@ -23,40 +16,6 @@ function initialise(json)
 	for (var i=0; i<json["assessments"].length; i++)
 	{
 		orderedList[i] = json["assessments"][i]["strength"];
-	}
-}
-
-function reorder(movedTo)
-{
-	var i = 0;
-	var j = 0;
-	var notOrdered = true;
-	orderedList = [];
-	
-	while (notOrdered)
-	{
-		if (j == movedTo)
-		{
-			orderedList[j] = strength;
-			j++;
-		}
-		else if (json["assessments"][i]["strength"] == strength)
-		{
-			i++;
-			continue;
-		}
-		else
-		{
-			orderedList[j] = json["assessments"][i]["strength"];
-			i++;
-			j++;
-		}
-		notOrdered = (orderedList.length < json["assessments"].length);
-	}
-	
-	for (var i=0; i<orderedList.length; i++)
-	{
-		console.log(orderedList[i]);
 	}
 }
 
@@ -68,7 +27,7 @@ function getPriorities()
 		{
 			json = JSON.parse(this.responseText);
 			initialise(json);
-			buildUI(focusOnTop, true);
+			buildUI();
 		}
 	});
 	
@@ -91,119 +50,60 @@ function postReorderPriority(id, start, finish)
 	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
 	
 	var reorderPost = {'assignments[assignment_id]': id, 
-		'assignments[start_position]': start+1,
-		'assignments[finish_position]': finish};
+		'assignments[start_position]': start,
+		'assignments[finish_position]': finish-1};
 	xhr.send(reorderPost);
 }
 
-function postFocusOnTop(id, changedFocusOnTop)
-{
-	var xhr = Ti.Network.createHTTPClient();
-	
-	xhr.open('POST', webserver+'/assignments/update_focus_on_top.json');
-	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
-	
-	var focusOnTopPost = {'assignments[assignment_id]': id, 
-		'assignments[focusOnTop]':changedFocusOnTop};
-	xhr.send(focusOnTopPost);
-}
 
-function buildUI(focusOnTop, firstDraw)
+
+function buildUI()
 {
 	var selectedRow = 0;
 	
 	if (json.length != 0)
 	{
-		var color;
-		var data = [];
-		var priorityColumn = Ti.UI.createPickerColumn({width: 5});
-		var strengthColumn = Ti.UI.createPickerColumn();
-
 		for (var i=0; i<orderedList.length; i++)
 		{
 			if (orderedList[i] == strength)
 			{
-				selectedRow = i;
+				currentPriority = i+1;
+				updatedPriority = i+1;
+
+				currentPriorityLabel = Ti.UI.createLabel({text: 'Adjust ' + strength + ' training priority', left: 20, top: 30});
+				$.focusWin.add(currentPriorityLabel);
 				
-				if (firstDraw)
-				{
-					includeSlider = Ti.UI.createSlider({
-					    top: 50,
-					    min: 1,
-					    max: orderedList.length,
-					    width: '100%',
-					    value: focusOnTop
-				    });
-					includeSlider.addEventListener('touchend', function(e) {
-						this.value = Math.round(e.value);
-						focusOnTop = Math.round(e.value);
-					    includeLabel.text = 'Include top ' + focusOnTop + ' priorities in Training';
-					    postFocusOnTop(assignment_id, focusOnTop);
-					    buildUI(this.value, false);
-					});
-					
-					includeSlider.addEventListener('change', function(e) {
-					    includeLabel.text = 'Include top ' + Math.round(e.value) + ' priorities in Training';
-					});
-					
-					$.focusWin.add(includeSlider);
-					
-					currentPriorityLabel = Ti.UI.createLabel({text: 'Adjust ' + strength + ' training priority', left: 20, top: 120});
-					$.focusWin.add(currentPriorityLabel);
-					
-					var performanceImage = Ti.UI.createImageView({image: getTeamPerformanceImagePath(json["assessments"][i]["level"]), top: 90, left: 20, height:20, width:20, touchEnabled: false});
-				  	$.focusWin.add(performanceImage);
-				  	
-				  	var currentRating = Ti.UI.createLabel({text: 'Currently rated: ' + json["assessments"][i]["assessment"] + ' level', left: 50, top: 90, font: {fontSize: 10}});
-					$.focusWin.add(currentRating);
-					
-					includeLabel = Ti.UI.createLabel({text: 'Include top ' + focusOnTop, left: 20, top: 30});
-					$.focusWin.add(includeLabel);
-				}
-				else
-				{
-					currentPriorityLabel.text = 'Adjust ' + strength + ' training priority';
-					includeLabel.text = 'Include top ' + focusOnTop+ ' priorities in Training';
-				}
-			}
-			
-			if (i < parseInt(focusOnTop))
-			{
-				includedText = '(included)';
-			}
-			else 
-			{
-				includedText = '';
-			}
-			var priorityRow = Ti.UI.createPickerRow({title:(i+1).toString()});
-			var strengthRow = Ti.UI.createPickerRow({title:orderedList[i].toString() + ' ' + includedText, font: {fontSize: 10}, ignore: true});
-			priorityColumn.addRow(priorityRow);
-			strengthColumn.addRow(strengthRow);				
+				var performanceImage = Ti.UI.createImageView({image: getTeamPerformanceImagePath(json["assessments"][i]["level"]), top: 120, left: 20, height:20, width:20, touchEnabled: false});
+			  	$.focusWin.add(performanceImage);
+			  	
+			  	var currentRating = Ti.UI.createLabel({text: 'Currently rated: ' + json["assessments"][i]["assessment"] + ' level', left: 50, top: 120, font: {fontSize: 10}});
+				$.focusWin.add(currentRating);
+			}				
 		}
 
-		
-		picker = Ti.UI.createPicker(
-			{columns: [priorityColumn, strengthColumn],
-			  selectionIndicator: true,
-			  useSpinner: true, // required in order to use multi-column pickers with Android
-			 });
-			 
-		picker.addEventListener('change',function(e){
-			if (e.columnIndex == 1 && e.rowIndex != selectedRow)
-			{
-			  	this.setSelectedRow(1, selectedRow, true);
-		 	}
-		 	if (e.columnIndex == 0 && e.rowIndex != selectedRow)
-			{
-				postReorderPriority(assignment_id, selectedRow, e.rowIndex);
-				selectedRow = e.rowIndex;
-				reorder(e.rowIndex);
-				buildUI(focusOnTop, false);
-		 	}	
+		var prioritySlider = Ti.UI.createSlider({
+			    top: 70,
+			    min: 1,
+			    max: orderedList.length,
+			    width: '100%',
+			    value: currentPriority
+		    });
+				    
+		prioritySlider.addEventListener('touchend', function(e) {
+			this.value = Math.round(e.source.value);
+		    newPriority.text = 'New Priority ' + this.value;
+		    postReorderPriority(assignment_id, updatedPriority, this.value);
+		    updatedPriority = this.value;
 		});
 		
-		$.focusWin.add(picker);
-		picker.setSelectedRow(0, selectedRow, false);
-		picker.setSelectedRow(1, selectedRow, false);
+		prioritySlider.addEventListener('change', function(e) {
+		    newPriority.text = 'New Priority ' + Math.round(e.source.value);
+		});
+		var startingPriority = Ti.UI.createLabel({text: 'Current Priority ' + currentPriority, left: 20, top: 150});
+		var newPriority = Ti.UI.createLabel({text: 'New Priority ' + updatedPriority, left: 20, top: 180});
+		
+		$.focusWin.add(startingPriority);
+		$.focusWin.add(newPriority);
+		$.focusWin.add(prioritySlider);
 	}	
 }

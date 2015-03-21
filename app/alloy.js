@@ -39,7 +39,7 @@ var mode = Ti.App.Properties.getString("Mode");
 if (mode == "Dev")
 {
 	// dev mode logic
-	webserver = "http://10.2.25.49:3000";
+	webserver = "http://192.168.1.12:3000";
 }
 else
 {
