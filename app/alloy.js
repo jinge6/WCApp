@@ -80,6 +80,7 @@ function RatingView(initialRating, max, totalRatings, topOffset, leftOffset, min
 			height:mini?12:24,
 			width:mini?12:24,
 			left:5,
+			zindex: 999999,
 			is_rating:1,
 			rating:i
 		});

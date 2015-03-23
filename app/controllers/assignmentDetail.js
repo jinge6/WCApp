@@ -59,12 +59,12 @@ $.trainingTable.addEventListener('singletap', function(e){
 	{
 		var rating = parseInt(e.source.rating) + 1;
 		sendRating(e.rowData.drill_id, rating);
-		e.row.v2.opacity = 1;
+		e.row.v2.setOpacity(1);
 		alert('Thanks for rating this drill!');
 	}
 	else
 	{
-		e.row.v2.opacity = 1;
+		e.row.v2.setOpacity(1);
 		Ti.App.fireEvent('showDrill',{drill_id: e.rowData.drill_id});
 	}
 });
@@ -79,7 +79,7 @@ $.trainingTable.addEventListener('swipe', function(e){
 		});
 	};
 
-	current_row = Ti.Platform.osname == 'android' ? this : e.row; // it looks like android does not have the e.row property for this event.
+	current_row = e.row;
 
 	current_row.v2.animate({
 		opacity: 0,
@@ -164,7 +164,7 @@ function getTrainingDrills(assignment_id)
 					var hiddenView = Ti.UI.createView({
 						height:Ti.UI.SIZE,
 						width:Ti.UI.SIZE,
-						backgroundColor:'white',
+						backgroundColor:'transparent',
 						opacity: 1
 					});
 					
@@ -180,7 +180,7 @@ function getTrainingDrills(assignment_id)
 						font: { fontSize:12, fontWeight: 'bold'}
 					});
 					hiddenView.add(howGoodLabel);
-					
+
 					row.add(hiddenView);
 					row.v2 = defaultView;
 					row.add(defaultView);
