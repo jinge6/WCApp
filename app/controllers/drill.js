@@ -177,7 +177,7 @@ function getDrill(drill_id)
 				
 				var row3 = Ti.UI.createTableViewRow({height: 25, left: 10});
 				
-				var drillRating = new RatingView(json["rating"], 5, json["total_ratings"], 0, 0, false);
+				var drillRating = new RatingView(json["rating"], 5, json["total_ratings"], 0, 0, false, false);
 				drillRating.touchEnabled = false;
 				row3.add(drillRating);
 				tableData.push(row3);
@@ -263,7 +263,7 @@ function getDrill(drill_id)
 					tableData.push(row);
 					
 					var row2 = Ti.UI.createTableViewRow({height: 25});
-					var drillRating = new RatingView(json["reviews"][i]["rating"], 5, null, false);
+					var drillRating = new RatingView(json["reviews"][i]["rating"], 5, null, false, false);
 					drillRating.touchEnabled = false;
 					row2.add(drillRating);
 					tableData.push(row2);

@@ -55,6 +55,7 @@ $.drillsTable.addEventListener('click', function(e){
 
 $.trainingTable.addEventListener('singletap', function(e){
 	e.cancelBubble = true;
+	// if we get a singletap from a star and the hidden view is visible
 	if (e.source.is_rating == 1)
 	{
 		var rating = parseInt(e.source.rating) + 1;
@@ -130,33 +131,33 @@ function getTrainingDrills(assignment_id)
 				  	}
 				  	var defaultView = Ti.UI.createView({
 						backgroundColor: '#fff',
-						height: Ti.UI.SIZE
+						height: Ti.UI.SIZE,
+						touchEnabled: false
 					});
-				  	var diagram = Ti.UI.createImageView({image: imageName, left: 5});
+				  	var diagram = Ti.UI.createImageView({image: imageName, left: 5, touchEnabled: false});
 				  	defaultView.add(diagram);
-				  	var drillName = Ti.UI.createLabel({text: json["drills"][i]["name"], top: 10, left: 105, font: { fontSize:12, fontWeight: 'bold' }});
+				  	var drillName = Ti.UI.createLabel({touchEnabled: false, text: json["drills"][i]["name"], top: 10, left: 105, font: { fontSize:12, fontWeight: 'bold' }});
 					defaultView.add(drillName);
-					var drillRating = new RatingView(json["drills"][i]["rating"], 5, json["drills"][i]["total_ratings"], 20, 105, true);
-					drillRating.touchEnabled = false;
+					var drillRating = new RatingView(json["drills"][i]["rating"], 5, json["drills"][i]["total_ratings"], 20, 105, true, false);
 					defaultView.add(drillRating);
 					
 					var leftOffset = 110;
 					if (json["drills"][i]["strengths"].length > 0)
 					{
-						var teamPerformanceImage = Ti.UI.createImageView({image: getTeamPerformanceImagePath(json["drills"][i]["strengths"][0]["performance_id"]), left: leftOffset, top: 50, touchEnabled: false, height: 20, width: 20});
+						var teamPerformanceImage = Ti.UI.createImageView({touchEnabled: false, image: getTeamPerformanceImagePath(json["drills"][i]["strengths"][0]["performance_id"]), left: leftOffset, top: 50, touchEnabled: false, height: 20, width: 20});
 				  		defaultView.add(teamPerformanceImage);
 				  		leftOffset += 25;
-						var athletePerformanceImage = Ti.UI.createImageView({image: getAthletePerformanceImagePath(json["drills"][i]["strengths"][0]["performance_id"]), left: leftOffset, top: 50, touchEnabled: false, height: 20, width: 20});
+						var athletePerformanceImage = Ti.UI.createImageView({touchEnabled: false, image: getAthletePerformanceImagePath(json["drills"][i]["strengths"][0]["performance_id"]), left: leftOffset, top: 50, touchEnabled: false, height: 20, width: 20});
 				  		defaultView.add(athletePerformanceImage);
 						leftOffset += 25;
 						if (json["drills"][i]["strengths"].length == 1)
 						{
-							var strength = Ti.UI.createLabel({text: json["drills"][i]["strengths"][0]["name"], top: 50, left: leftOffset, font: { fontSize:8, fontWeight: 'bold'}});
+							var strength = Ti.UI.createLabel({touchEnabled: false, text: json["drills"][i]["strengths"][0]["name"], top: 50, left: leftOffset, font: { fontSize:8, fontWeight: 'bold'}});
 							defaultView.add(strength);
 						}
 						else
 						{
-							var strengthAndMore = Ti.UI.createLabel({text: json["drills"][i]["strengths"][0]["name"] + ' and ' + json["drills"][i]["strengths"].length-1 + ' more', top: 50, left: leftOffset, font: { fontSize:8, fontWeight: 'bold'}});
+							var strengthAndMore = Ti.UI.createLabel({touchEnabled: false, text: json["drills"][i]["strengths"][0]["name"] + ' and ' + json["drills"][i]["strengths"].length-1 + ' more', top: 50, left: leftOffset, font: { fontSize:8, fontWeight: 'bold'}});
 							defaultView.add(strengthAndMore);
 						}
 					}
@@ -164,11 +165,10 @@ function getTrainingDrills(assignment_id)
 					var hiddenView = Ti.UI.createView({
 						height:Ti.UI.SIZE,
 						width:Ti.UI.SIZE,
-						backgroundColor:'transparent',
 						opacity: 1
 					});
 					
-					var newRating = new RatingView(0, 5, null, 20, 105, false);
+					var newRating = new RatingView(0, 5, null, 20, 105, false, true);
 					
 					hiddenView.add(newRating);
 					var howGoodLabel = Ti.UI.createLabel({
@@ -176,7 +176,6 @@ function getTrainingDrills(assignment_id)
 						color:'black',
 						top: 0,
 						left: 40,
-						visible: true,
 						font: { fontSize:12, fontWeight: 'bold'}
 					});
 					hiddenView.add(howGoodLabel);
@@ -229,7 +228,6 @@ function getAssessment(assignment_id, role)
 					    value: focusOnTop
 				    });
 				includeSlider.addEventListener('touchend', function(e) {
-					console.log('touchend e.value', e.source.value);
 					this.value = Math.round(e.source.value);
 					focusOnTop = Math.round(e.source.value);
 				    includeLabel.text = 'Include top ' + focusOnTop + ' priorities in Training';
@@ -287,6 +285,12 @@ function buildAssessedTable(assessedJSON, focusOnTop)
 		row.add(description);
 		var performanceImage = Ti.UI.createImageView({image: role=="Coach"?getTeamPerformanceImagePath(assessedJSON["assessments"][i]["level"]):getAthletePerformanceImagePath(assessedJSON["assessments"][i]["level"]), top: 10, left: 10, height:20, width:20, touchEnabled: false});
 	  	row.add(performanceImage);
+	  	
+	  	if (role != "Coach" && assessedJSON["assessments"][i]["summary"].length > 0)
+	  	{
+		  	var feedback = Ti.UI.createLabel({text: 'Feedback', top: 30, left: 10, color: 'red', font: { fontSize:6}});
+			row.add(feedback);
+		}
 	  	var assessment = Ti.UI.createLabel({text: assessedJSON["assessments"][i]["assessment"], top: 6, left: 50, font: { fontSize:10, fontWeight: 'bold'}});
 		row.add(assessment);
 		tableData.push(row);

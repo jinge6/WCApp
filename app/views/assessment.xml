@@ -1,9 +1,9 @@
 <Alloy>
 	<Window backgroundColor="white">
 		<ImageView id="performanceImage" top="20" left="10"/>
-		<Label id="assessmentType" top="20" left="200"/>
-		<Label id="strength" top="20" left="50" color="black" />
-		<Label id="description" top="50" left="50" color="black" />
-		<Label id="summary" top="70" left="50" color="black" />
+		<Label id="assessmentType" top="20" left="50"/>
+		<Label id="strength" top="50" left="50" color="black" />
+		<Label id="description" top="70" left="50" color="black" />
+		<Label id="summary" top="90" left="50" color="black" />
     </Window>
 </Alloy>

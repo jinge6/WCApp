@@ -53,13 +53,14 @@ else
  * will be used to render the view
  * 
  */
-function RatingView(initialRating, max, totalRatings, topOffset, leftOffset, mini) {
+function RatingView(initialRating, max, totalRatings, topOffset, leftOffset, mini, touchEnabled) {
 	//create and populate the rating object
 	var instance = view({
 		layout:'horizontal',
 		height:30,
 		top: topOffset,
-		left: leftOffset
+		left: leftOffset,
+		touchEnabled: touchEnabled
 	});
 	
 	var rating; 		// instance variable indicating 

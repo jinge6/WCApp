@@ -86,7 +86,7 @@ function getDrillsToBrowse(strength_id)
 				  	defaultView.add(diagram);
 				  	var drillName = Ti.UI.createLabel({text: json["drills"][i]["name"], top: 10, left: 105, font: { fontSize:12, fontWeight: 'bold' }});
 					defaultView.add(drillName);
-					var drillRating = new RatingView(json["drills"][i]["rating"], 5, json["drills"][i]["total_ratings"], 20, 105, true);
+					var drillRating = new RatingView(json["drills"][i]["rating"], 5, json["drills"][i]["total_ratings"], 20, 105, true, false);
 					drillRating.touchEnabled = false;
 					defaultView.add(drillRating);
 					
@@ -118,7 +118,7 @@ function getDrillsToBrowse(strength_id)
 						opacity: 1
 					});
 					
-					var newRating = new RatingView(0, 5, null, 20, 105, false);
+					var newRating = new RatingView(0, 5, null, 20, 105, false, true);
 					
 					hiddenView.add(newRating);
 					var howGoodLabel = Ti.UI.createLabel({
