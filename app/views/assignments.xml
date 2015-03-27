@@ -1,9 +1,9 @@
 <Alloy>
-	<Window id="navAssignment" title="Home" platform="android">
+	<Window id="navAssignment" title="Home" platform="android" backgroundColor="white">
   		<TableView id="trainingTable" onClick="goAssignment"></TableView>
   	</Window>
   	<NavigationWindow id="navAssignment" platform="ios">
-  		<Window title="Home">
+  		<Window title="Home" backgroundColor="white">
 			<TableView id="trainingTable" onClick="goAssignment"></TableView>
 		</Window>
 	</NavigationWindow>

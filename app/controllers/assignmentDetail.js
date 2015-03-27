@@ -120,14 +120,14 @@ function getTrainingDrills(assignment_id)
 				{
 					var imageName = "";
 					var row = Ti.UI.createTableViewRow({height: 80, hasChild: true, drill_id: json["drills"][i]["id"]});
-					if ((json["drills"][i]["thumb"]).indexOf("notfound") == -1)
+					if ((json["drills"][i]["thumb"]).indexOf("animated") == -1)
 					{
 						imageName = json["drills"][i]["thumb"];
 						
 				  	}
 				  	else
 				  	{
-				  		imageName = 'missing_thumbnail.png';
+				  		imageName = 'animated.png';
 				  	}
 				  	var defaultView = Ti.UI.createView({
 						backgroundColor: '#fff',
@@ -288,7 +288,7 @@ function buildAssessedTable(assessedJSON, focusOnTop)
 	  	
 	  	if (role != "Coach" && assessedJSON["assessments"][i]["summary"].length > 0)
 	  	{
-		  	var feedback = Ti.UI.createLabel({text: 'Feedback', top: 30, left: 10, color: 'red', font: { fontSize:6}});
+		  	var feedback = Ti.UI.createLabel({text: 'Feedback', top: 40, left: 10, color: 'red', font: { fontSize:6}});
 			row.add(feedback);
 		}
 	  	var assessment = Ti.UI.createLabel({text: assessedJSON["assessments"][i]["assessment"], top: 6, left: 50, font: { fontSize:10, fontWeight: 'bold'}});

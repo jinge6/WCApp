@@ -69,14 +69,14 @@ function getDrillsToBrowse(strength_id)
 				{
 					var imageName = "";
 					var row = Ti.UI.createTableViewRow({height: 80, hasChild: true, drill_id: json["drills"][i]["id"]});
-					if ((json["drills"][i]["thumb"]).indexOf("notfound") == -1)
+					if ((json["drills"][i]["thumb"]).indexOf("animated") == -1)
 					{
 						imageName = json["drills"][i]["thumb"];
 						
 				  	}
 				  	else
 				  	{
-				  		imageName = 'missing_thumbnail.png';
+				  		imageName = 'animated.png';
 				  	}
 				  	var defaultView = Ti.UI.createView({
 						backgroundColor: '#fff',

@@ -39,12 +39,12 @@ var mode = Ti.App.Properties.getString("Mode");
 if (mode == "Dev")
 {
 	// dev mode logic
-	webserver = "http://192.168.1.12:3000";
+	webserver = "http://202.20.16.153:3000";
 }
 else
 {
 	// prod mode logic
-	webserver = "http://winnerscircle.world";
+	webserver = "http://winnerscircle.herokuapp.com";
 };
 
 /*

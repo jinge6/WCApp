@@ -110,7 +110,13 @@ function getAssignments()
 					sectionName = json[i]["role"];
 				}
 				
-				var assignmentLogo = Ti.UI.createImageView({image: json[i]["logo_url"], left: 15});
+				var imageName = 'missing_logo.png';
+				if ((json[i]["logo_url"]).indexOf("missing_logo.png") == -1)
+				{
+					imageName = json[i]["logo_url"];
+				}
+				
+				var assignmentLogo = Ti.UI.createImageView({image: imageName, left: 15, width: 55});
 			  	row.add(assignmentLogo);
 				var assignmentName = Ti.UI.createLabel({text: json[i]["name"], top: 10, left: 80, font: { fontSize:12, fontWeight: 'bold' }});
 				row.add(assignmentName);
