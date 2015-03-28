@@ -1,7 +1,6 @@
 var email_property = Ti.App.Properties.getString('email');
 var auth_token_property = Ti.App.Properties.getString('auth_token');
 
-console.log('email_property: ' + email_property);
 if (email_property != null && auth_token_property != null)
 {
 	doSignIn();
@@ -26,7 +25,6 @@ function doSignIn(e){
 		{
 		 	// handle the response
 		 	json = JSON.parse(this.responseText);
-		 	console.log(this.responseText);
 		 	if (json["success"] == 1)
 		 	{
 		 		// if these don't exist then set them
@@ -38,7 +36,6 @@ function doSignIn(e){
 		 	}
 		 	else
 		 	{
-		 		console.log(json["success"]);
 		 		if (auth_token_property != null)
 		 		{
 		 			alert('Email or password was incorrect');

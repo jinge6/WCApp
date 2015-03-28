@@ -35,7 +35,6 @@ Ti.App.addEventListener('updatePosition', function(evtData){
 
 function animationHandler(layer)
 {
-	console.log('animationHandler running. EventsProcess: ' + eventsProcessed);
 	var expectEventsForThisLayer = layerEvents[layer];
 	if (expectEventsForThisLayer == eventsProcessed)
 	{
@@ -58,50 +57,23 @@ function kickoffAnimation(animateAll, moveToLayer, fromLayer)
         {
             if (animateObjects[i][0] == moveToLayer)
             {
-            	var previousXPos;
-            	var previousYPos;
             	var currentMoveable = animateObjects[i][1];
-            	var stillSearching = true;
-            	var j=0;
-            	var previousMovingLayer = fromLayer;
-            	
-            	while(stillSearching)
-            	{
-            		if ((animateObjects[j][0] == previousMovingLayer) && (animateObjects[j][1] == currentMoveable))
-            		{
-            			previousXPos = parseInt(animateObjects[j][2]) * xScalingFactor;
-            			previousYPos = parseInt(animateObjects[j][3]) * yScalingFactor;
-            			stillSearching = false;
-            		}
-            		if (j <  animateObjects.length-1)
-            		{
-            			j++;
-            		}
-            		else
-            		{
-            			previousMovingLayer--;
-            			j=0;
-            		}
-            	}
-            	
+
 				var newXPos = parseInt(animateObjects[i][2])  * xScalingFactor;
 			    var newYPos = parseInt(animateObjects[i][3]) * yScalingFactor;
-			    var xPos = newXPos - previousXPos;
-			    var yPos = newYPos - previousYPos;
 			    
 			    var thePlayer = moveables[animateObjects[i][1]];
 				var t1 = Ti.UI.create2DMatrix();
-				console.log('Move ' + animateObjects[i][1] + ' from ' + fromLayer + ' to layer '+ animateObjects[i][0] + ' to x: ' + xPos - thePlayer.left+ ' y: ' + yPos - thePlayer.top);
-				//if (parseInt(animateObjects[i][0]) != 1)
-				//{
-				//	 t1 = t1.translate(xPos, yPos);
-				//}
-				//else
-				//{
-				//	 t1 = t1.translate(newXPos-thePlayer.left, newYPos-thePlayer.top);
-				//}
 				
-				t1 = t1.translate(newXPos-thePlayer.left, newYPos-thePlayer.top);
+				if (Ti.Platform.osname == "android")
+				{
+					t1 = t1.translate((newXPos-thePlayer.left)*2, (newYPos-thePlayer.top)*2);
+				}
+				else
+				{
+					t1 = t1.translate(newXPos-thePlayer.left, newYPos-thePlayer.top);
+				}
+				
 				var a1 = Ti.UI.createAnimation();
 				a1.transform = t1;
 				a1.duration = 1500;
@@ -119,7 +91,6 @@ function kickoffAnimation(animateAll, moveToLayer, fromLayer)
 				{
 					layerEvents[moveToLayer] = (layerEvents[moveToLayer])+1;
 				}
-				console.log('added layerEvent[' + moveToLayer +']. expect ' + layerEvents[moveToLayer]);
 				thePlayer.animate(a1);
             }
         }
@@ -155,7 +126,6 @@ function getDrill(drill_id)
 		 	var tableData = [];
 
 			json = JSON.parse(this.responseText);
-			console.log(this.responseText);
 			
 			$.drillTable.separatorColor = 'transparent';
 			
@@ -200,7 +170,7 @@ function getDrill(drill_id)
 					var row3 = Ti.UI.createTableViewRow();
 					if (json["steps"][i]["layers"] != null && json["steps"][i]["layers"].length > 0)
 					{
-						var animatedDiagram = image({image: json["steps"][i]["background"]+'.png', width: 320, height: 273});
+						var animatedDiagram = image({image: json["steps"][i]["background"]+'.png', width: 320, height: 273, left: 0});
 						animatedDiagram.addEventListener('click', function(e){
 							Ti.App.fireEvent('runAnimation');
 						});

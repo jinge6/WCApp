@@ -116,7 +116,7 @@ function getAssignments()
 					imageName = json[i]["logo_url"];
 				}
 				
-				var assignmentLogo = image({image: imageName, left: 15, width: 55});
+				var assignmentLogo = image({image: imageName, left: 15, width: 55, touchEnabled: false});
 			  	row.add(assignmentLogo);
 				var assignmentName = Ti.UI.createLabel({text: json[i]["name"], top: 10, left: 80, font: { fontSize:12, fontWeight: 'bold' }});
 				row.add(assignmentName);

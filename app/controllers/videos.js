@@ -20,7 +20,6 @@ function getVideos(assignment_id, strength_id)
 		 	var tableData = [];
 
 			json = JSON.parse(this.responseText);
-			console.log(this.responseText);
 			
 			if (json.length != 0)
 			{

@@ -56,21 +56,24 @@ $.drillsTable.addEventListener('click', function(e){
 $.trainingTable.addEventListener('singletap', function(e){
 	e.cancelBubble = true;
 	// if we get a singletap from a star and the hidden view is visible
-	if (e.source.is_rating == 1)
+	if (e.source.is_rating == 1 && hiddenVisible)
 	{
 		var rating = parseInt(e.source.rating) + 1;
 		sendRating(e.rowData.drill_id, rating);
 		e.row.v2.setOpacity(1);
+		hiddenVisible = false;
 		alert('Thanks for rating this drill!');
 	}
 	else
 	{
+		hiddenVisible = false;
 		e.row.v2.setOpacity(1);
 		Ti.App.fireEvent('showDrill',{drill_id: e.rowData.drill_id});
 	}
 });
 
 var current_row;
+var hiddenVisible = false;
 
 $.trainingTable.addEventListener('swipe', function(e){
 	if (!!current_row) {
@@ -81,6 +84,7 @@ $.trainingTable.addEventListener('swipe', function(e){
 	};
 
 	current_row = e.row;
+	hiddenVisible = true;
 
 	current_row.v2.animate({
 		opacity: 0,
@@ -109,7 +113,6 @@ function getTrainingDrills(assignment_id)
 		 	var tableData = [];
 
 			json = JSON.parse(this.responseText);
-			console.log(this.responseText);
 			
 			if (json.length != 0)
 			{
@@ -144,10 +147,10 @@ function getTrainingDrills(assignment_id)
 					var leftOffset = 110;
 					if (json["drills"][i]["strengths"].length > 0)
 					{
-						var teamPerformanceImage = Ti.UI.createImageView({touchEnabled: false, image: getTeamPerformanceImagePath(json["drills"][i]["strengths"][0]["performance_id"]), left: leftOffset, top: 50, touchEnabled: false, height: 20, width: 20});
+						var teamPerformanceImage = image({touchEnabled: false, image: getTeamPerformanceImagePath(json["drills"][i]["strengths"][0]["performance_id"]), left: leftOffset, top: 50, touchEnabled: false, height: 20, width: 20});
 				  		defaultView.add(teamPerformanceImage);
 				  		leftOffset += 25;
-						var athletePerformanceImage = Ti.UI.createImageView({touchEnabled: false, image: getAthletePerformanceImagePath(json["drills"][i]["strengths"][0]["performance_id"]), left: leftOffset, top: 50, touchEnabled: false, height: 20, width: 20});
+						var athletePerformanceImage = image({touchEnabled: false, image: getAthletePerformanceImagePath(json["drills"][i]["strengths"][0]["performance_id"]), left: leftOffset, top: 50, touchEnabled: false, height: 20, width: 20});
 				  		defaultView.add(athletePerformanceImage);
 						leftOffset += 25;
 						if (json["drills"][i]["strengths"].length == 1)
