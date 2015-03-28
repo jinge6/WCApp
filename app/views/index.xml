@@ -1,9 +1,9 @@
 <Alloy>
 	<Window backgroundColor="black">
 		<ImageView image="winnerscircle.png" top="120"></ImageView>
-		<TextField id="email" hintText="Email" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" backgroundColor="white" keyboardToolbarColor="#999" keyboardToolbarHeight="40"
+		<TextField id="email" hintText="Email" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" color="black" backgroundColor="white" keyboardToolbarColor="#999" keyboardToolbarHeight="40"
             top="200" height="35" width="200"/>
-        <TextField id="password" hintText="Password" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" backgroundColor="white" passwordMask="true" keyboardToolbarColor="#999" keyboardToolbarHeight="40"
+        <TextField id="password" hintText="Password" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" color="black" backgroundColor="white" passwordMask="true" keyboardToolbarColor="#999" keyboardToolbarHeight="40"
             top="250" height="35" width="200"/>
 		<Button id="signinbtn" top="300" color="white" onClick="doSignIn">Sign In</Button>
 	</Window>

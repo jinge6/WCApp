@@ -127,14 +127,14 @@ function getTrainingDrills(assignment_id)
 				  	}
 				  	else
 				  	{
-				  		imageName = 'animated.png';
+				  		imageName = "animated.png";
 				  	}
 				  	var defaultView = Ti.UI.createView({
 						backgroundColor: '#fff',
 						height: Ti.UI.SIZE,
 						touchEnabled: false
 					});
-				  	var diagram = Ti.UI.createImageView({image: imageName, left: 5, touchEnabled: false});
+				  	var diagram = image({image: imageName, height: Ti.UI.SIZE, width: Ti.UI.SIZE, left: 5, touchEnabled: false});
 				  	defaultView.add(diagram);
 				  	var drillName = Ti.UI.createLabel({touchEnabled: false, text: json["drills"][i]["name"], top: 10, left: 105, font: { fontSize:12, fontWeight: 'bold' }});
 					defaultView.add(drillName);

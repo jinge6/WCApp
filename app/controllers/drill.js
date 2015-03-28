@@ -200,7 +200,7 @@ function getDrill(drill_id)
 					var row3 = Ti.UI.createTableViewRow();
 					if (json["steps"][i]["layers"] != null && json["steps"][i]["layers"].length > 0)
 					{
-						var animatedDiagram = Ti.UI.createImageView({image: json["steps"][i]["background"]+'.png', width: 320, height: 273});
+						var animatedDiagram = image({image: json["steps"][i]["background"]+'.png', width: 320, height: 273});
 						animatedDiagram.addEventListener('click', function(e){
 							Ti.App.fireEvent('runAnimation');
 						});
@@ -215,7 +215,7 @@ function getDrill(drill_id)
 					            {
 					            	xPos = (parseInt(animateObjects[i][2]) * xScalingFactor);
 					                yPos = (parseInt(animateObjects[i][3]) * yScalingFactor);
-					            	var moveable = Ti.UI.createImageView({image: animateObjects[i][1]+'.png', left: xPos, top: yPos});
+					            	var moveable = image({image: animateObjects[i][1]+'.png', left: xPos, top: yPos, height:30, width: 30});
 									row3.add(moveable);
 									moveables[animateObjects[i][1]] = moveable;
 					            }
@@ -228,7 +228,7 @@ function getDrill(drill_id)
 						
 						if (json["steps"][i]["link"].length > 0)
 						{
-							var playButton = Ti.UI.createImageView({image: "play.png",link: json["steps"][i]["link"], left: 120, top: 80});
+							var playButton = image({image: "play.png",link: json["steps"][i]["link"], left: 120, top: 80});
 							playButton.addEventListener('click', function(e){
 								Ti.Platform.openURL(e.source.link);
 							});
