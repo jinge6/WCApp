@@ -139,7 +139,7 @@ function getDrill(drill_id)
 				
 				//TODO add strengths here
 				
-				var row2 = Ti.UI.createTableViewRow({height: 40});
+				var row2 = Ti.UI.createTableViewRow();
 						
 				var drillDescription = Ti.UI.createLabel({text: json["description"], left: 10, font: { fontSize:10}});
 				row2.add(drillDescription);
@@ -161,9 +161,9 @@ function getDrill(drill_id)
 					row.add(stepName);
 					tableData.push(row);
 					
-					var row2 = Ti.UI.createTableViewRow({height: 40});
+					var row2 = Ti.UI.createTableViewRow();
 					
-					var stepDescription = Ti.UI.createTextArea({value: json["steps"][i]["description"], enabled: false, left: 5, font: { fontSize:10}});
+					var stepDescription = Ti.UI.createTextArea({value: json["steps"][i]["description"], touchEnabled: false, enabled: false, left: 5, font: { fontSize:10}});
 					row2.add(stepDescription);
 					tableData.push(row2);
 					
