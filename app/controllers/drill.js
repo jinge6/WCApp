@@ -131,21 +131,21 @@ function getDrill(drill_id)
 			
 			if (json.length != 0)
 			{
-				var row = Ti.UI.createTableViewRow({height: 20});
+				var row = Ti.UI.createTableViewRow({touchEnabled: false, height: 20});
 					
-				var drillName = Ti.UI.createLabel({text: json["name"], left: 10, font: { fontSize:12, fontWeight: 'bold'}});
+				var drillName = Ti.UI.createLabel({text: json["name"], left: 10, touchEnabled: false, font: { fontSize:12, fontWeight: 'bold'}});
 				row.add(drillName);
 				tableData.push(row);
 				
 				//TODO add strengths here
 				
-				var row2 = Ti.UI.createTableViewRow();
+				var row2 = Ti.UI.createTableViewRow({touchEnabled: false});
 						
-				var drillDescription = Ti.UI.createLabel({text: json["description"], left: 10, font: { fontSize:10}});
+				var drillDescription = Ti.UI.createLabel({text: json["description"], left: 10, touchEnabled: false,font: { fontSize:10}});
 				row2.add(drillDescription);
 				tableData.push(row2);
 				
-				var row3 = Ti.UI.createTableViewRow({height: 25, left: 10});
+				var row3 = Ti.UI.createTableViewRow({touchEnabled: false, height: 25, left: 10});
 				
 				var drillRating = new RatingView(json["rating"], 5, json["total_ratings"], 0, 0, false, false);
 				drillRating.touchEnabled = false;
@@ -155,19 +155,19 @@ function getDrill(drill_id)
 				// add drill steps
 				for (var i=0; i<json["steps"].length; i++)
 				{
-					var row = Ti.UI.createTableViewRow({height: 20});
+					var row = Ti.UI.createTableViewRow({touchEnabled: false, height: 20});
 					
-					var stepName = Ti.UI.createLabel({text: json["steps"][i]["title"], left: 10, font: { fontSize:12, fontWeight: 'bold'}});
+					var stepName = Ti.UI.createLabel({text: json["steps"][i]["title"], left: 10, touchEnabled: false, font: { fontSize:12, fontWeight: 'bold'}});
 					row.add(stepName);
 					tableData.push(row);
 					
-					var row2 = Ti.UI.createTableViewRow();
+					var row2 = Ti.UI.createTableViewRow({touchEnabled: false});
 					
 					var stepDescription = Ti.UI.createTextArea({value: json["steps"][i]["description"], touchEnabled: false, enabled: false, left: 5, font: { fontSize:10}});
 					row2.add(stepDescription);
 					tableData.push(row2);
 					
-					var row3 = Ti.UI.createTableViewRow();
+					var row3 = Ti.UI.createTableViewRow({touchEnabled: false});
 					if (json["steps"][i]["layers"] != null && json["steps"][i]["layers"].length > 0)
 					{
 						var animatedDiagram = image({image: json["steps"][i]["background"]+'.png', width: 320, height: 273, left: 0});
@@ -217,28 +217,28 @@ function getDrill(drill_id)
 					tableData.push(row3);
 				}
 				
-				var reviewHeaderRow = Ti.UI.createTableViewRow({height: 20});
+				var reviewHeaderRow = Ti.UI.createTableViewRow({touchEnabled: false, height: 20});
 					
-				var reviewTitle = Ti.UI.createLabel({text: 'Reviews', left: 10, font: { fontSize:12, fontWeight: 'bold'}});
+				var reviewTitle = Ti.UI.createLabel({text: 'Reviews', left: 10, touchEnabled: false, font: { fontSize:12, fontWeight: 'bold'}});
 				reviewHeaderRow.add(reviewTitle);
 				tableData.push(reviewHeaderRow);
 				
 				// add drill steps
 				for (var i=0; i<json["reviews"].length; i++)
 				{
-					var row = Ti.UI.createTableViewRow({height: 20});
+					var row = Ti.UI.createTableViewRow({touchEnabled: false, height: 20});
 					
-					var reviewTitle = Ti.UI.createLabel({text: json["reviews"][i]["title"], left: 10, font: { fontSize:12}});
+					var reviewTitle = Ti.UI.createLabel({text: json["reviews"][i]["title"], left: 10, touchEnabled: false, font: { fontSize:12}});
 					row.add(reviewTitle);
 					tableData.push(row);
 					
-					var row2 = Ti.UI.createTableViewRow({height: 25});
+					var row2 = Ti.UI.createTableViewRow({touchEnabled: false, height: 25});
 					var drillRating = new RatingView(json["reviews"][i]["rating"], 5, null, false, false);
 					drillRating.touchEnabled = false;
 					row2.add(drillRating);
 					tableData.push(row2);
 					
-					var row3 = Ti.UI.createTableViewRow({height: 40});
+					var row3 = Ti.UI.createTableViewRow({touchEnabled: false, height: 40});
 					
 					var reviewDescription = Ti.UI.createTextArea({value: json["reviews"][i]["description"], enabled: false, left: 5, font: { fontSize:10}});
 					row3.add(reviewDescription);

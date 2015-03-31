@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ti:app xmlns:ti="http://ti.appcelerator.org">
-    <id>wcalloy.winnerscircle.world</id>
-    <name>WCAlloy</name>
+    <id>winnerscircle.world</id>
+    <name>WC</name>
     <version>1.0</version>
     <publisher>James Inge</publisher>
     <url>http://winnerscircle.world</url>
-    <description>undefined</description>
+    <description>Partner application to the www.WinnersCircle.world</description>
     <copyright>2015 by James Inge</copyright>
     <icon>appicon.png</icon>
     <fullscreen>false</fullscreen>
