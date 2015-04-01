@@ -6,8 +6,6 @@ var role = args[1];
 var activity_id = args[2];
 
 $.assignmentTab.setActiveTab(1);
-$.activityIndicator.show();
-
 $.assessmentTab.addEventListener('focus', function(e){
     getAssessment(assignment_id, role);
 });
@@ -106,7 +104,7 @@ function sendRating(drill_id, rating)
 function getTrainingDrills(assignment_id)
 {
 	var tableData = [];
-	$.activityIndicator.show();
+	$.tactivityIndicator.show();
 
 	var xhr = Ti.Network.createHTTPClient(
 	{
@@ -193,7 +191,7 @@ function getTrainingDrills(assignment_id)
 				}
 			}	
 			$.trainingTable.setData(tableData);
-			$.activityIndicator.hide();
+			$.tactivityIndicator.hide();
 			$.trainingTable.visible = true;
 		}
 	});
@@ -208,7 +206,7 @@ var assessedJSON;
 function getAssessment(assignment_id, role)
 {
 	var tableData = [];
-	$.activityIndicator.show();
+	$.assActivityIndicator.show();
 
 	var xhr = Ti.Network.createHTTPClient(
 	{
@@ -253,7 +251,7 @@ function getAssessment(assignment_id, role)
 			}
 			// add table view to the window
 			$.assessmentWin.add(assessmentTable);
-			$.activityIndicator.hide();
+			$.assActivityIndicator.hide();
 		}
 	});
 		
@@ -322,7 +320,7 @@ function getDrillBrowseCategories(assignment_id)
 {
 	var tableData = [];
 	
-	$.activityIndicator.show();
+	$.dactivityIndicator.show();
 
 	var xhr = Ti.Network.createHTTPClient(
 	{
@@ -345,7 +343,7 @@ function getDrillBrowseCategories(assignment_id)
 				}
 			}	
 			$.drillsTable.setData(tableData);
-			$.activityIndicator.hide();
+			$.dactivityIndicator.hide();
 			$.drillsTable.visible = true;
 		}
 	});
@@ -358,7 +356,7 @@ function getDrillBrowseCategories(assignment_id)
 function getVideoCategories(assignment_id)
 {
 	var tableData = [];
-	$.activityIndicator.show();
+	$.vactivityIndicator.show();
 
 	var xhr = Ti.Network.createHTTPClient(
 	{
@@ -388,7 +386,7 @@ function getVideoCategories(assignment_id)
 				}
 			}	
 			$.videoCategoriesTable.setData(tableData);
-			$.activityIndicator.hide();
+			$.vactivityIndicator.hide();
 			$.videoCategoriesTable.visible = true;
 		}
 	});
