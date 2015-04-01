@@ -1,6 +1,0 @@
-<Alloy>
-	<Window>
-		 <TableView id="trainingTable">
-		</TableView>
-    </Window>
-</Alloy>

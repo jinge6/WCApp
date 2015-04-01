@@ -118,6 +118,7 @@ getDrill(drill_id);
 function getDrill(drill_id)
 {
 	var tableData = [];
+	$.activityIndicator.show();
 
 	var xhr = Ti.Network.createHTTPClient(
 	{
@@ -246,6 +247,8 @@ function getDrill(drill_id)
 				}
 			}	
 			$.drillTable.setData(tableData);
+			$.activityIndicator.hide();
+			$.drillTable.visible = true;
 		}
 	});
 		

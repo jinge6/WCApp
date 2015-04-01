@@ -1,5 +1,6 @@
 var args = arguments[0] || { };
 
+$.activityIndicator.show();
 getAssignments();
 
 function goAssignment(e){
@@ -131,6 +132,8 @@ function getAssignments()
 			  	tableData.push(sectionHeader);
 			}	
 			$.trainingTable.setData(tableData);
+			$.activityIndicator.hide();
+			$.trainingTable.show();
 		}
 	});
 		

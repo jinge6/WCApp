@@ -21,6 +21,8 @@ function initialise(json)
 
 function getPriorities()
 {
+	$.activityIndicator.show();
+	
 	var xhr = Ti.Network.createHTTPClient(
 	{
 		onload: function() 
@@ -28,6 +30,7 @@ function getPriorities()
 			json = JSON.parse(this.responseText);
 			initialise(json);
 			buildUI();
+			$.activityIndicator.hide();
 		}
 	});
 	

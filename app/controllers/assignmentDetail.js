@@ -6,6 +6,7 @@ var role = args[1];
 var activity_id = args[2];
 
 $.assignmentTab.setActiveTab(1);
+$.activityIndicator.show();
 
 $.assessmentTab.addEventListener('focus', function(e){
     getAssessment(assignment_id, role);
@@ -105,6 +106,7 @@ function sendRating(drill_id, rating)
 function getTrainingDrills(assignment_id)
 {
 	var tableData = [];
+	$.activityIndicator.show();
 
 	var xhr = Ti.Network.createHTTPClient(
 	{
@@ -191,6 +193,8 @@ function getTrainingDrills(assignment_id)
 				}
 			}	
 			$.trainingTable.setData(tableData);
+			$.activityIndicator.hide();
+			$.trainingTable.visible = true;
 		}
 	});
 		
@@ -204,6 +208,7 @@ var assessedJSON;
 function getAssessment(assignment_id, role)
 {
 	var tableData = [];
+	$.activityIndicator.show();
 
 	var xhr = Ti.Network.createHTTPClient(
 	{
@@ -248,7 +253,7 @@ function getAssessment(assignment_id, role)
 			}
 			// add table view to the window
 			$.assessmentWin.add(assessmentTable);
-
+			$.activityIndicator.hide();
 		}
 	});
 		
@@ -316,6 +321,8 @@ function postFocusOnTop(id, changedFocusOnTop)
 function getDrillBrowseCategories(assignment_id)
 {
 	var tableData = [];
+	
+	$.activityIndicator.show();
 
 	var xhr = Ti.Network.createHTTPClient(
 	{
@@ -338,6 +345,8 @@ function getDrillBrowseCategories(assignment_id)
 				}
 			}	
 			$.drillsTable.setData(tableData);
+			$.activityIndicator.hide();
+			$.drillsTable.visible = true;
 		}
 	});
 		
@@ -349,6 +358,7 @@ function getDrillBrowseCategories(assignment_id)
 function getVideoCategories(assignment_id)
 {
 	var tableData = [];
+	$.activityIndicator.show();
 
 	var xhr = Ti.Network.createHTTPClient(
 	{
@@ -378,6 +388,8 @@ function getVideoCategories(assignment_id)
 				}
 			}	
 			$.videoCategoriesTable.setData(tableData);
+			$.activityIndicator.hide();
+			$.videoCategoriesTable.visible = true;
 		}
 	});
 		

@@ -1,10 +1,12 @@
 <Alloy>
 	<Window id="navAssignment" title="Home" platform="android" backgroundColor="white">
-  		<TableView id="trainingTable" onClick="goAssignment"></TableView>
+  		<TableView id="trainingTable" onClick="goAssignment" visible="false"></TableView>
+  		<ActivityIndicator id="activityIndicator" style="Ti.UI.ActivityIndicatorStyle.DARK" message='Loading...' top="100" left="160"></ActivityIndicator>
   	</Window>
   	<NavigationWindow id="navAssignment" platform="ios">
-  		<Window title="Home" backgroundColor="white">
-			<TableView id="trainingTable" onClick="goAssignment"></TableView>
+  		<Window title="Home" backgroundColor="grey">
+			<TableView id="trainingTable" onClick="goAssignment" visible="false"></TableView>
+			<ActivityIndicator id="activityIndicator" style="Ti.UI.iPhone.ActivityIndicatorStyle.DARK" message='Loading...' top="100" left="160"></ActivityIndicator>
 		</Window>
 	</NavigationWindow>
 </Alloy>

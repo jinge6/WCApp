@@ -3,6 +3,7 @@ var auth_token_property = Ti.App.Properties.getString('auth_token');
 
 if (email_property != null && auth_token_property != null)
 {
+	
 	doSignIn();
 }
 else

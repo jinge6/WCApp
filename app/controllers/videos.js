@@ -12,6 +12,8 @@ function showVideo(e){
 function getVideos(assignment_id, strength_id)
 {
 	var tableData = [];
+	
+	$.activityIndicator.show();
 
 	var xhr = Ti.Network.createHTTPClient(
 	{
@@ -35,6 +37,8 @@ function getVideos(assignment_id, strength_id)
 				}
 			}	
 			$.videosTable.setData(tableData);
+			$.activityIndicator.hide();
+			$.videosTable.visible = true;
 		}
 	});
 		

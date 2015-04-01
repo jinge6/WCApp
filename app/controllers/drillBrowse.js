@@ -58,6 +58,7 @@ function sendRating(drill_id, rating)
 function getDrillsToBrowse(strength_id)
 {
 	var tableData = [];
+	$.activityIndicator.show();
 
 	var xhr = Ti.Network.createHTTPClient(
 	{
@@ -141,6 +142,8 @@ function getDrillsToBrowse(strength_id)
 				}
 			}	
 			$.drillBrowseTable.setData(tableData);
+			$.activityIndicator.hide();
+			$.drillBrowseTable.visible = true;
 		}
 	});
 		

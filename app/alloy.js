@@ -44,7 +44,7 @@ if (mode == "Dev")
 else
 {
 	// prod mode logic
-	webserver = "http://winnerscircle.herokuapp.com";
+	webserver = "https://winnerscircle.herokuapp.com";
 };
 
 /*
