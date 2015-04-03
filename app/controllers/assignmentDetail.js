@@ -292,7 +292,7 @@ function buildAssessedTable(assessedJSON, focusOnTop)
 		var performanceImage = Ti.UI.createImageView({image: role=="Coach"?getTeamPerformanceImagePath(assessedJSON["assessments"][i]["level"]):getAthletePerformanceImagePath(assessedJSON["assessments"][i]["level"]), top: 10, left: 10, height:20, width:20, touchEnabled: false});
 	  	row.add(performanceImage);
 	  	
-	  	if (role != "Coach" && assessedJSON["assessments"][i]["summary"] != null)
+	  	if (role != "Coach" && assessedJSON["assessments"][i]["summary"] != null && assessedJSON["assessments"][i]["summary"].length > 0)
 	  	{
 		  	var feedback = Ti.UI.createLabel({text: 'Feedback', top: 40, left: 10, color: 'red', font: { fontSize:6}});
 			row.add(feedback);

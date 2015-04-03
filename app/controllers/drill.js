@@ -67,10 +67,12 @@ function kickoffAnimation(animateAll, moveToLayer, fromLayer)
 				
 				if (Ti.Platform.osname == "android")
 				{
-					t1 = t1.translate((newXPos-thePlayer.left)*2, (newYPos-thePlayer.top)*2);
+					// android uses pixels
+					t1 = t1.translate((newXPos-thePlayer.left)*(Titanium.Platform.displayCaps.dpi / 160), (newYPos-thePlayer.top)*(Titanium.Platform.displayCaps.dpi / 160));
 				}
 				else
 				{
+					//ios uses dp
 					t1 = t1.translate(newXPos-thePlayer.left, newYPos-thePlayer.top);
 				}
 				
@@ -171,7 +173,7 @@ function getDrill(drill_id)
 					var row3 = Ti.UI.createTableViewRow({touchEnabled: false});
 					if (json["steps"][i]["layers"] != null && json["steps"][i]["layers"].length > 0)
 					{
-						var animatedDiagram = image({image: json["steps"][i]["background"]+'.png', width: 320, height: 273, left: 0});
+						var animatedDiagram = image({image: json["steps"][i]["background"]+'.png', width: 320, height: 273});
 						animatedDiagram.addEventListener('click', function(e){
 							Ti.App.fireEvent('runAnimation');
 						});
