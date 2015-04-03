@@ -173,7 +173,7 @@ function getDrill(drill_id)
 					var row3 = Ti.UI.createTableViewRow({touchEnabled: false});
 					if (json["steps"][i]["layers"] != null && json["steps"][i]["layers"].length > 0)
 					{
-						var animatedDiagram = image({image: json["steps"][i]["background"]+'.png', width: 320, height: 273});
+						var animatedDiagram = image({image: json["steps"][i]["background"]+'.png', width: 320, height: 273, left: 0});
 						animatedDiagram.addEventListener('click', function(e){
 							Ti.App.fireEvent('runAnimation');
 						});
