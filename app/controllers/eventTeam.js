@@ -29,16 +29,27 @@ function getEventTeam()
 				{
 					if (sectionName != json[i]["role"])
 					{
+						if (i != 0)
+						{
+							tableData.push(sectionHeader);
+						}
 						sectionHeader = Ti.UI.createTableViewSection({headerTitle: json[i]["role"], height: 30, touchEnabled: false});
 						sectionName = json[i]["role"];
 					}
 					
 					var row = Ti.UI.createTableViewRow({height: 60, touchEnabled: false});
-					var name = Ti.UI.createLabel({text: json[i]["name"], touchEnabled: false, top: 15, left: 10, font: { fontSize:14, fontWeight: 'bold' }});
+					var avatarPath = "missing_avatar.png";
+					if (json[i]["avatar"] != "missing_avatar.png")
+					{
+						avatarPath = json[i]["avatar"];
+					}
+					var avatar = image({image: avatarPath, width: Ti.UI.SIZE, height: Ti.UI.SIZE, left: 0});
+					row.add(avatar);
+					var name = Ti.UI.createLabel({text: json[i]["name"], touchEnabled: false, top: 15, left: 100, font: { fontSize:14, fontWeight: 'bold' }});
 					row.add(name);
 					sectionHeader.add(row);
-			  		tableData.push(sectionHeader);
 				}
+				tableData.push(sectionHeader);
 			}	
 			$.eventTeamTable.setData(tableData);
 			$.activityIndicator.hide();
