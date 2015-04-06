@@ -1,0 +1,13 @@
+<Alloy>
+	<Window backgroundColor="white">
+		<ActivityIndicator platform="android" id="activityIndicator" style="Ti.UI.ActivityIndicatorStyle.DARK" message='Loading...' top="160" left="100"></ActivityIndicator>
+		<ActivityIndicator platform="ios" id="activityIndicator" style="Ti.UI.iPhone.ActivityIndicatorStyle.DARK" message='Loading...' top="160" left="100"></ActivityIndicator>
+		<TableView id="eventDetailTable">
+			<TableViewRow id="plan" height="60" hasChild="true"><Label left="10">Our Plan</Label></TableViewRow>
+			<TableViewRow id="team" height="60" hasChild="true"><Label left="10">Our Team</Label></TableViewRow>
+			<TableViewRow id="stats" height="60" hasChild="true"><Label left="10">Our Stats</Label></TableViewRow>
+			<TableViewRow id="debrief" height="60" hasChild="true"><Label left="10">Debrief</Label></TableViewRow>
+			<TableViewRow id="scouting" height="60" hasChild="true"><Label id="scoutingLabel" left="10"></Label></TableViewRow>
+		</TableView>
+	</Window>
+</Alloy>

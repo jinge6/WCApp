@@ -1,0 +1,16 @@
+
+"Label" : {
+  font: {
+        fontSize: '14',
+        fontStyle: 'normal',
+        fontWeight: 'bold'
+    }	
+}
+
+"TextArea" : {
+  font: {
+        fontSize: '10',
+        fontStyle: 'normal',
+        fontWeight: 'normal'
+    }	
+}

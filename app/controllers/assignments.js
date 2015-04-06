@@ -21,6 +21,36 @@ Ti.App.addEventListener('goAssessment', function(e) {
 	$.navAssignment.openWindow(assessmentView);
 });
 
+//add behavior for goEventDetail
+Ti.App.addEventListener('showEventDetail', function(e) {
+	var eventDetailView = Alloy.createController('eventDetail', [e.event_id, e.gameplan, e.debrief, e.opponent, e.assignment_id]).getView();
+	$.navAssignment.openWindow(eventDetailView);
+});
+
+//add behavior for showEventBreakdown
+Ti.App.addEventListener('showEventBreakdown', function(e) {
+	var eventDetailBreakdownView = Alloy.createController('eventBreakdown', [e.title, e.summary]).getView();
+	$.navAssignment.openWindow(eventDetailBreakdownView);
+});
+
+//add behavior for showEventTeam
+Ti.App.addEventListener('showEventTeam', function(e) {
+	var eventTeamView = Alloy.createController('eventTeam', [e.event_id, e.opponent, e.assignment_id]).getView();
+	$.navAssignment.openWindow(eventTeamView);
+});
+
+//add behavior for showEventStats
+Ti.App.addEventListener('showEventStats', function(e) {
+	var eventStatsView = Alloy.createController('eventStats', [e.event_id, e.opponent]).getView();
+	$.navAssignment.openWindow(eventStatsView);
+});
+
+//add behavior for showEventStats
+Ti.App.addEventListener('showOppositionScouting', function(e) {
+	var opponentView = Alloy.createController('opponent', [e.event_id, e.opponent]).getView();
+	$.navAssignment.openWindow(opponentView);
+});
+
 //add behavior for goFocus
 Ti.App.addEventListener('goFocus', function(e) {
 		var focusView = Alloy.createController('focus', [e.assignment_id, e.strength]).getView();

@@ -1,0 +1,8 @@
+
+"Label" : {
+  font: {
+        fontSize: '14',
+        fontStyle: 'normal',
+        fontWeight: 'bold'
+    }	
+}

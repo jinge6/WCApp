@@ -22,6 +22,10 @@ $.drillsTab.addEventListener('focus', function(e){
     getDrillBrowseCategories(assignment_id, activity_id);
 });
 
+$.gameDayTab.addEventListener('focus', function(e){
+    getGameDay(assignment_id);
+});
+
 function goTraining(e){
 	Ti.App.fireEvent('goTraining',e);
 };
@@ -50,6 +54,10 @@ $.videoCategoriesTable.addEventListener('click', function(e){
 
 $.drillsTable.addEventListener('click', function(e){
 	Ti.App.fireEvent('showDrillBrowse',{strength_id: e.rowData.strength_id, role: role, assignment_id: assignment_id, activity_id: activity_id});
+});
+
+$.gameDayTable.addEventListener('click', function(e){
+	Ti.App.fireEvent('showEventDetail',{event_id: e.rowData.event_id, gameplan: e.rowData.gameplan, debrief: e.rowData.debrief, opponent: e.rowData.opponent, assignment_id: e.rowData.assignment_id});
 });
 
 $.trainingTable.addEventListener('singletap', function(e){
@@ -139,9 +147,9 @@ function getTrainingDrills(assignment_id)
 					});
 				  	var diagram = image({image: imageName, height: Ti.UI.SIZE, width: Ti.UI.SIZE, left: 5, touchEnabled: false});
 				  	defaultView.add(diagram);
-				  	var drillName = Ti.UI.createLabel({touchEnabled: false, text: json["drills"][i]["name"], top: 10, left: 105, width: Ti.UI.SIZE, font: { fontSize:12, fontWeight: 'bold' }});
+				  	var drillName = Ti.UI.createLabel({touchEnabled: false, text: json["drills"][i]["name"], top: 2, left: 105, width: Ti.UI.SIZE, font: { fontSize:12, fontWeight: 'bold' }});
 					defaultView.add(drillName);
-					var drillRating = new RatingView(json["drills"][i]["rating"], 5, json["drills"][i]["total_ratings"], 20, 105, true, false);
+					var drillRating = new RatingView(json["drills"][i]["rating"], 5, json["drills"][i]["total_ratings"], 25, 105, true, false);
 					defaultView.add(drillRating);
 					
 					var leftOffset = 110;
@@ -392,6 +400,43 @@ function getVideoCategories(assignment_id)
 	});
 		
 	xhr.open('GET', webserver+'/activities/' + assignment_id + '/strengths.json');
+	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
+	xhr.send();	
+}
+
+function getGameDay(assignment_id)
+{
+	var tableData = [];
+	
+	$.gactivityIndicator.show();
+
+	var xhr = Ti.Network.createHTTPClient(
+	{
+		onload: function() 
+		{
+		 	var tableData = [];
+
+			json = JSON.parse(this.responseText);
+			
+			if (json.length != 0)
+			{					
+				for (var i=0; i<json.length; i++)
+				{
+					var eventRow = Ti.UI.createTableViewRow({height: 60, hasChild: true, assignment_id: json[i]["assignment_id"], event_id: json[i]["id"], gameplan: json[i]["gameplan"], debrief: json[i]["debrief"], opponent: json[i]["opponent"]});
+					var name = Ti.UI.createLabel({text: json[i]["opponent"], touchEnabled: false, top: 15, left: 10, font: { fontSize:14, fontWeight: 'bold' }});
+					eventRow.add(name);
+					var eventDate = Ti.UI.createLabel({text: json[i]["match_day"], touchEnabled: false, top: 35, left: 10, font: { fontSize:10 }});
+					eventRow.add(eventDate);
+					tableData.push(eventRow);
+				}
+			}	
+			$.gameDayTable.setData(tableData);
+			$.gactivityIndicator.hide();
+			$.gameDayTable.visible = true;
+		}
+	});
+		
+	xhr.open('GET', webserver+'/assignments/' + assignment_id + '/assignment_events.json');
 	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
 	xhr.send();	
 }

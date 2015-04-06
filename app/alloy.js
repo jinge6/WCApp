@@ -34,12 +34,12 @@ function button(args,onclick) {
 
 var webserver;
 
-Ti.App.Properties.setString("Mode","Test");
+Ti.App.Properties.setString("Mode","Dev");
 var mode = Ti.App.Properties.getString("Mode");
 if (mode == "Dev")
 {
 	// dev mode logic
-	webserver = "http://202.20.16.153:3000";
+	webserver = "http://192.168.1.9:3000";
 }
 else
 {
