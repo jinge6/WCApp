@@ -41,7 +41,7 @@ Ti.App.addEventListener('showEventTeam', function(e) {
 
 //add behavior for showEventStats
 Ti.App.addEventListener('showEventStats', function(e) {
-	var eventStatsView = Alloy.createController('eventStats', [e.event_id, e.opponent]).getView();
+	var eventStatsView = Alloy.createController('eventStats', [e.event_id, e.assignment_id]).getView();
 	$.navAssignment.openWindow(eventStatsView);
 });
 

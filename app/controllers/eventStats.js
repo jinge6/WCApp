@@ -36,9 +36,9 @@ function getEventStats()
 						sectionName = json[i]["kpi"];
 					}
 					var row = Ti.UI.createTableViewRow({height: 40, touchEnabled: false});
-					var name = Ti.UI.createLabel({text: json[i]["athlete"], touchEnabled: false, top: 20, left: 20, font: { fontSize:10, fontWeight: 'bold' }});
+					var name = Ti.UI.createLabel({text: json[i]["athlete"], touchEnabled: false, top: 15, left: 20, font: { fontSize:10, fontWeight: 'bold' }});
 					row.add(name);
-					var kpi_value = Ti.UI.createLabel({text: json[i]["kpi_value"], touchEnabled: false, top: 20, left: 150, font: { fontSize:10, fontWeight: 'bold' }});
+					var kpi_value = Ti.UI.createLabel({text: json[i]["kpi_value"], touchEnabled: false, top: 15, left: 150, font: { fontSize:10, fontWeight: 'bold' }});
 					row.add(kpi_value);
 					sectionHeader.add(row);
 				}

@@ -149,7 +149,7 @@ function getTrainingDrills(assignment_id)
 				  	defaultView.add(diagram);
 				  	var drillName = Ti.UI.createLabel({touchEnabled: false, text: json["drills"][i]["name"], top: 2, left: 105, width: Ti.UI.SIZE, font: { fontSize:12, fontWeight: 'bold' }});
 					defaultView.add(drillName);
-					var drillRating = new RatingView(json["drills"][i]["rating"], 5, json["drills"][i]["total_ratings"], 25, 105, true, false);
+					var drillRating = new RatingView(json["drills"][i]["rating"], 5, json["drills"][i]["total_ratings"], 25, 145, true, false);
 					defaultView.add(drillRating);
 					
 					var leftOffset = 110;
@@ -423,9 +423,12 @@ function getGameDay(assignment_id)
 				for (var i=0; i<json.length; i++)
 				{
 					var eventRow = Ti.UI.createTableViewRow({height: 60, hasChild: true, assignment_id: json[i]["assignment_id"], event_id: json[i]["id"], gameplan: json[i]["gameplan"], debrief: json[i]["debrief"], opponent: json[i]["opponent"], opponent_id: json[i]["opponent_id"]});
-					var name = Ti.UI.createLabel({text: json[i]["opponent"], touchEnabled: false, top: 15, left: 10, font: { fontSize:14, fontWeight: 'bold' }});
+					
+					var logo = image({image: json[i]["logo"], height: Ti.UI.SIZE, width: Ti.UI.SIZE, left: 5, touchEnabled: false});
+				  	eventRow.add(logo);
+					var name = Ti.UI.createLabel({text: json[i]["opponent"], touchEnabled: false, top: 15, left: 100, font: { fontSize:14, fontWeight: 'bold' }});
 					eventRow.add(name);
-					var eventDate = Ti.UI.createLabel({text: json[i]["match_day"], touchEnabled: false, top: 35, left: 10, font: { fontSize:10 }});
+					var eventDate = Ti.UI.createLabel({text: json[i]["match_day"], touchEnabled: false, top: 35, left: 100, font: { fontSize:10 }});
 					eventRow.add(eventDate);
 					tableData.push(eventRow);
 				}

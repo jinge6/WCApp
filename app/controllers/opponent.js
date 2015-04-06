@@ -24,26 +24,45 @@ function getOppositionDetails()
 				var strengthsHeader = Ti.UI.createTableViewSection({headerTitle: "Strengths", height: 30, touchEnabled: false});		
 				var row = Ti.UI.createTableViewRow({height: 60, touchEnabled: false});
 				var strengths = json["strengths"] == null?"No strengths added yet":json["strengths"];
-				var strengthDescription = Ti.UI.createTextArea({value: strengths, touchEnabled: false, enabled: false, left: 5, font: { fontSize:10}});
+				var strengthDescription = Ti.UI.createTextArea({value: strengths, touchEnabled: false, enabled: false, left: 10, font: { fontSize:10}});
 				row.add(strengthDescription);
 				strengthsHeader.add(row);
 				tableData.push(strengthsHeader);
-				/*	
-				for (var i=0; i<json.length; i++)
+				
+				var weaknessHeader = Ti.UI.createTableViewSection({headerTitle: "Weaknesses", height: 30, touchEnabled: false});		
+				var weaknessRow = Ti.UI.createTableViewRow({height: 60, touchEnabled: false});
+				var weakness = json["weakness"] == null?"No weaknesses added yet":json["weakness"];
+				var weaknessDescription = Ti.UI.createTextArea({value: strengths, touchEnabled: false, enabled: false, left: 10, font: { fontSize:10}});
+				weaknessRow.add(weaknessDescription);
+				weaknessHeader.add(weaknessRow);
+				tableData.push(weaknessHeader);
+				var drillsHeader = Ti.UI.createTableViewSection({headerTitle: "Scouting", height: 30, touchEnabled: false});
+				tableData.push(drillsHeader);
+				for (var i=0; i<json["drills"].length; i++)
 				{
-					if (sectionName != json[i]["role"])
+					var imageName = "";
+					var row = Ti.UI.createTableViewRow({height: 80, hasChild: true, drill_id: json["drills"][i]["id"]});
+					if ((json["drills"][i]["thumb"]).indexOf("animated") == -1)
 					{
-						sectionHeader = Ti.UI.createTableViewSection({headerTitle: json[i]["role"], height: 30, touchEnabled: false});
-						sectionName = json[i]["role"];
-					}
+						imageName = json["drills"][i]["thumb"];
+				  	}
+				  	else
+				  	{
+				  		imageName = "animated.png";
+				  	}
+				  	var diagram = image({image: imageName, height: Ti.UI.SIZE, width: Ti.UI.SIZE, left: 5, touchEnabled: false});
+				  	row.add(diagram);
+				  	var drillName = Ti.UI.createLabel({touchEnabled: false, text: json["drills"][i]["name"], top: 10, left: 110, width: Ti.UI.SIZE, font: { fontSize:12, fontWeight: 'bold' }});
+					row.add(drillName);
+					var drillRating = new RatingView(json["drills"][i]["rating"], 5, json["drills"][i]["total_ratings"], 30, 105, true, false);
+					row.add(drillRating);
 					
-					var row = Ti.UI.createTableViewRow({height: 60, touchEnabled: false});
-					var name = Ti.UI.createLabel({text: json[i]["name"], touchEnabled: false, top: 15, left: 10, font: { fontSize:14, fontWeight: 'bold' }});
-					row.add(name);
-					sectionHeader.add(row);
-			  		tableData.push(sectionHeader);
+					row.addEventListener('click', function(e){
+						Ti.App.fireEvent('showDrill',{drill_id: e.rowData.drill_id});
+					});
+					
+					tableData.push(row);
 				}
-				*/
 			}	
 			$.opponentTable.setData(tableData);
 			$.activityIndicator.hide();
