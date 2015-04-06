@@ -5,6 +5,7 @@ var gameplan = args[1];
 var debrief = args[2];
 var opponent = args[3];
 var assignment_id = args[4];
+var opponent_id = args[5];
 
 $.eventDetail.title = "vs. " + opponent;
 $.scoutingLabel.text = opponent + " scouting"
@@ -28,6 +29,6 @@ $.eventDetailTable.addEventListener('click', function(e){
 	}
 	if (e.source.id == "scouting")
 	{
-		Ti.App.fireEvent('showEventScouting',{event_id: event_id, opponent: opponent, assignment_id: assignment_id});
+		Ti.App.fireEvent('showOppositionScouting',{event_id: event_id, opponent_id: opponent_id, assignment_id: assignment_id});
 	}
 });

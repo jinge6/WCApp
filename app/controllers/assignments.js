@@ -23,7 +23,7 @@ Ti.App.addEventListener('goAssessment', function(e) {
 
 //add behavior for goEventDetail
 Ti.App.addEventListener('showEventDetail', function(e) {
-	var eventDetailView = Alloy.createController('eventDetail', [e.event_id, e.gameplan, e.debrief, e.opponent, e.assignment_id]).getView();
+	var eventDetailView = Alloy.createController('eventDetail', [e.event_id, e.gameplan, e.debrief, e.opponent, e.assignment_id, e.opponent_id]).getView();
 	$.navAssignment.openWindow(eventDetailView);
 });
 
@@ -47,7 +47,7 @@ Ti.App.addEventListener('showEventStats', function(e) {
 
 //add behavior for showEventStats
 Ti.App.addEventListener('showOppositionScouting', function(e) {
-	var opponentView = Alloy.createController('opponent', [e.event_id, e.opponent]).getView();
+	var opponentView = Alloy.createController('opponent', [e.assignment_id, e.opponent_id]).getView();
 	$.navAssignment.openWindow(opponentView);
 });
 

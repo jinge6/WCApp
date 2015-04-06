@@ -57,7 +57,7 @@ $.drillsTable.addEventListener('click', function(e){
 });
 
 $.gameDayTable.addEventListener('click', function(e){
-	Ti.App.fireEvent('showEventDetail',{event_id: e.rowData.event_id, gameplan: e.rowData.gameplan, debrief: e.rowData.debrief, opponent: e.rowData.opponent, assignment_id: e.rowData.assignment_id});
+	Ti.App.fireEvent('showEventDetail',{event_id: e.rowData.event_id, gameplan: e.rowData.gameplan, debrief: e.rowData.debrief, opponent: e.rowData.opponent, assignment_id: e.rowData.assignment_id, opponent_id: e.rowData.opponent_id});
 });
 
 $.trainingTable.addEventListener('singletap', function(e){
@@ -422,7 +422,7 @@ function getGameDay(assignment_id)
 			{					
 				for (var i=0; i<json.length; i++)
 				{
-					var eventRow = Ti.UI.createTableViewRow({height: 60, hasChild: true, assignment_id: json[i]["assignment_id"], event_id: json[i]["id"], gameplan: json[i]["gameplan"], debrief: json[i]["debrief"], opponent: json[i]["opponent"]});
+					var eventRow = Ti.UI.createTableViewRow({height: 60, hasChild: true, assignment_id: json[i]["assignment_id"], event_id: json[i]["id"], gameplan: json[i]["gameplan"], debrief: json[i]["debrief"], opponent: json[i]["opponent"], opponent_id: json[i]["opponent_id"]});
 					var name = Ti.UI.createLabel({text: json[i]["opponent"], touchEnabled: false, top: 15, left: 10, font: { fontSize:14, fontWeight: 'bold' }});
 					eventRow.add(name);
 					var eventDate = Ti.UI.createLabel({text: json[i]["match_day"], touchEnabled: false, top: 35, left: 10, font: { fontSize:10 }});
