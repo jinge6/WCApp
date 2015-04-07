@@ -9,9 +9,17 @@ var yScalingFactor = 273/470;
 var currentLayer = 1;
 var eventsProcessed = 1;
 
-//add behavior for goAssessments
-Ti.App.addEventListener('runAnimation', function(e) {
+//var b = Titanium.UI.createButton({title:'< Back'});
+//$.drill.leftNavButton = b;
+
+$.drill.addEventListener('blur', function() {
+    Ti.App.removeEventListener('runAnimation', runEventListener);
+    Ti.App.removeEventListener('updatePosition', runUpdatePosition);
+ });
+
+var runEventListener = function(e) {
 	layerEvents = [];
+	console.log("currentLayer: " +  currentLayer);
 	if (animateObjects.length > 0)
     {
     	if (currentLayer > 1)
@@ -27,11 +35,16 @@ Ti.App.addEventListener('runAnimation', function(e) {
         	kickoffAnimation(true, 2, 1);
         }
     }
-});
+};
 
-Ti.App.addEventListener('updatePosition', function(evtData){
+var runUpdatePosition = function(evtData){
       animationHandler(evtData.layer);   
-});
+};
+
+//add behavior for goAssessments
+Ti.App.addEventListener('runAnimation', runEventListener);
+
+Ti.App.addEventListener('updatePosition', runUpdatePosition);
 
 function animationHandler(layer)
 {

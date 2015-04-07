@@ -54,6 +54,7 @@ Ti.App.addEventListener('showOppositionScouting', function(e) {
 //add behavior for goFocus
 Ti.App.addEventListener('goFocus', function(e) {
 		var focusView = Alloy.createController('focus', [e.assignment_id, e.strength]).getView();
+		
 		if (Ti.Platform.osname == 'iphone')
 		{
 			$.navAssignment.openWindow(focusView);
@@ -77,9 +78,10 @@ Ti.App.addEventListener('goDrills', function(e) {
 	}
 });
 
+var drillView;
 //add behavior for showing drills
 Ti.App.addEventListener('showDrill', function(e) {
-	var drillView = Alloy.createController('drill', [e.drill_id]).getView();
+	drillView = Alloy.createController('drill', [e.drill_id]).getView();
 	if (Ti.Platform.osname == 'iphone')
 	{
 		$.navAssignment.openWindow(drillView);

@@ -26,14 +26,6 @@ $.gameDayTab.addEventListener('focus', function(e){
     getGameDay(assignment_id);
 });
 
-function goTraining(e){
-	Ti.App.fireEvent('goTraining',e);
-};
-
-function goDrills(e){
-	Ti.App.fireEvent('goDrills',e);
-};
-
 // create table view
 var assessmentTable = Titanium.UI.createTableView();
 
