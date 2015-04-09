@@ -21,32 +21,25 @@ function getEventStats()
 			
 			if (json.length != 0)
 			{					
-				var sectionName;
-				var sectionHeader;
 			
 				for (var i=0; i<json.length; i++)
 				{
-					if (sectionName != json[i]["kpi"])
-					{
-						if (i != 0)
-						{
-							tableData.push(sectionHeader);
-						}
-						sectionHeader = Ti.UI.createTableViewSection({headerTitle: json[i]["kpi"], height: 30, touchEnabled: false});
-						sectionName = json[i]["kpi"];
-					}
 					var row = Ti.UI.createTableViewRow({height: 40, touchEnabled: false});
 					var name = Ti.UI.createLabel({text: json[i]["athlete"], touchEnabled: false, top: 15, left: 20, font: { fontSize:10, fontWeight: 'bold' }});
 					row.add(name);
-					var kpi_value = Ti.UI.createLabel({text: json[i]["kpi_value"], touchEnabled: false, top: 15, left: 150, font: { fontSize:10, fontWeight: 'bold' }});
-					row.add(kpi_value);
-					sectionHeader.add(row);
+					var kpi = Ti.UI.createLabel({text: json[i]["kpi"], touchEnabled: false, top: 15, left: 150, font: { fontSize:10, fontWeight: 'bold' }});
+					row.add(kpi);
+					tableData.push(row);
 				}
-				tableData.push(sectionHeader);
-			}	
-			$.statsTable.setData(tableData);
+				$.statsTable.setData(tableData);
+				$.statsTable.visible = true;
+			}
+			else
+			{	
+				var no_stats = Ti.UI.createLabel({text: "No stats available yet", touchEnabled: false, font: { fontSize:12, fontWeight: 'bold' }});
+				$.eventStats.add(no_stats);
+			}
 			$.activityIndicator.hide();
-			$.statsTable.visible = true;
 		}
 	});
 		
