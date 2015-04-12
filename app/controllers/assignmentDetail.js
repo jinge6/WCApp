@@ -54,20 +54,23 @@ $.gameDayTable.addEventListener('click', function(e){
 
 $.trainingTable.addEventListener('singletap', function(e){
 	e.cancelBubble = true;
-	// if we get a singletap from a star and the hidden view is visible
-	if (e.source.is_rating == 1 && hiddenVisible)
+	if (e.row != null)
 	{
-		var rating = parseInt(e.source.rating) + 1;
-		sendRating(e.rowData.drill_id, rating);
-		e.row.v2.setOpacity(1);
-		hiddenVisible = false;
-		alert('Thanks for rating this drill!');
-	}
-	else
-	{
-		hiddenVisible = false;
-		e.row.v2.setOpacity(1);
-		Ti.App.fireEvent('showDrill',{drill_id: e.rowData.drill_id});
+		// if we get a singletap from a star and the hidden view is visible
+		if (e.source.is_rating == 1 && hiddenVisible)
+		{
+			var rating = parseInt(e.source.rating) + 1;
+			sendRating(e.rowData.drill_id, rating);
+			e.row.v2.setOpacity(1);
+			hiddenVisible = false;
+			alert('Thanks for rating this drill!');
+		}
+		else
+		{
+			hiddenVisible = false;
+			e.row.v2.setOpacity(1);
+			Ti.App.fireEvent('showDrill',{drill_id: e.rowData.drill_id});
+		}
 	}
 });
 
@@ -116,7 +119,7 @@ function getTrainingDrills(assignment_id)
 			
 			if (json.length != 0)
 			{
-				var sectionHeader = Ti.UI.createTableViewSection({headerTitle: json["eventDate"]});
+				var sectionHeader = Ti.UI.createTableViewSection({headerTitle: json["eventDate"], enabled: false});
 				tableData.push(sectionHeader);
 				
 				for (var i=0; i<json["drills"].length; i++)

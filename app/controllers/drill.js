@@ -19,7 +19,6 @@ $.drill.addEventListener('blur', function() {
 
 var runEventListener = function(e) {
 	layerEvents = [];
-	console.log("currentLayer: " +  currentLayer);
 	if (animateObjects.length > 0)
     {
     	if (currentLayer > 1)

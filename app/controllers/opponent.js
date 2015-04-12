@@ -23,7 +23,7 @@ function getOppositionDetails()
 			{			
 				var strengthsHeader = Ti.UI.createTableViewSection({headerTitle: "Strengths", height: 30, touchEnabled: false});		
 				var row = Ti.UI.createTableViewRow({height: 60, touchEnabled: false});
-				var strengths = json["strengths"] == null?"No strengths added yet":json["strengths"];
+				var strengths = json["strengths"] == ""?"No strengths added yet":json["strengths"];
 				var strengthDescription = Ti.UI.createTextArea({value: strengths, touchEnabled: false, enabled: false, left: 10, font: { fontSize:10}});
 				row.add(strengthDescription);
 				strengthsHeader.add(row);
@@ -31,8 +31,8 @@ function getOppositionDetails()
 				
 				var weaknessHeader = Ti.UI.createTableViewSection({headerTitle: "Weaknesses", height: 30, touchEnabled: false});		
 				var weaknessRow = Ti.UI.createTableViewRow({height: 60, touchEnabled: false});
-				var weakness = json["weakness"] == null?"No weaknesses added yet":json["weakness"];
-				var weaknessDescription = Ti.UI.createTextArea({value: strengths, touchEnabled: false, enabled: false, left: 10, font: { fontSize:10}});
+				var weakness = json["weaknesses"] == ""?"No weaknesses added yet":json["weaknesses"];
+				var weaknessDescription = Ti.UI.createTextArea({value: weakness, touchEnabled: false, enabled: false, left: 10, font: { fontSize:10}});
 				weaknessRow.add(weaknessDescription);
 				weaknessHeader.add(weaknessRow);
 				tableData.push(weaknessHeader);
@@ -41,7 +41,7 @@ function getOppositionDetails()
 				for (var i=0; i<json["drills"].length; i++)
 				{
 					var imageName = "";
-					var row = Ti.UI.createTableViewRow({height: 80, hasChild: true, drill_id: json["drills"][i]["id"]});
+					var row = Ti.UI.createTableViewRow({height: 80, hasChild: true, drill_id: json["drills"][i]["drill_id"]});
 					if ((json["drills"][i]["thumb"]).indexOf("animated") == -1)
 					{
 						imageName = json["drills"][i]["thumb"];
