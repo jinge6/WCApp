@@ -163,7 +163,8 @@ function getTrainingDrills(assignment_id)
 						}
 						else
 						{
-							var strengthAndMore = Ti.UI.createLabel({touchEnabled: false, text: json["drills"][i]["strengths"][0]["name"] + ' and ' + json["drills"][i]["strengths"].length-1 + ' more', top: 50, left: leftOffset, font: { fontSize:8, fontWeight: 'bold'}});
+							var strengthCount = json["drills"][i]["strengths"].length-1;
+							var strengthAndMore = Ti.UI.createLabel({touchEnabled: false, text: json["drills"][i]["strengths"][0]["name"] + ' and ' + strengthCount.toString() + ' more', top: 50, left: leftOffset, font: { fontSize:8, fontWeight: 'bold'}});
 							defaultView.add(strengthAndMore);
 						}
 					}
@@ -351,7 +352,7 @@ function getDrillBrowseCategories(assignment_id)
 		}
 	});
 		
-	xhr.open('GET', webserver+'/activities/' + assignment_id + '/strengths.json');
+	xhr.open('GET', webserver+'/activities/' + activity_id + '/strengths.json');
 	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
 	xhr.send();	
 }
@@ -394,7 +395,7 @@ function getVideoCategories(assignment_id)
 		}
 	});
 		
-	xhr.open('GET', webserver+'/activities/' + assignment_id + '/strengths.json');
+	xhr.open('GET', webserver+'/activities/' + activity_id + '/strengths.json');
 	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
 	xhr.send();	
 }

@@ -104,6 +104,7 @@ function getDrillsToBrowse(strength_id)
 						var athletePerformanceImage = image({touchEnabled: false, image: getAthletePerformanceImagePath(json["drills"][i]["strengths"][0]["performance_id"]), left: leftOffset, top: 50, touchEnabled: false, height: 20, width: 20});
 				  		defaultView.add(athletePerformanceImage);
 						leftOffset += 25;
+						
 						if (json["drills"][i]["strengths"].length == 1)
 						{
 							var strength = Ti.UI.createLabel({touchEnabled: false, text: json["drills"][i]["strengths"][0]["name"], top: 50, left: leftOffset, font: { fontSize:8, fontWeight: 'bold'}});
@@ -111,7 +112,8 @@ function getDrillsToBrowse(strength_id)
 						}
 						else
 						{
-							var strengthAndMore = Ti.UI.createLabel({touchEnabled: false, text: json["drills"][i]["strengths"][0]["name"] + ' and ' + json["drills"][i]["strengths"].length-1 + ' more', top: 50, left: leftOffset, font: { fontSize:8, fontWeight: 'bold'}});
+							var strengthCount = json["drills"][i]["strengths"].length-1;
+							var strengthAndMore = Ti.UI.createLabel({touchEnabled: false, text: json["drills"][i]["strengths"][0]["name"] + ' and ' + strengthCount.toString() + ' more', top: 50, left: leftOffset, font: { fontSize:8, fontWeight: 'bold'}});
 							defaultView.add(strengthAndMore);
 						}
 					}
