@@ -107,6 +107,34 @@ Ti.App.addEventListener('goFocus', function(e) {
 		}
 });
 
+//add behavior for goTrainingAdjust
+Ti.App.addEventListener('goTrainingAdjust', function(e) {
+		var trainingAdjustView = Alloy.createController('trainingAdjust', [e.assignment_id]).getView();
+		
+		if (Ti.Platform.osname == 'iphone')
+		{
+			$.navAssignment.openWindow(trainingAdjustView);
+		}
+		else
+		{
+			trainingAdjustView.open();
+		}
+});
+
+//add behavior for goPracticePlan
+Ti.App.addEventListener('goPracticePlan', function(e) {
+		var practicePlanView = Alloy.createController('practicePlan', [e.assignment_id]).getView();
+		
+		if (Ti.Platform.osname == 'iphone')
+		{
+			$.navAssignment.openWindow(practicePlanView);
+		}
+		else
+		{
+			practicePlanView.open();
+		}
+});
+
 //add behavior for goDrills
 Ti.App.addEventListener('goDrills', function(e) {
 	var drillsView = Alloy.createController('drills').getView();
