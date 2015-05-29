@@ -107,6 +107,20 @@ Ti.App.addEventListener('goFocus', function(e) {
 		}
 });
 
+//add behavior for goPrioritise
+Ti.App.addEventListener('goPrioritise', function(e) {
+		var prioritiseView = Alloy.createController('trainingAdjust', [e.assignment_id]).getView();
+		
+		if (Ti.Platform.osname == 'iphone')
+		{
+			$.navAssignment.openWindow(prioritiseView);
+		}
+		else
+		{
+			prioritiseView.open();
+		}
+});
+
 //add behavior for goTrainingAdjust
 Ti.App.addEventListener('goTrainingAdjust', function(e) {
 		var trainingAdjustView = Alloy.createController('trainingAdjust', [e.assignment_id]).getView();

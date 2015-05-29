@@ -5,9 +5,26 @@ var assignment_id = args[0];
 var role = args[1];
 var activity_id = args[2];
 
+if (role == "Coach")
+{
+	$.assessmentTab.title = "Adjust";
+}
+else
+{
+	$.assessmentTab.title = "Assessment";
+}
+
 $.assignmentTab.setActiveTab(1);
-$.assessmentTab.addEventListener('focus', function(e){
-    getAssessment(assignment_id, role);
+$.assessmentTab.addEventListener('focus', function(e)
+{
+    if (role == "Coach")
+	{
+		getAdjustmentTypes(assignment_id, role);
+	}
+	else
+	{
+		getAssessment(assignment_id, role);
+	}
 });
 
 $.nextTrainingTab.addEventListener('focus', function(e){
@@ -30,9 +47,13 @@ $.gameDayTab.addEventListener('focus', function(e){
 var assessmentTable = Titanium.UI.createTableView();
 
 assessmentTable.addEventListener('click', function(e){
-	if (e.rowData.role == "Coach")
+	if (e.rowData.role == "Coach" && e.rowData.adjustAction == "prioritise")
 	{
-		Ti.App.fireEvent('goFocus',{assignment_id: e.rowData.assignment_id, strength: e.rowData.strength});
+		Ti.App.fireEvent('goPrioritise',{assignment_id: e.rowData.assignment_id});
+	}
+	else if (e.rowData.role == "Coach" && e.rowData.adjustAction == "practicePlan")
+	{
+		Ti.App.fireEvent('goPracticePlan',{assignment_id: e.rowData.assignment_id});
 	}
 	else
 	{	
@@ -205,6 +226,31 @@ function getTrainingDrills(assignment_id)
 	xhr.send();	
 }
 
+function getAdjustmentTypes(assignment_id, role)
+{
+ 	var tableData = [];
+
+	var row = Ti.UI.createTableViewRow({height: 60, hasChild: true, role: role, assignment_id: assignment_id, adjustAction: "prioritise"});
+	var prioritise = Ti.UI.createLabel({text: "Prioritise", top: 10, left: 15, font: { fontSize:12, fontWeight: 'bold' }});
+	row.add(prioritise);
+	var description = Ti.UI.createLabel({text: "Adjust the strengths included in the next training", top: 30, left: 15, font: { fontSize:10}});
+	row.add(description);
+	tableData.push(row);
+	
+	var row2 = Ti.UI.createTableViewRow({height: 60, hasChild: true, role: role, assignment_id: assignment_id, adjustAction: "practicePlan"});
+	var practicePlan = Ti.UI.createLabel({text: "Practice Plan", top: 10, left: 15, font: { fontSize:12, fontWeight: 'bold' }});
+	row2.add(practicePlan);
+	var description2 = Ti.UI.createLabel({text: "Select a Practice Plan for the next training", top: 30, left: 15, font: { fontSize:10}});
+	row2.add(description2);
+	tableData.push(row2);
+	
+	assessmentTable.setData(tableData);
+	
+	// add table view to the window
+	$.assessmentWin.add(assessmentTable);
+	$.assActivityIndicator.hide();
+}
+
 var assessedJSON;
 
 function getAssessment(assignment_id, role)
@@ -226,49 +272,14 @@ function getAssessment(assignment_id, role)
 				tableData = buildAssessedTable(assessedJSON, focusOnTop);
 			}	
 			assessmentTable.setData(tableData);
-			if(role=="Coach")
-			{
-				assessmentTable.top = 100;
-				includeLabel = Ti.UI.createLabel({text: 'Include top ' + focusOnTop + ' priorities in Training', left: 20, top: 30});
-				includeSlider = Ti.UI.createSlider({
-					    top: 50,
-					    min: 1,
-					    max: tableData.length,
-					    width: '100%',
-					    value: focusOnTop
-				    });
-				includeSlider.addEventListener('touchend', function(e) {
-					this.value = Math.round(e.source.value);
-					focusOnTop = Math.round(e.source.value);
-				    includeLabel.text = 'Include top ' + focusOnTop + ' priorities in Training';
-				    postFocusOnTop(assignment_id, focusOnTop);
-				    tableData = buildAssessedTable(assessedJSON, this.value);
-				    assessmentTable.setData(tableData);
-				});
-				
-				includeSlider.addEventListener('change', function(e) {
-				    includeLabel.text = 'Include top ' + Math.round(e.source.value) + ' priorities in Training';
-				});
-				
-				$.assessmentWin.add(includeLabel);
-				$.assessmentWin.add(includeSlider);
-			}
+			
 			// add table view to the window
 			$.assessmentWin.add(assessmentTable);
 			$.assActivityIndicator.hide();
 		}
 	});
 		
-	if (role == "Coach")
-	{
-		
-		xhr.open('GET', webserver+'/assignments/' + assignment_id + '/assignments/focus.json');
-	}
-	else
-	{
-		assessmentTable.moveable = false;
-		xhr.open('GET', webserver+'/development/' + assignment_id + '/development/assessment.json?id=' + assignment_id);
-	}
+	xhr.open('GET', webserver+'/development/' + assignment_id + '/development/assessment.json?id=' + assignment_id);
 	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
 	xhr.send();	
 }

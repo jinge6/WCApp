@@ -54,7 +54,7 @@ function postReorderPriority(id, start, finish)
 	
 	var reorderPost = {'assignments[assignment_id]': id, 
 		'assignments[start_position]': start,
-		'assignments[finish_position]': finish-1};
+		'assignments[finish_position]': finish};
 	xhr.send(reorderPost);
 }
 
@@ -76,16 +76,16 @@ function buildUI()
 				currentPriorityLabel = Ti.UI.createLabel({text: 'Adjust ' + strength + ' training priority', left: 20, top: 30});
 				$.focusWin.add(currentPriorityLabel);
 				
-				var performanceImage = Ti.UI.createImageView({image: getTeamPerformanceImagePath(json["assessments"][i]["level"]), top: 120, left: 20, height:20, width:20, touchEnabled: false});
+				var performanceImage = Ti.UI.createImageView({image: getTeamPerformanceImagePath(json["assessments"][i]["level"]), top: 90, left: 20, height:20, width:20, touchEnabled: false});
 			  	$.focusWin.add(performanceImage);
 			  	
-			  	var currentRating = Ti.UI.createLabel({text: 'Currently rated: ' + json["assessments"][i]["assessment"] + ' level', left: 50, top: 120, font: {fontSize: 10}});
+			  	var currentRating = Ti.UI.createLabel({text: 'Currently rated: ' + json["assessments"][i]["assessment"] + ' level', left: 50, top: 90, font: {fontSize: 10}});
 				$.focusWin.add(currentRating);
 			}				
 		}
 
 		var prioritySlider = Ti.UI.createSlider({
-			    top: 70,
+			    top: 180,
 			    min: 1,
 			    max: orderedList.length,
 			    width: '100%',
@@ -102,8 +102,8 @@ function buildUI()
 		prioritySlider.addEventListener('change', function(e) {
 		    newPriority.text = 'New Priority ' + Math.round(e.source.value);
 		});
-		var startingPriority = Ti.UI.createLabel({text: 'Current Priority ' + currentPriority, left: 20, top: 150});
-		var newPriority = Ti.UI.createLabel({text: 'New Priority ' + updatedPriority, left: 20, top: 180});
+		var startingPriority = Ti.UI.createLabel({text: 'Current Priority ' + currentPriority, left: 20, top: 120});
+		var newPriority = Ti.UI.createLabel({text: 'New Priority ' + updatedPriority, left: 20, top: 150});
 		
 		$.focusWin.add(startingPriority);
 		$.focusWin.add(newPriority);
