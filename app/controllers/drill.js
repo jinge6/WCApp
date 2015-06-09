@@ -9,9 +9,6 @@ var yScalingFactor = 273/470;
 var currentLayer = 1;
 var eventsProcessed = 1;
 
-//var b = Titanium.UI.createButton({title:'< Back'});
-//$.drill.leftNavButton = b;
-
 $.drill.addEventListener('blur', function() {
     Ti.App.removeEventListener('runAnimation', runEventListener);
     Ti.App.removeEventListener('updatePosition', runUpdatePosition);
@@ -40,7 +37,6 @@ var runUpdatePosition = function(evtData){
       animationHandler(evtData.layer);   
 };
 
-//add behavior for goAssessments
 Ti.App.addEventListener('runAnimation', runEventListener);
 
 Ti.App.addEventListener('updatePosition', runUpdatePosition);
@@ -183,7 +179,7 @@ function getDrill(drill_id)
 					tableData.push(row2);
 					
 					var row3 = Ti.UI.createTableViewRow({touchEnabled: false});
-					if (json["steps"][i]["layers"] != null && json["steps"][i]["layers"].length > 0)
+					if (json["content_type"] == "animated" && json["steps"][i]["layers"] != null && json["steps"][i]["layers"].length > 0)
 					{
 						var animatedDiagram = image({image: json["steps"][i]["background"]+'.png', width: 320, height: 273, left: 0});
 						animatedDiagram.addEventListener('click', function(e){
@@ -206,6 +202,27 @@ function getDrill(drill_id)
 					            }
 					        }
 				       	}
+					}
+					else if (json["content_type"] == "video")
+					{
+						var videoPlayer = Titanium.Media.createVideoPlayer({
+						    autoplay : true,
+						    width: 320,
+						    height: 273,
+						    backgroundColor : 'white',
+						    mediaControlStyle:Titanium.Media.VIDEO_CONTROL_DEFAULT,
+							scalingMode:Titanium.Media.VIDEO_SCALING_ASPECT_FIT
+						});
+						if (Ti.Platform.osname == 'iphone')
+						{
+							videoPlayer.url = json["steps"][i]["link"];
+						}
+						else
+						{
+							videoPlayer.url = json["steps"][i]["webm"];
+						}
+
+						row3.add(videoPlayer);
 					}
 					else if (json["steps"][i]["thumb"] != null && json["steps"][i]["thumb"].length > 0)
 					{
@@ -238,7 +255,7 @@ function getDrill(drill_id)
 				reviewHeaderRow.add(reviewTitle);
 				tableData.push(reviewHeaderRow);
 				
-				// add drill steps
+				// add drill reviews
 				for (var i=0; i<json["reviews"].length; i++)
 				{
 					var row = Ti.UI.createTableViewRow({touchEnabled: false, height: 20});
