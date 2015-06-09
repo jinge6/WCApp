@@ -34,7 +34,7 @@ function button(args,onclick) {
 
 var webserver;
 
-Ti.App.Properties.setString("Mode","Dev");
+Ti.App.Properties.setString("Mode","Prod");
 var mode = Ti.App.Properties.getString("Mode");
 if (mode == "Dev")
 {

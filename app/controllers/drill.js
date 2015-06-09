@@ -219,7 +219,7 @@ function getDrill(drill_id)
 						}
 						else
 						{
-							videoPlayer.url = json["steps"][i]["webm"];
+							videoPlayer.url = json["steps"][i]["android"];
 						}
 
 						row3.add(videoPlayer);
