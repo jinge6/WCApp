@@ -237,13 +237,11 @@ function getAssignments()
 				
 				var assignmentLogo = image({image: imageName, left: 15, width: 55, touchEnabled: false});
 			  	row.add(assignmentLogo);
-				var assignmentName = Ti.UI.createLabel({text: json[i]["name"], top: 10, left: 80, font: { fontSize:12, fontWeight: 'bold' }});
+				var assignmentName = Ti.UI.createLabel({text: json[i]["name"], top: 20, left: 80, font: { fontSize:12, fontWeight: 'bold' }});
 				row.add(assignmentName);
-				var assignmentDescription = Ti.UI.createLabel({text: json[i]["description"], top: 25, left: 80, font: { fontSize:10}});
-				row.add(assignmentDescription);
-				var assignmentStartDate = Ti.UI.createLabel({text: 'Start: ' + json[i]["startDate"], top: 50, left: 80, font: { fontSize:8}});
+				var assignmentStartDate = Ti.UI.createLabel({text: 'Start: ' + json[i]["startDate"], tanimatop: 40, left: 80, font: { fontSize:8}});
 				row.add(assignmentStartDate);
-				var assignmentEndDate = Ti.UI.createLabel({text: 'End: ' + json[i]["endDate"], top: 60, left: 80, font: { fontSize:8}});
+				var assignmentEndDate = Ti.UI.createLabel({text: 'End: ' + json[i]["endDate"], top: 50, left: 80, font: { fontSize:8}});
 				row.add(assignmentEndDate);
 			  	sectionHeader.add(row);	
 			}	

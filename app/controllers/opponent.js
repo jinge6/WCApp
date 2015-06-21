@@ -5,6 +5,18 @@ var opponent_id = args[1];
 
 getOppositionDetails();
 
+var strengthDescription = Ti.UI.createWebView({height: Titanium.UI.SIZE, willHandleTouches: false, touchEnabled: false, left: 10});
+
+strengthDescription.addEventListener('load', function(e){
+	setDynamicWebviewHeight(e);
+});
+
+var weaknessDescription = Ti.UI.createWebView({height: Titanium.UI.SIZE, willHandleTouches: false, touchEnabled: false, left: 10});
+
+weaknessDescription.addEventListener('load', function(e){
+	setDynamicWebviewHeight(e);
+});
+
 function getOppositionDetails()
 {
 	var tableData = [];
@@ -24,7 +36,8 @@ function getOppositionDetails()
 				var strengthsHeader = Ti.UI.createTableViewSection({headerTitle: "Strengths", height: 30, touchEnabled: false});		
 				var row = Ti.UI.createTableViewRow({height: 60, touchEnabled: false});
 				var strengths = json["strengths"] == ""?"No strengths added yet":json["strengths"];
-				var strengthDescription = Ti.UI.createTextArea({value: strengths, touchEnabled: false, enabled: false, left: 10, font: { fontSize:10}});
+				
+				strengthDescription.setHtml(stylizeHTML(strengths));
 				row.add(strengthDescription);
 				strengthsHeader.add(row);
 				tableData.push(strengthsHeader);
@@ -32,7 +45,8 @@ function getOppositionDetails()
 				var weaknessHeader = Ti.UI.createTableViewSection({headerTitle: "Weaknesses", height: 30, touchEnabled: false});		
 				var weaknessRow = Ti.UI.createTableViewRow({height: 60, touchEnabled: false});
 				var weakness = json["weaknesses"] == ""?"No weaknesses added yet":json["weaknesses"];
-				var weaknessDescription = Ti.UI.createTextArea({value: weakness, touchEnabled: false, enabled: false, left: 10, font: { fontSize:10}});
+				weaknessDescription.setHtml(stylizeHTML(weakness));
+				
 				weaknessRow.add(weaknessDescription);
 				weaknessHeader.add(weaknessRow);
 				tableData.push(weaknessHeader);
@@ -48,7 +62,7 @@ function getOppositionDetails()
 				  	}
 				  	else
 				  	{
-				  		imageName = "animated.png";
+				  		imageName = json["drills"][i]["thumb"] + ".png";
 				  	}
 				  	var diagram = image({image: imageName, height: Ti.UI.SIZE, width: Ti.UI.SIZE, left: 5, touchEnabled: false});
 				  	row.add(diagram);

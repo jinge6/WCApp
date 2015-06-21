@@ -125,6 +125,19 @@ function eventsToExpect(layer)
 
 getDrill(drill_id);
 
+var drillDescription = Ti.UI.createWebView({height: Titanium.UI.SIZE, willHandleTouches: false, touchEnabled: false, left: 5});
+				
+drillDescription.addEventListener('load', function(e){
+	setDynamicWebviewHeight(e);
+});
+
+
+var stepDescription = Ti.UI.createWebView({height: Titanium.UI.SIZE, willHandleTouches: false, touchEnabled: false, left: 5});
+
+stepDescription.addEventListener('load', function(e){
+	setDynamicWebviewHeight(e);
+});		
+
 function getDrill(drill_id)
 {
 	var tableData = [];
@@ -150,12 +163,13 @@ function getDrill(drill_id)
 				
 				//TODO add strengths here
 				
+
 				var row2 = Ti.UI.createTableViewRow({touchEnabled: false});
-						
-				var drillDescription = Ti.UI.createLabel({text: json["description"], left: 10, touchEnabled: false,font: { fontSize:10}});
+				drillDescription.setHtml(stylizeHTML(json["description"]));
+				
 				row2.add(drillDescription);
 				tableData.push(row2);
-				
+
 				var row3 = Ti.UI.createTableViewRow({touchEnabled: false, height: 25, left: 10});
 				
 				var drillRating = new RatingView(json["rating"], 5, json["total_ratings"], 0, 0, false, false);
@@ -174,7 +188,7 @@ function getDrill(drill_id)
 					
 					var row2 = Ti.UI.createTableViewRow({touchEnabled: false});
 					
-					var stepDescription = Ti.UI.createTextArea({value: json["steps"][i]["description"], touchEnabled: false, enabled: false, left: 5, font: { fontSize:10}});
+					stepDescription.setHtml(stylizeHTML(json["steps"][i]["description"]));
 					row2.add(stepDescription);
 					tableData.push(row2);
 					
@@ -270,8 +284,7 @@ function getDrill(drill_id)
 					row2.add(drillRating);
 					tableData.push(row2);
 					
-					var row3 = Ti.UI.createTableViewRow({touchEnabled: false, height: 40});
-					
+					var row3 = Ti.UI.createTableViewRow({touchEnabled: false});
 					var reviewDescription = Ti.UI.createTextArea({value: json["reviews"][i]["description"], enabled: false, left: 5, font: { fontSize:10}});
 					row3.add(reviewDescription);
 					tableData.push(row3);

@@ -32,14 +32,28 @@ function button(args,onclick) {
 	return btn;
 }
 
+function setDynamicWebviewHeight(e)
+{
+	var docHeight = e.source.evalJS("document.height;");
+	if (e.source.height != docHeight)
+	{
+		e.source.height = docHeight;
+	}
+}						
+
+function stylizeHTML(htmlString)
+{
+	return '<meta name="viewport" content="width=device-width,user-scalable=no"><style type="text/css"> body,td,p,div,span { font-family:Arial; font-size:10; } </style>' + htmlString;
+}
+
 var webserver;
 
-Ti.App.Properties.setString("Mode","Prod");
+Ti.App.Properties.setString("Mode","Dev");
 var mode = Ti.App.Properties.getString("Mode");
 if (mode == "Dev")
 {
 	// dev mode logic
-	webserver = "http://192.168.1.12:3000";
+	webserver = "http://localhost:3000";
 }
 else
 {

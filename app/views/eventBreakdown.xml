@@ -1,6 +1,6 @@
 <Alloy>
 	<Window backgroundColor="white">
 		<Label top="10" left="10" id="title"></Label>
-		<TextArea top="40" left="10" enabled="false" id="summary"></TextArea>
+		<WebView top="40" left="10" enabled="false" id="summary"></WebView>
 	</Window>
 </Alloy>

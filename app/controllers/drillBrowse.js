@@ -81,7 +81,7 @@ function getDrillsToBrowse(strength_id)
 				  	}
 				  	else
 				  	{
-				  		imageName = "animated.png";
+				  		imageName = json["drills"][i]["thumb"] + ".png";
 				  	}
 				  	var defaultView = Ti.UI.createView({
 						backgroundColor: '#fff',

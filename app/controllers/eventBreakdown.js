@@ -5,8 +5,12 @@ var summary = args[1];
 
 setValues();
 
+$.summary.addEventListener('load', function(e){
+	setDynamicWebviewHeight(e);
+});
+
 function setValues()
 {
 	$.title.text = title;
-	$.summary.value = summary;
+	$.summary.setHtml(stylizeHTML(summary));
 }
