@@ -2,7 +2,7 @@
 <ti:app xmlns:ti="http://ti.appcelerator.org">
     <id>world.winnerscircle.wc</id>
     <name>WC</name>
-    <version>2</version>
+    <version>3</version>
     <publisher>James Inge</publisher>
     <url>http://winnerscircle.world</url>
     <description>Partner application to the www.WinnersCircle.world</description>
@@ -39,8 +39,7 @@
         </plist>
     </ios>
     <android xmlns:android="http://schemas.android.com/apk/res/android">
-        <manifest android:versionCode="2" android:versionName="2.0.0">
-     </manifest>
+        <manifest android:versionCode="3" android:versionName="3.0.0"/>
     </android>
     <mobileweb>
         <precache/>
@@ -50,7 +49,9 @@
         </splash>
         <theme>default</theme>
     </mobileweb>
-    <modules/>
+    <modules>
+        <module platform="commonjs">ti.cloud</module>
+    </modules>
     <deployment-targets>
         <target device="android">true</target>
         <target device="blackberry">false</target>
@@ -63,4 +64,20 @@
         <plugin version="1.0">ti.alloy</plugin>
     </plugins>
     <property name="appc-app-id" type="string">5566e6f256fdb71713fedb4b</property>
+    <property name="acs-authbase-url-development" type="string">https://secure-identity.cloud.appcelerator.com</property>
+    <property name="acs-base-url-development" type="string">https://api.cloud.appcelerator.com</property>
+    <property name="acs-oauth-secret-development" type="string">VIwWoR6SNNAshGsvPBH0zHVNDjSd3fBe</property>
+    <property name="acs-oauth-key-development" type="string">NNNTACOKr6thI0WrZoHS89QzjZQqk42U</property>
+    <property name="acs-api-key-development" type="string">0t5iAq9NWJXwidbpzo6O8kUx1HuWYl6G</property>
+    <property name="acs-username-development" type="string">appc_app_user_dev</property>
+    <property name="acs-password-development" type="string">AS7hjUcP5WMSboSLx8</property>
+    <property name="acs-authbase-url-production" type="string">https://secure-identity.cloud.appcelerator.com</property>
+    <property name="acs-base-url-production" type="string">https://api.cloud.appcelerator.com</property>
+    <property name="acs-oauth-secret-production" type="string">QFYFnoQtkVNczFd3LNTINdFdm8HijEWE</property>
+    <property name="acs-oauth-key-production" type="string">NSrgmTcYUCeOPBFuoNBGCpXAavjMZZMz</property>
+    <property name="acs-api-key-production" type="string">ZrPb4aJpo78ni2datkEzuNuvUq9P7eDw</property>
+    <property name="acs-username-production" type="string">appc_app_user</property>
+    <property name="acs-password-production" type="string">vqF159yj4zyyHU5PIy</property>
+    <property name="appc-org-id" type="string">100033397</property>
+    <property name="appc-creator-user-id" type="string">13b77ab3-d897-41ea-ba02-b689d9a55d4a</property>
 </ti:app>

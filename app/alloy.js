@@ -48,12 +48,12 @@ function stylizeHTML(htmlString)
 
 var webserver;
 
-Ti.App.Properties.setString("Mode","Dev");
+Ti.App.Properties.setString("Mode","Prod");
 var mode = Ti.App.Properties.getString("Mode");
 if (mode == "Dev")
 {
 	// dev mode logic
-	webserver = "http://localhost:3000";
+	webserver = "http://192.168.1.8:3000";
 }
 else
 {
