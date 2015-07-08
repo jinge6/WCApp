@@ -1,0 +1,18 @@
+<Alloy>
+	<Window backgroundColor="black">
+		<ImageView id="logo" image="winnerscircle.png" top="10"></ImageView>
+		<TextField id="email" hintText="Email" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" color="black" backgroundColor="white" keyboardToolbarColor="#999" keyboardToolbarHeight="40"
+            top="40" height="35" width="200"/>
+        <TextField id="password" hintText="Password" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" color="black" backgroundColor="white" passwordMask="true" keyboardToolbarColor="#999" keyboardToolbarHeight="40"
+            top="80" height="35" width="200"/>
+        <TextField id="confirmPassword" hintText="Confirm Password" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" color="black" backgroundColor="white" passwordMask="true" keyboardToolbarColor="#999" keyboardToolbarHeight="40"
+            top="120" height="35" width="200"/>
+        <TextField id="firstName" hintText="First Name" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" color="black" backgroundColor="white" passwordMask="true" keyboardToolbarColor="#999" keyboardToolbarHeight="40"
+            top="160" height="35" width="200"/>   
+        <TextField id="lastName" hintText="Last Name" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" color="black" backgroundColor="white" passwordMask="true" keyboardToolbarColor="#999" keyboardToolbarHeight="40"
+            top="200" height="35" width="200"/>  
+        <Picker id="timezone"></Picker> 
+        <Picker id="activity"></Picker>    
+		<Button id="joinbtn" top="300" color="white" onClick="doSignUp">Join Now</Button>
+	</Window>
+</Alloy>

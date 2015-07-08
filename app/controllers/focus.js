@@ -54,7 +54,7 @@ function postReorderPriority(id, start, finish)
 	
 	var reorderPost = {'assignments[assignment_id]': id, 
 		'assignments[start_position]': start,
-		'assignments[finish_position]': finish};
+		'assignments[finish_position]': finish+1};
 	xhr.send(reorderPost);
 }
 

@@ -46,7 +46,7 @@ function getTrainingPriorities(assignment_id)
 				focusOnTop = Math.round(e.source.value);
 			    includeLabel.text = 'Include top ' + focusOnTop + ' priorities in Training';
 			    postFocusOnTop(assignment_id, focusOnTop);
-			    tableData = buildAssessedTable(prioritiesJSON, this.value);
+			    tableData = buildPrioritiesTable(prioritiesJSON, this.value);
 			    prioritiesTable.setData(tableData);
 			});
 			

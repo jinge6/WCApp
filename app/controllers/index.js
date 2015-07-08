@@ -50,3 +50,15 @@ function doSignIn(e){
 	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
 	xhr.send(signInPost);
 };
+
+function doCoachSignUp(e)
+{
+	$.coachSignUpWin = Alloy.createController('signUp',["coach"]).getView();
+	$.coachSignUpWin.open();
+}
+
+function doInviteSignUp(e)
+{
+	$.inviteSignUpWin = Alloy.createController('signUp', ["invite"]).getView();
+	$.inviteSignUpWin.open();
+}
