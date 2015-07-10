@@ -51,14 +51,8 @@ function doSignIn(e){
 	xhr.send(signInPost);
 };
 
-function doCoachSignUp(e)
+function doSignUp(e)
 {
-	$.coachSignUpWin = Alloy.createController('signUp',["coach"]).getView();
-	$.coachSignUpWin.open();
-}
-
-function doInviteSignUp(e)
-{
-	$.inviteSignUpWin = Alloy.createController('signUp', ["invite"]).getView();
-	$.inviteSignUpWin.open();
+	$.signUpWin = Alloy.createController('signUp').getView();
+	$.signUpWin.open();
 }
