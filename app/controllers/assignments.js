@@ -4,16 +4,44 @@ $.activityIndicator.show();
 getAssignments();
 
 function goAssignment(e){
-	var assignmentDetailWindow = Alloy.createController('assignmentDetail', [e.row.assignment_id, e.row.role, e.row.activity_id]).getView();
-	if (Ti.Platform.osname == 'iphone')
+	if (e.row.role == "browse")
 	{
-		$.navAssignment.openWindow(assignmentDetailWindow);
+		var activityView = Alloy.createController('activities').getView();
+		if (Ti.Platform.osname == 'iphone')
+		{
+			$.navAssignment.openWindow(activityView);
+		}
+		else
+		{
+			activityView.open();
+		}
 	}
 	else
 	{
-		assignmentDetailWindow.open();
+		var assignmentDetailWindow = Alloy.createController('assignmentDetail', [e.row.assignment_id, e.row.role, e.row.activity_id]).getView();
+		if (Ti.Platform.osname == 'iphone')
+		{
+			$.navAssignment.openWindow(assignmentDetailWindow);
+		}
+		else
+		{
+			assignmentDetailWindow.open();
+		}
 	}
 };
+
+//add behavior for goActivityDetail
+Ti.App.addEventListener('goActivityDetail', function(e) {
+	var activityDetailWindow = Alloy.createController('activityDetail', [e.row.activity_id]).getView();
+	if (Ti.Platform.osname == 'iphone')
+	{
+		$.navAssignment.openWindow(activityDetailWindow);
+	}
+	else
+	{
+		activityDetailWindow.open();
+	}
+});
 
 //add behavior for goAssessments
 Ti.App.addEventListener('goAssessment', function(e) {
@@ -190,7 +218,7 @@ Ti.App.addEventListener('showDrillBrowse', function(e) {
 
 //add behavior for goVideos
 Ti.App.addEventListener('goVideos', function(e) {
-	var videosView = Alloy.createController('videos', [e.assignment_id, e.strength_id]).getView();
+	var videosView = Alloy.createController('videos', [e.activity_id, e.strength_id]).getView();
 	if (Ti.Platform.osname == 'iphone')
 	{
 		$.navAssignment.openWindow(videosView);
@@ -244,8 +272,25 @@ function getAssignments()
 				var assignmentEndDate = Ti.UI.createLabel({text: 'End: ' + json[i]["endDate"], top: 50, left: 80, font: { fontSize:8}});
 				row.add(assignmentEndDate);
 			  	sectionHeader.add(row);	
-			}	
-			tableData.push(sectionHeader);
+			}
+
+			if (sectionHeader != null)
+			{
+				// Add assignments if they existed
+				tableData.push(sectionHeader);
+			}
+			// Always add the activity browse row
+			sectionHeader = Ti.UI.createTableViewSection({headerTitle: "Browse Sports", height: 30});
+
+			var row = Ti.UI.createTableViewRow({className: 'row', height: 80, role: "browse", hasChild: true});
+			var imageName = 'missing_logo.png';
+			var wcLogo = image({image: imageName, left: 15, width: 55, touchEnabled: false});
+		  	row.add(wcLogo);
+			var goToName = Ti.UI.createLabel({text: "Go to Sports", top: 20, left: 80, font: { fontSize:12, fontWeight: 'bold' }});
+			row.add(goToName);
+		  	sectionHeader.add(row);	
+		  	tableData.push(sectionHeader);
+			
 			$.trainingTable.setData(tableData);
 			$.activityIndicator.hide();
 			$.trainingTable.show();

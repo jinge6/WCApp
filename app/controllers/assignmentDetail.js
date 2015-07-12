@@ -32,11 +32,11 @@ $.nextTrainingTab.addEventListener('focus', function(e){
 });
 
 $.videosTab.addEventListener('focus', function(e){
-    getVideoCategories(assignment_id, activity_id);
+    getVideoCategories(activity_id, $.vactivityIndicator, $.videoCategoriesTable);
 });
 
 $.drillsTab.addEventListener('focus', function(e){
-    getDrillBrowseCategories(assignment_id, activity_id);
+    getDrillBrowseCategories(activity_id, $.dactivityIndicator, $.drillsTable);
 });
 
 $.gameDayTab.addEventListener('focus', function(e){
@@ -62,7 +62,7 @@ assessmentTable.addEventListener('click', function(e){
 });
 
 $.videoCategoriesTable.addEventListener('click', function(e){
-	Ti.App.fireEvent('goVideos',{assignment_id: e.rowData.assignment_id, strength_id: e.rowData.strength_id, activity_id: activity_id});
+	Ti.App.fireEvent('goVideos',{strength_id: e.rowData.strength_id, activity_id: activity_id});
 });
 
 $.drillsTable.addEventListener('click', function(e){
@@ -331,85 +331,7 @@ function postFocusOnTop(id, changedFocusOnTop)
 	xhr.send(focusOnTopPost);
 }
 
-function getDrillBrowseCategories(assignment_id)
-{
-	var tableData = [];
-	
-	$.dactivityIndicator.show();
 
-	var xhr = Ti.Network.createHTTPClient(
-	{
-		onload: function() 
-		{
-		 	var tableData = [];
-
-			json = JSON.parse(this.responseText);
-			
-			if (json.length != 0)
-			{					
-				for (var i=0; i<json.length; i++)
-				{
-					var row = Ti.UI.createTableViewRow({height: 60, hasChild: true, strength_id: json[i]["id"]});
-					var name = Ti.UI.createLabel({text: json[i]["name"], top: 5, left: 10, font: { fontSize:14, fontWeight: 'bold' }});
-					row.add(name);
-					var description = Ti.UI.createLabel({text: json[i]["description"], top: 25, left: 10, font: { fontSize:10 }});
-					row.add(description);
-					tableData.push(row);
-				}
-			}	
-			$.drillsTable.setData(tableData);
-			$.dactivityIndicator.hide();
-			$.drillsTable.visible = true;
-		}
-	});
-		
-	xhr.open('GET', webserver+'/activities/' + activity_id + '/strengths.json');
-	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
-	xhr.send();	
-}
-
-function getVideoCategories(assignment_id)
-{
-	var tableData = [];
-	$.vactivityIndicator.show();
-
-	var xhr = Ti.Network.createHTTPClient(
-	{
-		onload: function() 
-		{
-		 	var tableData = [];
-
-			json = JSON.parse(this.responseText);
-			
-			if (json.length != 0)
-			{
-				var row = Ti.UI.createTableViewRow({height: 60, hasChild: true, assignment_id: assignment_id, strength_id: '0' });
-				var name = Ti.UI.createLabel({text: 'Highlights', top: 5, left: 10, font: { fontSize:14, fontWeight: 'bold' }});
-				row.add(name);
-				var description = Ti.UI.createLabel({text: 'A collection of highlight videos', top: 25, left: 10, font: { fontSize:10 }});
-				row.add(description);
-				tableData.push(row);
-					
-				for (var i=0; i<json.length; i++)
-				{
-					var row = Ti.UI.createTableViewRow({height: 60, hasChild: true, assignment_id: assignment_id, strength_id: json[i]["id"]});
-					var name = Ti.UI.createLabel({text: json[i]["name"], top: 5, left: 10, font: { fontSize:14, fontWeight: 'bold' }});
-					row.add(name);
-					var description = Ti.UI.createLabel({text: json[i]["description"], top: 25, left: 10, font: { fontSize:10 }});
-					row.add(description);
-					tableData.push(row);
-				}
-			}	
-			$.videoCategoriesTable.setData(tableData);
-			$.vactivityIndicator.hide();
-			$.videoCategoriesTable.visible = true;
-		}
-	});
-		
-	xhr.open('GET', webserver+'/activities/' + activity_id + '/strengths.json');
-	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
-	xhr.send();	
-}
 
 function getGameDay(assignment_id)
 {

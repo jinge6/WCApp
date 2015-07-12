@@ -53,7 +53,7 @@ var mode = Ti.App.Properties.getString("Mode");
 if (mode == "Dev")
 {
 	// dev mode logic
-	webserver = "http://172.20.10.3:3000";
+	webserver = "http://192.168.1.8:3000";
 }
 else
 {
@@ -212,4 +212,84 @@ function getTeamPerformanceImagePath(level)
 		path = "team_advanced_indicator.png";
 	}
 	return path;
+}
+
+function getDrillBrowseCategories(activity_id, dactivityIndicator, drillsTable)
+{
+	var tableData = [];
+	
+	dactivityIndicator.show();
+
+	var xhr = Ti.Network.createHTTPClient(
+	{
+		onload: function() 
+		{
+		 	var tableData = [];
+
+			json = JSON.parse(this.responseText);
+			
+			if (json.length != 0)
+			{					
+				for (var i=0; i<json.length; i++)
+				{
+					var row = Ti.UI.createTableViewRow({height: 60, hasChild: true, strength_id: json[i]["id"]});
+					var name = Ti.UI.createLabel({text: json[i]["name"], top: 5, left: 10, font: { fontSize:14, fontWeight: 'bold' }});
+					row.add(name);
+					var description = Ti.UI.createLabel({text: json[i]["description"], top: 25, left: 10, font: { fontSize:10 }});
+					row.add(description);
+					tableData.push(row);
+				}
+			}	
+			drillsTable.setData(tableData);
+			dactivityIndicator.hide();
+			drillsTable.visible = true;
+		}
+	});
+		
+	xhr.open('GET', webserver+'/activities/' + activity_id + '/strengths.json');
+	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
+	xhr.send();	
+}
+
+function getVideoCategories(activity_id, vactivityIndicator, videoCategoriesTable)
+{
+	var tableData = [];
+	vactivityIndicator.show();
+
+	var xhr = Ti.Network.createHTTPClient(
+	{
+		onload: function() 
+		{
+		 	var tableData = [];
+
+			json = JSON.parse(this.responseText);
+			
+			if (json.length != 0)
+			{
+				var row = Ti.UI.createTableViewRow({height: 60, hasChild: true, strength_id: '0' });
+				var name = Ti.UI.createLabel({text: 'Highlights', top: 5, left: 10, font: { fontSize:14, fontWeight: 'bold' }});
+				row.add(name);
+				var description = Ti.UI.createLabel({text: 'A collection of highlight videos', top: 25, left: 10, font: { fontSize:10 }});
+				row.add(description);
+				tableData.push(row);
+					
+				for (var i=0; i<json.length; i++)
+				{
+					var row = Ti.UI.createTableViewRow({height: 60, hasChild: true, strength_id: json[i]["id"]});
+					var name = Ti.UI.createLabel({text: json[i]["name"], top: 5, left: 10, font: { fontSize:14, fontWeight: 'bold' }});
+					row.add(name);
+					var description = Ti.UI.createLabel({text: json[i]["description"], top: 25, left: 10, font: { fontSize:10 }});
+					row.add(description);
+					tableData.push(row);
+				}
+			}	
+			videoCategoriesTable.setData(tableData);
+			vactivityIndicator.hide();
+			videoCategoriesTable.visible = true;
+		}
+	});
+		
+	xhr.open('GET', webserver+'/activities/' + activity_id + '/strengths.json');
+	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
+	xhr.send();	
 }

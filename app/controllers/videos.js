@@ -1,15 +1,15 @@
 var args = arguments[0] || {};
 
-var assignment_id = args[0];
+var activity_id = args[0];
 var strength_id = args[1];
 
-getVideos(assignment_id, strength_id);
+getVideos(activity_id, strength_id);
 
 function showVideo(e){
 	Ti.Platform.openURL(e.rowData.link);
 };
 
-function getVideos(assignment_id, strength_id)
+function getVideos(activity_id, strength_id)
 {
 	var tableData = [];
 	
@@ -42,7 +42,7 @@ function getVideos(assignment_id, strength_id)
 		}
 	});
 		
-	xhr.open('GET', webserver+'/assignments/' + assignment_id + '/assignments/video.json?sid='+strength_id);
+	xhr.open('GET', webserver+'/videos.json?sid='+strength_id+'&activity_id='+activity_id);
 	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
 	xhr.send();	
 }

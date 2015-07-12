@@ -55,4 +55,5 @@ function doSignUp(e)
 {
 	$.signUpWin = Alloy.createController('signUp').getView();
 	$.signUpWin.open();
+	$.index.close();
 }
