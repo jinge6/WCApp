@@ -25,7 +25,7 @@ function getActivities()
 					var row = Ti.UI.createTableViewRow({className: 'row', height: 80, activity_id: json[i]["id"], hasChild: true});
 					var activityName = Ti.UI.createLabel({text: json[i]["name"], top: 20, left: 80, font: { fontSize:12, fontWeight: 'bold' }});
 					row.add(activityName);
-					var logo = image({image: json[i]["promo_image"], top: 15, width: 55, touchEnabled: false});
+					var logo = image({image: json[i]["promo_image"], left: 15, width: 55, touchEnabled: false});
 					row.add(logo);
 				  	tableData.push(row);
 					

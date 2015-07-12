@@ -65,7 +65,15 @@ function showInviteDetail(inviteDetail)
 
 //add behavior for goInviteDetail
 Ti.App.addEventListener('goInviteDetail', function(e) {
-	showInviteDetail(e.row.invite_id);
+	showInviteDetail(e.row.inviteDetail);
+});
+
+//add behavior to refresh home screen
+Ti.App.addEventListener('refreshAssignments', function(e) {
+	if (e.actionType == "inviteProcessed")
+	{
+		getAssignments();
+	}
 });
 
 //add behavior for goActivityDetail
