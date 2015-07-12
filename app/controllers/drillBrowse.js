@@ -149,7 +149,7 @@ function getDrillsToBrowse(strength_id)
 		}
 	});
 		
-	if (role == "Coach")
+	if (role == "Coach" || role == null)
 	{
 		xhr.open('GET', webserver+'/drills.json?filter=strength&id=' + strength_id + '&activity_id='+ activity_id);
 	}

@@ -1,6 +1,9 @@
 var email_property = Ti.App.Properties.getString('email');
 var auth_token_property = Ti.App.Properties.getString('auth_token');
 
+var logo = image({image: "winnerscircle.png", top: 90, touchEnabled: false});
+$.index.add(logo);
+
 if (email_property != null && auth_token_property != null)
 {
 	

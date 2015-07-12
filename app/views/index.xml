@@ -1,5 +1,5 @@
 <Alloy>
-	<Window backgroundColor="black">
+	<Window id="index" backgroundColor="black">
 		<ImageView id="logo" image="winnerscircle.png" top="90"></ImageView>
 		<TextField id="email" hintText="Email" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" color="black" backgroundColor="white" keyboardToolbarColor="#999" keyboardToolbarHeight="40"
             top="170" height="35" width="200"/>

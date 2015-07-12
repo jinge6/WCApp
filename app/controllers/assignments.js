@@ -1,4 +1,5 @@
 var args = arguments[0] || { };
+var invitesJSON;
 
 $.activityIndicator.show();
 getAssignments();
@@ -16,6 +17,25 @@ function goAssignment(e){
 			activityView.open();
 		}
 	}
+	else if (e.row.role == "invite")
+	{
+		if (invitesJSON.length == 1)
+		{
+			showInviteDetail(invitesJSON[0]);
+		}
+		else
+		{
+			var invitesView = Alloy.createController('invites', [invitesJSON]).getView();
+			if (Ti.Platform.osname == 'iphone')
+			{
+				$.navAssignment.openWindow(invitesView);
+			}
+			else
+			{
+				invitesView.open();
+			}
+		}
+	}
 	else
 	{
 		var assignmentDetailWindow = Alloy.createController('assignmentDetail', [e.row.assignment_id, e.row.role, e.row.activity_id]).getView();
@@ -29,6 +49,24 @@ function goAssignment(e){
 		}
 	}
 };
+
+function showInviteDetail(inviteDetail)
+{
+	var inviteDetailView = Alloy.createController('inviteDetail', [inviteDetail]).getView();
+	if (Ti.Platform.osname == 'iphone')
+	{
+		$.navAssignment.openWindow(invitesView);
+	}
+	else
+	{
+		inviteDetailView.open();
+	}
+}
+
+//add behavior for goInviteDetail
+Ti.App.addEventListener('goInviteDetail', function(e) {
+	showInviteDetail(e.row.invite_id);
+});
 
 //add behavior for goActivityDetail
 Ti.App.addEventListener('goActivityDetail', function(e) {
@@ -229,9 +267,27 @@ Ti.App.addEventListener('goVideos', function(e) {
 	}
 });
 
+function getInvites()
+{
+	var xhr = Ti.Network.createHTTPClient(
+	{
+		onload: function() 
+		{
+			console.log(this.responseText);
+			return this.responseText;
+		}
+	});
+		
+	xhr.open('GET', webserver+'/invites.json?email='+Ti.App.Properties.getString('email'));
+	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
+	xhr.send();	
+}
+
 function getAssignments()
 {
 	var tableData = [];
+	var sectionName;
+	var sectionHeader;
 	
 	var xhr = Ti.Network.createHTTPClient(
 	{
@@ -241,35 +297,57 @@ function getAssignments()
 
 			json = JSON.parse(this.responseText);
 			
-			var sectionName;
-			var sectionHeader;
-			
-			for (var i=0; i<json.length; i++)
+			if (json["invites"].length > 0)
 			{
-				if (sectionName != json[i]["role"])
+				invitesJSON = json["invites"];
+				// Only add the invites row if there are invites
+				sectionHeader = Ti.UI.createTableViewSection({headerTitle: "Invites", height: 30});
+			
+				var row = Ti.UI.createTableViewRow({className: 'row', height: 80, role: "invite", hasChild: true});
+				var imageName = 'missing_logo.png';
+				var wcLogo = image({image: imageName, left: 15, width: 55, touchEnabled: false});
+			  	row.add(wcLogo);
+			  	var inviteText;
+			  	if (json["invites"].length == 1)
+			  	{
+			  		inviteText = "You have " + json["invites"].length + " invite";
+			  	}
+			  	else
+			  	{
+			  		inviteText = "You have " + json["invites"].length + " invites";
+			  	}
+				var invitesName = Ti.UI.createLabel({text: inviteText, top: 20, left: 80, font: { fontSize:12, fontWeight: 'bold' }});
+				row.add(invitesName);
+			  	sectionHeader.add(row);	
+			  	tableData.push(sectionHeader);
+			}
+
+			for (var i=0; i<json["assignments"].length; i++)
+			{
+				if (sectionName != json["assignments"][i]["role"])
 				{
 					if (i != 0)
 					{
 						tableData.push(sectionHeader);
 					}
-					sectionHeader = Ti.UI.createTableViewSection({headerTitle: json[i]["role"], height: 30});
-					sectionName = json[i]["role"];
+					sectionHeader = Ti.UI.createTableViewSection({headerTitle: json["assignments"][i]["role"], height: 30});
+					sectionName = json["assignments"][i]["role"];
 				}
 				
-				var row = Ti.UI.createTableViewRow({className: 'row', height: 80, assignment_id: json[i]["id"], role: json[i]["role"], activity_id: json[i]["activity_id"], hasChild: true});
+				var row = Ti.UI.createTableViewRow({className: 'row', height: 80, assignment_id: json["assignments"][i]["id"], role: json["assignments"][i]["role"], activity_id: json["assignments"][i]["activity_id"], hasChild: true});
 				var imageName = 'missing_logo.png';
-				if ((json[i]["logo_url"]).indexOf("missing_logo.png") == -1)
+				if ((json["assignments"][i]["logo_url"]).indexOf("missing_logo.png") == -1)
 				{
-					imageName = json[i]["logo_url"];
+					imageName = json["assignments"][i]["logo_url"];
 				}
 				
 				var assignmentLogo = image({image: imageName, left: 15, width: 55, touchEnabled: false});
 			  	row.add(assignmentLogo);
-				var assignmentName = Ti.UI.createLabel({text: json[i]["name"], top: 20, left: 80, font: { fontSize:12, fontWeight: 'bold' }});
+				var assignmentName = Ti.UI.createLabel({text: json["assignments"][i]["name"], top: 20, left: 80, font: { fontSize:12, fontWeight: 'bold' }});
 				row.add(assignmentName);
-				var assignmentStartDate = Ti.UI.createLabel({text: 'Start: ' + json[i]["startDate"], tanimatop: 40, left: 80, font: { fontSize:8}});
+				var assignmentStartDate = Ti.UI.createLabel({text: 'Start: ' + json["assignments"][i]["startDate"], top: 40, left: 80, font: { fontSize:8}});
 				row.add(assignmentStartDate);
-				var assignmentEndDate = Ti.UI.createLabel({text: 'End: ' + json[i]["endDate"], top: 50, left: 80, font: { fontSize:8}});
+				var assignmentEndDate = Ti.UI.createLabel({text: 'End: ' + json["assignments"][i]["endDate"], top: 50, left: 80, font: { fontSize:8}});
 				row.add(assignmentEndDate);
 			  	sectionHeader.add(row);	
 			}
@@ -286,7 +364,7 @@ function getAssignments()
 			var imageName = 'missing_logo.png';
 			var wcLogo = image({image: imageName, left: 15, width: 55, touchEnabled: false});
 		  	row.add(wcLogo);
-			var goToName = Ti.UI.createLabel({text: "Go to Sports", top: 20, left: 80, font: { fontSize:12, fontWeight: 'bold' }});
+			var goToName = Ti.UI.createLabel({text: "Browse Drills & Videos", top: 20, left: 80, font: { fontSize:12, fontWeight: 'bold' }});
 			row.add(goToName);
 		  	sectionHeader.add(row);	
 		  	tableData.push(sectionHeader);

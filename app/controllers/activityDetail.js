@@ -2,7 +2,7 @@ var args = arguments[0] || {};
 
 var activity_id = args[0];
 
-$.activityTab.setActiveTab(1);
+$.activityTab.setActiveTab(0);
 getDrillBrowseCategories(activity_id, $.dactivityIndicator, $.drillsTable);
 
 $.videosTab.addEventListener('focus', function(e){
