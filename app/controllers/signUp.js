@@ -1,13 +1,22 @@
 var args = arguments[0] || {};
 
 getActivities();
+if (Ti.Platform.osname == 'iphone')
+{
+	$.coachSwitch.visible = false;
+	$.joinBtn.top = 300;
+	$.cancelBtn.top = 350;
+}
 $.activityPicker.visible = false;
 $.gradesPicker.visible = false;
+
 
 function doCoachCheck()
 {
 	if ($.coachSwitch.value)
 	{
+		$.joinBtn.top = 400;
+		$.cancelBtn.top = 450;
 		$.activityPicker.visible = true;
 		$.gradesPicker.visible = true;
 		if ($.activityPicker.children.length == 0)
@@ -20,6 +29,8 @@ function doCoachCheck()
 	{
 		$.activityPicker.visible = false;
 		$.gradesPicker.visible = false;
+		$.joinBtn.top = 300;
+		$.cancelBtn.top = 350;
 	}
 }
 
@@ -41,6 +52,7 @@ function getActivities()
 				{
 					data[i]=Ti.UI.createPickerRow({title:json[i]["name"], id: json[i]["id"]});
 				}
+				$.activityPicker.setSelectedRow(0,0);
 				$.activityPicker.add(data);
 			}	
 		}
@@ -159,7 +171,6 @@ function doJoinNow(e)
 		onload: function() 
 		{
 		 	// handle the response
-		 	console.log(this.responseText);
 		 	json = JSON.parse(this.responseText);
 		 	if (json["success"] == 1)
 		 	{

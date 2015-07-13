@@ -15,27 +15,39 @@ $.inviteDetail.add(logo);
 
 function doAccept(e)
 {
-	///homes/accept?assignment_id=inviteDetail["assignment_id"]
 	postAction("accept");
 }
 
 function doReject(e)
 {
-	///homes/reject?assignment_id=inviteDetail["assignment_id"]
 	postAction("reject");
 }
 
 function postAction(actionType)
 {
+	var acceptRejectPost =  {
+				action_type: actionType,
+				assignment_id: inviteDetail["assignment_id"]
+			  };
+			  
 	var xhr = Ti.Network.createHTTPClient(
 	{
 		onload: function() 
 		{
-		 	Ti.App.fireEvent('refreshAssignments',{actionType: "inviteProcessed"});
+			json = JSON.parse(this.responseText);
+		 	if (json["success"] == 1)
+		 	{
+		 		Ti.App.fireEvent('refreshAssignments',{actionType: "inviteProcessed"});
+		 		$.inviteDetail.close();
+		 	}
+		 	else
+		 	{
+		 		alert('An error occured processing your request. Please try again later.');
+		 	}
 		}
 	});
 
-	xhr.open('GET', webserver+'/homes/' + actionType + '?assignment_id=' + inviteDetail["assignment_id"]);
+	xhr.open('POST', webserver+'/invites/accept_reject.json');
 	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
-	xhr.send();	
+	xhr.send(acceptRejectPost);	
 }

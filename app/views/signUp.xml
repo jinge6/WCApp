@@ -13,8 +13,8 @@
         <Label top="260" left="40" text="Join as Coach?"></Label>
         <Switch top="250" left="150" id="coachSwitch" value="false" onChange="doCoachCheck"/>
         <Picker top="300" width="Titanium.UI.FILL" id="activityPicker" onChange="getGrades"></Picker>  
-        <Picker top="350" width="Titanium.UI.FILL" id="gradesPicker"></Picker>  
-        <Button id="newUserBtn" top="400" color="white" onClick="doJoinNow">Join Now</Button>
-        <Button id="newUserBtn" top="450" color="white" onClick="doCancel">Cancel</Button>
+        <Picker top="350" width="Titanium.UI.FILL" id="gradesPicker"></Picker>
+        <Button id="joinBtn" top="300" color="white" onClick="doJoinNow">Join Now</Button>
+        <Button id="cancelBtn" top="350" color="white" onClick="doCancel">Cancel</Button>
 	</Window>
 </Alloy>

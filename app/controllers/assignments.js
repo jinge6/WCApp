@@ -55,7 +55,7 @@ function showInviteDetail(inviteDetail)
 	var inviteDetailView = Alloy.createController('inviteDetail', [inviteDetail]).getView();
 	if (Ti.Platform.osname == 'iphone')
 	{
-		$.navAssignment.openWindow(invitesView);
+		$.navAssignment.openWindow(inviteDetailView);
 	}
 	else
 	{
@@ -78,7 +78,7 @@ Ti.App.addEventListener('refreshAssignments', function(e) {
 
 //add behavior for goActivityDetail
 Ti.App.addEventListener('goActivityDetail', function(e) {
-	var activityDetailWindow = Alloy.createController('activityDetail', [e.row.activity_id]).getView();
+	var activityDetailWindow = Alloy.createController('activityDetail', [e.activity_id]).getView();
 	if (Ti.Platform.osname == 'iphone')
 	{
 		$.navAssignment.openWindow(activityDetailWindow);
@@ -324,7 +324,7 @@ function getAssignments()
 			  	{
 			  		inviteText = "You have " + json["invites"].length + " invites";
 			  	}
-				var invitesName = Ti.UI.createLabel({text: inviteText, top: 20, left: 80, font: { fontSize:12, fontWeight: 'bold' }});
+				var invitesName = Ti.UI.createLabel({text: inviteText, top: 30, left: 80, font: { fontSize:12, fontWeight: 'bold' }});
 				row.add(invitesName);
 			  	sectionHeader.add(row);	
 			  	tableData.push(sectionHeader);
@@ -372,7 +372,7 @@ function getAssignments()
 			var imageName = 'missing_logo.png';
 			var wcLogo = image({image: imageName, left: 15, width: 55, touchEnabled: false});
 		  	row.add(wcLogo);
-			var goToName = Ti.UI.createLabel({text: "Browse Drills & Videos", top: 20, left: 80, font: { fontSize:12, fontWeight: 'bold' }});
+			var goToName = Ti.UI.createLabel({text: "Browse Drills & Videos", top: 30, left: 80, font: { fontSize:12, fontWeight: 'bold' }});
 			row.add(goToName);
 		  	sectionHeader.add(row);	
 		  	tableData.push(sectionHeader);

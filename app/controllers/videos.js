@@ -29,7 +29,7 @@ function getVideos(activity_id, strength_id)
 				{
 					var row = Ti.UI.createTableViewRow({link: json[i]["link"], height: 60});
 					
-					var thumb = Ti.UI.createImageView({image: json[i]["thumb"], left: 10});
+					var thumb = Ti.UI.createImageView({image: json[i]["thumb_url"], left: 10});
 					row.add(thumb);
 					var name = Ti.UI.createLabel({text: json[i]["title"], left: 70, font: { fontSize:10, fontWeight: 'bold' }});
 					row.add(name);

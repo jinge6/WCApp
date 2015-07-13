@@ -1,7 +1,7 @@
 <Alloy>
 	<Window id="inviteDetail" backgroundColor="white">
 		<Label top="70" left="10" id="inviteText"></Label>
-		<Button id="acceptBtn" top="200" color="white" onClick="doAccept">Accept</Button>
-        <Button id="rejectBtn" top="250" color="white" onClick="doReject">No Thanks</Button>
+		<Button id="acceptBtn" top="200" onClick="doAccept">Accept</Button>
+        <Button id="rejectBtn" top="250" onClick="doReject">No Thanks</Button>
 	</Window>
 </Alloy>
