@@ -14,6 +14,14 @@
         		</TableView>
 			</Window>
 		</Tab>
+		<Tab id="playersTab" title="Players" icon="training_tab.png" >
+			<Window id="playersWin" title="Training" backgroundColor="white">
+				<ActivityIndicator platform="android" id="pactivityIndicator" style="Ti.UI.ActivityIndicatorStyle.DARK" message='Loading...' top="160"></ActivityIndicator>
+				<ActivityIndicator platform="ios" id="pactivityIndicator" style="Ti.UI.iPhone.ActivityIndicatorStyle.DARK" message='Loading...' top="160"></ActivityIndicator>
+				<TableView id="playersTable" visible="false">
+        		</TableView>
+			</Window>
+		</Tab>
 		<Tab id="gameDayTab" title="Game Day" icon="gameday_tab.png" >
 			<Window id="gameDayWin" title="Game Day" backgroundColor="white">
 				<ActivityIndicator platform="android" id="gactivityIndicator" style="Ti.UI.ActivityIndicatorStyle.DARK" message='Loading...' top="160"></ActivityIndicator>

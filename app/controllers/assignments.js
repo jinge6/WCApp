@@ -4,6 +4,19 @@ var invitesJSON;
 $.activityIndicator.show();
 getAssignments();
 
+if (Ti.Platform.osname == 'iphone')
+{
+	var pullRefreshControl = Ti.UI.createRefreshControl();
+	pullRefreshControl.addEventListener('refreshstart',function(e){
+	    setTimeout(function(){
+	        getAssignments();
+	        pullRefreshControl.endRefreshing();
+	    }, 2000);
+	});
+	$.trainingTable.refreshControl = pullRefreshControl;
+}
+
+
 function goAssignment(e){
 	if (e.row.role == "browse")
 	{
@@ -86,6 +99,19 @@ Ti.App.addEventListener('goActivityDetail', function(e) {
 	else
 	{
 		activityDetailWindow.open();
+	}
+});
+
+//add behavior for goInviteAthlete
+Ti.App.addEventListener('goInviteAthlete', function(e) {
+	var inviteAthleteWindow = Alloy.createController('inviteAthlete', [e.assignment_id]).getView();
+	if (Ti.Platform.osname == 'iphone')
+	{
+		$.navAssignment.openWindow(inviteAthleteWindow);
+	}
+	else
+	{
+		inviteAthleteWindow.open();
 	}
 });
 
@@ -328,6 +354,7 @@ function getAssignments()
 				row.add(invitesName);
 			  	sectionHeader.add(row);	
 			  	tableData.push(sectionHeader);
+			  	sectionHeader = null;
 			}
 
 			for (var i=0; i<json["assignments"].length; i++)

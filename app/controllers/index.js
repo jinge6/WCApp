@@ -37,14 +37,11 @@ function doSignIn(e){
 				
 				var assignmentsWindow = Alloy.createController('assignments').getView();
 	    		assignmentsWindow.open();
+	    		$.index.close();
 		 	}
 		 	else
 		 	{
-		 		if (auth_token_property != null)
-		 		{
-		 			alert('Email or password was incorrect');
-		 			$.index.open();
-		 		}
+		 		alert(json["message"]);
 		 	}
 		}
 	});

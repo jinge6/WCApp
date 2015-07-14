@@ -43,6 +43,10 @@ $.gameDayTab.addEventListener('focus', function(e){
     getGameDay(assignment_id);
 });
 
+$.playersTab.addEventListener('focus', function(e){
+    getPlayers(assignment_id);
+});
+
 // create table view
 var assessmentTable = Titanium.UI.createTableView();
 
@@ -72,6 +76,11 @@ $.drillsTable.addEventListener('click', function(e){
 $.gameDayTable.addEventListener('click', function(e){
 	Ti.App.fireEvent('showEventDetail',{event_id: e.rowData.event_id, gameplan: e.rowData.gameplan, debrief: e.rowData.debrief, opponent: e.rowData.opponent, assignment_id: e.rowData.assignment_id, opponent_id: e.rowData.opponent_id});
 });
+
+$.playersTable.addEventListener('click', function(e){
+	Ti.App.fireEvent('goInviteAthlete',{assignment_id: assignment_id});
+});
+
 
 $.trainingTable.addEventListener('singletap', function(e){
 	e.cancelBubble = true;
@@ -369,6 +378,50 @@ function getGameDay(assignment_id)
 	});
 		
 	xhr.open('GET', webserver+'/assignments/' + assignment_id + '/assignment_events.json');
+	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
+	xhr.send();	
+}
+
+function getPlayers(assignment_id)
+{
+	var tableData = [];
+	
+	$.pactivityIndicator.show();
+	var row = Ti.UI.createTableViewRow({height: 60, touchEnabled: true, assignment_id: assignment_id});
+	var inviteLabel = Ti.UI.createLabel({text: "Invite Player", touchEnabled: false, hasChild: true, top: 15, left: 100, font: { fontSize:14, fontWeight: 'bold' }});
+	row.add(inviteLabel);
+	tableData.push(row);
+
+	var xhr = Ti.Network.createHTTPClient(
+	{
+		onload: function() 
+		{
+			json = JSON.parse(this.responseText);
+			
+			if (json.length != 0)
+			{					
+				for (var i=0; i<json["players"].length; i++)
+				{
+					var row = Ti.UI.createTableViewRow({height: 60, touchEnabled: false});
+					var avatarPath = "missing_avatar.png";
+					if (json["players"][i]["avatar"] != "missing_avatar.png")
+					{
+						avatarPath = json["players"][i]["avatar"];
+					}
+					var avatar = image({image: avatarPath, width: Ti.UI.SIZE, height: Ti.UI.SIZE, left: 20});
+					row.add(avatar);
+					var name = Ti.UI.createLabel({text: json["players"][i]["name"], touchEnabled: false, top: 15, left: 100, font: { fontSize:14, fontWeight: 'bold' }});
+					row.add(name);
+				}
+				tableData.push(row);
+			}	
+			$.playersTable.setData(tableData);
+			$.pactivityIndicator.hide();
+			$.playersTable.visible = true;
+		}
+	});
+		
+	xhr.open('GET', webserver+'/assignments/' + assignment_id + '/assignments/players.json');
 	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
 	xhr.send();	
 }
