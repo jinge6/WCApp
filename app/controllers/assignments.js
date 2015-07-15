@@ -414,3 +414,48 @@ function getAssignments()
 	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
 	xhr.send();	
 }
+
+function getMoveableImages()
+{
+	var xhr = Ti.Network.createHTTPClient(
+	{
+		onload: function() 
+		{
+		 	json = JSON.parse(this.responseText);
+			
+			if (json["stamp"] != Ti.App.Properties.getString('stamp'))
+			{
+				// check that we have room on the file system
+				var dir = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory);
+				
+				var freeBytes = dir.spaceAvailable();
+				
+				if (freeBytes > parseInt(json["total_bytes"]))
+				{
+					// create the new directory
+					var imageDir = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory,            
+					    json["stamp"]);
+					if (! imageDir.exists()) {
+					    imageDir.createDirectory();
+					}
+					
+					// read each name and path, create the file, resize it
+					for (var i=0; i<json["moveables"].length; i++)
+					{
+						console.log(json["moveables"][i]["name"]);
+						console.log(json["moveables"][i]["path"]);
+					}
+					// if that has all gone well then lets update the stamp property so we start reading from a different folder
+				}
+				else
+				{
+					alert('WinnersCircle does not have enough space to store required images. json["total_bytes"] btyes required.');
+				}
+			}
+		}
+	});
+		
+	xhr.open('GET', webserver+'/welcome/moveable_images.json');
+	xhr.setRequestHeader("X-CSRFToken", Ti.App.Properties.getString("csrf"));
+	xhr.send();	
+}

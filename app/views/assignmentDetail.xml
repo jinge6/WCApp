@@ -6,7 +6,7 @@
 				<ActivityIndicator platform="ios" id="assActivityIndicator" style="Ti.UI.iPhone.ActivityIndicatorStyle.DARK" message='Loading...' top="160"></ActivityIndicator>
     		</Window>
 		</Tab>
-		<Tab id="nextTrainingTab" title="Next Training" icon="training_tab.png" >
+		<Tab id="nextTrainingTab" title="Next Training" icon="runningman.png" >
 			<Window id="trainingWin" title="Training" backgroundColor="white">
 				<ActivityIndicator platform="android" id="tactivityIndicator" style="Ti.UI.ActivityIndicatorStyle.DARK" message='Loading...' top="160"></ActivityIndicator>
 				<ActivityIndicator platform="ios" id="tactivityIndicator" style="Ti.UI.iPhone.ActivityIndicatorStyle.DARK" message='Loading...' top="160"></ActivityIndicator>

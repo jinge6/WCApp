@@ -195,7 +195,7 @@ function getDrill(drill_id)
 					var row3 = Ti.UI.createTableViewRow({touchEnabled: false});
 					if (json["content_type"] == "animated" && json["steps"][i]["layers"] != null && json["steps"][i]["layers"].length > 0)
 					{
-						var animatedDiagram = image({image: json["steps"][i]["background"]+'.png', width: 320, height: 273, left: 0});
+						var animatedDiagram = image({image: json["steps"][i]["background"], width: 320, height: 273, left: 0});
 						animatedDiagram.addEventListener('click', function(e){
 							Ti.App.fireEvent('runAnimation');
 						});
@@ -210,7 +210,7 @@ function getDrill(drill_id)
 					            {
 					            	xPos = (parseInt(animateObjects[i][2]) * xScalingFactor);
 					                yPos = (parseInt(animateObjects[i][3]) * yScalingFactor);
-					            	var moveable = image({image: animateObjects[i][1]+'.png', left: xPos, top: yPos, height:30, width: 30});
+					            	var moveable = image({image: animateObjects[i][1], left: xPos, top: yPos, height:30, width: 30});
 									row3.add(moveable);
 									moveables[animateObjects[i][1]] = moveable;
 					            }

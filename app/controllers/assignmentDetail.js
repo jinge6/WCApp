@@ -44,7 +44,7 @@ $.gameDayTab.addEventListener('focus', function(e){
 });
 
 $.playersTab.addEventListener('focus', function(e){
-    getPlayers(assignment_id);
+    getPlayers(assignment_id, role);
 });
 
 // create table view
@@ -78,7 +78,10 @@ $.gameDayTable.addEventListener('click', function(e){
 });
 
 $.playersTable.addEventListener('click', function(e){
-	Ti.App.fireEvent('goInviteAthlete',{assignment_id: assignment_id});
+	if (role == "Coach" && e.rowData.inviteRow)
+	{
+		Ti.App.fireEvent('goInviteAthlete',{assignment_id: assignment_id});
+	}
 });
 
 
@@ -382,15 +385,18 @@ function getGameDay(assignment_id)
 	xhr.send();	
 }
 
-function getPlayers(assignment_id)
+function getPlayers(assignment_id, role)
 {
 	var tableData = [];
 	
 	$.pactivityIndicator.show();
-	var row = Ti.UI.createTableViewRow({height: 60, touchEnabled: true, assignment_id: assignment_id});
-	var inviteLabel = Ti.UI.createLabel({text: "Invite Player", touchEnabled: false, hasChild: true, top: 15, left: 100, font: { fontSize:14, fontWeight: 'bold' }});
-	row.add(inviteLabel);
-	tableData.push(row);
+	if (role == "Coach")
+	{
+		var row = Ti.UI.createTableViewRow({height: 60, touchEnabled: true, assignment_id: assignment_id, inviteRow: true});
+		var inviteLabel = Ti.UI.createLabel({text: "Invite Player", touchEnabled: false, hasChild: true, top: 15, left: 100, font: { fontSize:14, fontWeight: 'bold' }});
+		row.add(inviteLabel);
+		tableData.push(row);
+	}
 
 	var xhr = Ti.Network.createHTTPClient(
 	{
@@ -408,16 +414,21 @@ function getPlayers(assignment_id)
 					{
 						avatarPath = json["players"][i]["avatar"];
 					}
-					var avatar = image({image: avatarPath, width: Ti.UI.SIZE, height: Ti.UI.SIZE, left: 20});
+					var avatar = image({image: avatarPath, width: Ti.UI.SIZE, height: Ti.UI.SIZE, left: 10});
 					row.add(avatar);
 					var name = Ti.UI.createLabel({text: json["players"][i]["name"], touchEnabled: false, top: 15, left: 100, font: { fontSize:14, fontWeight: 'bold' }});
 					row.add(name);
 				}
 				tableData.push(row);
+				$.playersTable.setData(tableData);
+				$.pactivityIndicator.hide();
+				$.playersTable.visible = true;
 			}	
-			$.playersTable.setData(tableData);
-			$.pactivityIndicator.hide();
-			$.playersTable.visible = true;
+			else
+			{
+				var noPlayers = Ti.UI.createLabel({text: "No players have accepted invites", touchEnabled: false, font: { fontSize:12, fontWeight: 'bold' }});
+				$.playersWin.add(noPlayers);
+			}
 		}
 	});
 		

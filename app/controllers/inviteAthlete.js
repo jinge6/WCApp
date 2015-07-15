@@ -2,6 +2,16 @@ var args = arguments[0] || {};
 
 var assignment_id = args[0];
 
+var emailSentDialog = Ti.UI.createAlertDialog({
+    message: 'Invite has been sent',
+    ok: 'OK',
+    title: 'Invite Sent'
+  });
+  
+  emailSentDialog.addEventListener('click', function(e){
+    $.inviteAthleteWindow.close();
+  });
+
 function doInvite()
 {
 	var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
@@ -28,8 +38,8 @@ function doInvite()
 		 	json = JSON.parse(this.responseText);
 		 	if (json["success"] == 1)
 		 	{
-		 		alert('Invite has been sent');
 		 		$.inviteBtn.visible = false;
+		 		emailSentDialog.show();
 		 	}
 		 	else
 		 	{
