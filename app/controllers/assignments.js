@@ -1,5 +1,7 @@
 var args = arguments[0] || { };
 var invitesJSON;
+var is_member = false;
+var tableData = [];
 
 $.activityIndicator.show();
 getAssignments();
@@ -16,9 +18,19 @@ if (Ti.Platform.osname == 'iphone')
 	$.trainingTable.refreshControl = pullRefreshControl;
 }
 
+function androidRefresh(e)
+{
+	getAssignments();
+	$.ptr.hide();
+}
+
 
 function goAssignment(e){
-	if (e.row.role == "browse")
+	if (is_member == false && e.row.role != "invite")
+	{
+		alert('Please renew your membership to access this feature');
+	}
+	else if (e.row.role == "browse")
 	{
 		var activityView = Alloy.createController('activities').getView();
 		if (Ti.Platform.osname == 'iphone')
@@ -319,7 +331,7 @@ function getInvites()
 
 function getAssignments()
 {
-	var tableData = [];
+	tableData = [];
 	var sectionName;
 	var sectionHeader;
 	
@@ -330,6 +342,8 @@ function getAssignments()
 		 	var tableData = [];
 
 			json = JSON.parse(this.responseText);
+			
+			is_member = json["is_member"];
 			
 			if (json["invites"].length > 0)
 			{

@@ -1,7 +1,9 @@
 <Alloy>
 	<Window id="navAssignment" title="Home" platform="android" backgroundColor="white">
-  		<TableView id="trainingTable" onClick="goAssignment" visible="false"></TableView>
-  		<ActivityIndicator id="activityIndicator" style="Ti.UI.ActivityIndicatorStyle.DARK" message='Loading...' top="160"></ActivityIndicator>
+		<ActivityIndicator id="activityIndicator" style="Ti.UI.ActivityIndicatorStyle.DARK" message='Loading...' top="160"></ActivityIndicator>
+		<Widget id="ptr" src="nl.fokkezb.pullToRefresh" onRelease="androidRefresh">
+	  		<TableView id="trainingTable" onClick="goAssignment" visible="false"></TableView>
+  		</Widget>
   	</Window>
   	<NavigationWindow id="navAssignment" platform="ios">
   		<Window title="Home" backgroundColor="white">
