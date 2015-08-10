@@ -1,20 +1,8 @@
 <Alloy>
-	<TabGroup id="activityTab">
-		<Tab id="drillsTab" title="Drills" icon="drills_tab.png">
-			<Window title="Drills" backgroundColor="white">
-				<ActivityIndicator platform="android" id="dactivityIndicator" style="Ti.UI.ActivityIndicatorStyle.DARK" message='Loading...' top="160"></ActivityIndicator>
-				<ActivityIndicator platform="ios" id="dactivityIndicator" style="Ti.UI.iPhone.ActivityIndicatorStyle.DARK" message='Loading...' top="160"></ActivityIndicator>
-				<TableView id="drillsTable" visible="false">
-        		</TableView>
-			</Window>
-		</Tab>
-		<Tab id="videosTab" title="Videos" icon="video_tab.png">
-			<Window title="Videos" backgroundColor="white">
-				<ActivityIndicator platform="android" id="vactivityIndicator" style="Ti.UI.ActivityIndicatorStyle.DARK" message='Loading...' top="160"></ActivityIndicator>
-				<ActivityIndicator platform="ios" id="vactivityIndicator" style="Ti.UI.iPhone.ActivityIndicatorStyle.DARK" message='Loading...' top="160"></ActivityIndicator>
-				<TableView id="videoCategoriesTable" visible="false">
-        		</TableView>
-			</Window>
-		</Tab>
-	</TabGroup>
+	<Window title="Drills" backgroundColor="white">
+		<ActivityIndicator platform="android" id="dactivityIndicator" style="Ti.UI.ActivityIndicatorStyle.DARK" message='Loading...' top="160"></ActivityIndicator>
+		<ActivityIndicator platform="ios" id="dactivityIndicator" style="Ti.UI.iPhone.ActivityIndicatorStyle.DARK" message='Loading...' top="160"></ActivityIndicator>
+		<TableView id="drillsTable" visible="false">
+		</TableView>
+	</Window>
 </Alloy>
