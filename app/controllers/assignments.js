@@ -413,7 +413,7 @@ function getAssignments()
 			var imageName = 'missing_logo.png';
 			var wcLogo = image({image: imageName, left: 15, width: 55, touchEnabled: false});
 		  	row.add(wcLogo);
-			var goToName = Ti.UI.createLabel({text: "Browse Drills & Videos", top: 30, left: 80, font: { fontSize:12, fontWeight: 'bold' }});
+			var goToName = Ti.UI.createLabel({text: "Drill Library", top: 30, left: 80, font: { fontSize:12, fontWeight: 'bold' }});
 			row.add(goToName);
 		  	sectionHeader.add(row);	
 		  	tableData.push(sectionHeader);
