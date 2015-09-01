@@ -8,6 +8,10 @@ var xScalingFactor = 320/550;
 var yScalingFactor = 273/470;
 var currentLayer = 1;
 var eventsProcessed = 1;
+var totalEventsProcessed = 0;
+var totalEventsToExpect = 0;
+var runPlayButton;
+var resetButton;
 
 $.drill.addEventListener('blur', function() {
     Ti.App.removeEventListener('runAnimation', runEventListener);
@@ -18,11 +22,35 @@ var runEventListener = function(e) {
 	layerEvents = [];
 	if (animateObjects.length > 0)
     {
+    	runPlayButton.animate({ 
+	        curve: Ti.UI.ANIMATION_CURVE_EASE_IN_OUT, 
+	        opacity: 0, 
+	        duration: 1000
+	    });
+    	totalEventsToExpect = 0;
+		for (var i=0; i<animateObjects.length; i++)
+    	{
+    		if (parseInt(animateObjects[i][0]) > 1)
+    		{
+    			totalEventsToExpect++;
+    		}
+    	}
+    	
     	if (currentLayer > 1)
     	{
     		eventsProcessed = 1;
     		kickoffAnimation(false, 1, currentLayer-1);
     		currentLayer = 1;
+    		resetButton.animate({ 
+		        curve: Ti.UI.ANIMATION_CURVE_EASE_IN_OUT, 
+		        opacity: 0, 
+		        duration: 2000
+		    });
+			runPlayButton.animate({ 
+		        curve: Ti.UI.ANIMATION_CURVE_EASE_IN_OUT, 
+		        opacity: 1, 
+		        duration: 2000
+		    });
     	}
     	else
     	{
@@ -46,15 +74,23 @@ function animationHandler(layer)
 	var expectEventsForThisLayer = layerEvents[layer];
 	if (expectEventsForThisLayer == eventsProcessed)
 	{
+		totalEventsProcessed += eventsProcessed;
 		eventsProcessed = 1;
 		currentLayer = layer + 1;
 		kickoffAnimation(true, currentLayer, layer);
+		if (totalEventsToExpect == totalEventsProcessed)
+		{
+			resetButton.animate({ 
+		        curve: Ti.UI.ANIMATION_CURVE_EASE_IN_OUT, 
+		        opacity: 1, 
+		        duration: 2000
+		    });
+		}
 	}
 	else
 	{
 		eventsProcessed++;
 	}
-	
 }
 
 function kickoffAnimation(animateAll, moveToLayer, fromLayer)
@@ -105,22 +141,6 @@ function kickoffAnimation(animateAll, moveToLayer, fromLayer)
             }
         }
     }
-}
-
-function eventsToExpect(layer)
-{
-	if (animateObjects.length > 0)
-	{
-		var moveableCount = 0;
-		for (var i = 0; i < animateObjects.length; i++)
-        {
-			if (parseInt(animateObjects[i][0]) == layer)
-			{
-				moveableCount++;
-			}
-		}
-	}
-	return moveableCount;
 }
 
 getDrill(drill_id);
@@ -215,6 +235,17 @@ function getDrill(drill_id)
 									moveables[animateObjects[i][1]] = moveable;
 					            }
 					        }
+					        runPlayButton = image({image: "play.png", left: 125, top: 100});
+					        runPlayButton.addEventListener('click', function(e){
+								Ti.App.fireEvent('runAnimation');
+							});
+							row3.add(runPlayButton);
+							
+							resetButton = image({image: "reset.png", left: 125, top: 100, opacity: 0});
+					        resetButton.addEventListener('click', function(e){
+								Ti.App.fireEvent('runAnimation');
+							});
+							row3.add(resetButton);
 				       	}
 					}
 					else if (json["content_type"] == "video")
