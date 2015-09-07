@@ -37,7 +37,7 @@ function postAction(actionType)
 			json = JSON.parse(this.responseText);
 		 	if (json["success"] == 1)
 		 	{
-		 		Ti.App.fireEvent('refreshAssignments',{actionType: "inviteProcessed"});
+		 		Ti.App.fireEvent('refreshAssignments');
 		 		$.inviteDetail.close();
 		 	}
 		 	else

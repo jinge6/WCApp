@@ -1,0 +1,6 @@
+<Alloy>
+	<Window id="status" backgroundColor="white">
+		<ImageView id="logo" image="winnerscircle2.png" top="90"></ImageView>
+		<Label id="progress"></Label>
+	</Window>
+</Alloy>

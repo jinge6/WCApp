@@ -90,7 +90,7 @@ function getDrillsToBrowse(strength_id)
 					});
 				  	var diagram = image({image: imageName, height: Ti.UI.SIZE, width: Ti.UI.SIZE, left: 5, touchEnabled: false});
 				  	defaultView.add(diagram);
-				  	var drillName = Ti.UI.createLabel({touchEnabled: false, text: json["drills"][i]["name"], top: 2, left: 105, font: { fontSize:12, fontWeight: 'bold' }});
+				  	var drillName = Ti.UI.createLabel({color: "#000", touchEnabled: false, text: json["drills"][i]["name"], top: 2, left: 105, font: { fontSize:12, fontWeight: 'bold' }});
 					defaultView.add(drillName);
 					var drillRating = new RatingView(json["drills"][i]["rating"], 5, json["drills"][i]["total_ratings"], 25, 105, true, false);
 					defaultView.add(drillRating);
@@ -107,13 +107,13 @@ function getDrillsToBrowse(strength_id)
 						
 						if (json["drills"][i]["strengths"].length == 1)
 						{
-							var strength = Ti.UI.createLabel({touchEnabled: false, text: json["drills"][i]["strengths"][0]["name"], top: 50, left: leftOffset, font: { fontSize:8, fontWeight: 'bold'}});
+							var strength = Ti.UI.createLabel({color: "#000", touchEnabled: false, text: json["drills"][i]["strengths"][0]["name"], top: 50, left: leftOffset, font: { fontSize:8, fontWeight: 'bold'}});
 							defaultView.add(strength);
 						}
 						else
 						{
 							var strengthCount = json["drills"][i]["strengths"].length-1;
-							var strengthAndMore = Ti.UI.createLabel({touchEnabled: false, text: json["drills"][i]["strengths"][0]["name"] + ' and ' + strengthCount.toString() + ' more', top: 50, left: leftOffset, font: { fontSize:8, fontWeight: 'bold'}});
+							var strengthAndMore = Ti.UI.createLabel({color: "#000", touchEnabled: false, text: json["drills"][i]["strengths"][0]["name"] + ' and ' + strengthCount.toString() + ' more', top: 50, left: leftOffset, font: { fontSize:8, fontWeight: 'bold'}});
 							defaultView.add(strengthAndMore);
 						}
 					}

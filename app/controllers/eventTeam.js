@@ -45,7 +45,7 @@ function getEventTeam()
 					}
 					var avatar = image({image: avatarPath, width: Ti.UI.SIZE, height: Ti.UI.SIZE, left: 0});
 					row.add(avatar);
-					var name = Ti.UI.createLabel({text: json[i]["name"], touchEnabled: false, top: 15, left: 100, font: { fontSize:14, fontWeight: 'bold' }});
+					var name = Ti.UI.createLabel({color: "#000", text: json[i]["name"], touchEnabled: false, top: 15, left: 100, font: { fontSize:14, fontWeight: 'bold' }});
 					row.add(name);
 					sectionHeader.add(row);
 				}

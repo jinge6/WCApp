@@ -41,6 +41,7 @@ var runEventListener = function(e) {
     		eventsProcessed = 1;
     		kickoffAnimation(false, 1, currentLayer-1);
     		currentLayer = 1;
+    		totalEventsProcessed = 0;
     		resetButton.animate({ 
 		        curve: Ti.UI.ANIMATION_CURVE_EASE_IN_OUT, 
 		        opacity: 0, 
@@ -78,6 +79,7 @@ function animationHandler(layer)
 		eventsProcessed = 1;
 		currentLayer = layer + 1;
 		kickoffAnimation(true, currentLayer, layer);
+		
 		if (totalEventsToExpect == totalEventsProcessed)
 		{
 			resetButton.animate({ 
@@ -177,7 +179,7 @@ function getDrill(drill_id)
 			{
 				var row = Ti.UI.createTableViewRow({touchEnabled: false, height: 20});
 					
-				var drillName = Ti.UI.createLabel({text: json["name"], left: 10, touchEnabled: false, font: { fontSize:12, fontWeight: 'bold'}});
+				var drillName = Ti.UI.createLabel({color: "#000", text: json["name"], left: 10, touchEnabled: false, font: { fontSize:12, fontWeight: 'bold'}});
 				row.add(drillName);
 				tableData.push(row);
 				
@@ -202,7 +204,7 @@ function getDrill(drill_id)
 				{
 					var row = Ti.UI.createTableViewRow({touchEnabled: false, height: 20});
 					
-					var stepName = Ti.UI.createLabel({text: json["steps"][i]["title"], left: 10, touchEnabled: false, font: { fontSize:12, fontWeight: 'bold'}});
+					var stepName = Ti.UI.createLabel({color: "#000", text: json["steps"][i]["title"], left: 10, touchEnabled: false, font: { fontSize:12, fontWeight: 'bold'}});
 					row.add(stepName);
 					tableData.push(row);
 					
@@ -215,7 +217,8 @@ function getDrill(drill_id)
 					var row3 = Ti.UI.createTableViewRow({touchEnabled: false});
 					if (json["content_type"] == "animated" && json["steps"][i]["layers"] != null && json["steps"][i]["layers"].length > 0)
 					{
-						var animatedDiagram = image({image: json["steps"][i]["background"], width: 320, height: 273, left: 0});
+						var imageID = json["steps"][i]["background"];
+						var animatedDiagram = image({image: imageID.substring(imageID.lastIndexOf("/")+1, imageID.length), left: 0, top: 0, height: 273, width: 320});
 						animatedDiagram.addEventListener('click', function(e){
 							Ti.App.fireEvent('runAnimation');
 						});
@@ -230,7 +233,8 @@ function getDrill(drill_id)
 					            {
 					            	xPos = (parseInt(animateObjects[i][2]) * xScalingFactor);
 					                yPos = (parseInt(animateObjects[i][3]) * yScalingFactor);
-					            	var moveable = image({image: animateObjects[i][1], left: xPos, top: yPos, height:30, width: 30});
+					                var moveableID = animateObjects[i][1];
+					            	var moveable = image({image: moveableID.substring(moveableID.lastIndexOf("/")+1, moveableID.length), left: xPos, top: yPos, height: 30, width: 30});
 									row3.add(moveable);
 									moveables[animateObjects[i][1]] = moveable;
 					            }
@@ -296,7 +300,7 @@ function getDrill(drill_id)
 				
 				var reviewHeaderRow = Ti.UI.createTableViewRow({touchEnabled: false, height: 20});
 					
-				var reviewTitle = Ti.UI.createLabel({text: 'Reviews', left: 10, touchEnabled: false, font: { fontSize:12, fontWeight: 'bold'}});
+				var reviewTitle = Ti.UI.createLabel({color: "#000", text: 'Reviews', left: 10, touchEnabled: false, font: { fontSize:12, fontWeight: 'bold'}});
 				reviewHeaderRow.add(reviewTitle);
 				tableData.push(reviewHeaderRow);
 				
@@ -305,7 +309,7 @@ function getDrill(drill_id)
 				{
 					var row = Ti.UI.createTableViewRow({touchEnabled: false, height: 20});
 					
-					var reviewTitle = Ti.UI.createLabel({text: json["reviews"][i]["title"], left: 10, touchEnabled: false, font: { fontSize:12}});
+					var reviewTitle = Ti.UI.createLabel({color: "#000", text: json["reviews"][i]["title"], left: 10, touchEnabled: false, font: { fontSize:12}});
 					row.add(reviewTitle);
 					tableData.push(row);
 					

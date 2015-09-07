@@ -22,6 +22,34 @@ function image(args) {
 	return Ti.UI.createImageView(args);
 }
 
+function cachedImage(id, left, top, height, width) 
+{
+	var version_property = Ti.App.Properties.getString('version');
+	var fileName = id.substring(id.lastIndexOf("/")+1, id.length);
+	var imageFile = Titanium.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory,version_property+'/'+fileName);
+	var cachedImage;
+	
+	if(!imageFile.exists()) 
+	{	
+		// we don't have this cached for some reason = pull it from the website
+		cachedImage = Titanium.UI.createImageView({image: id, left: left, top: top, height: height, width: width});
+		Ti.API.info('Had to pull '+ fileName +  ' from web');
+		imageFile.write(cachedImage.toImage());
+		Ti.API.info('Caching now...'+ fileName);
+	}
+	else
+	{
+		// image is cached = use it
+		cachedImage = Titanium.UI.createImageView({image: imageFile.resolve(), left: left, top: top, height: height, width: width});
+		Ti.API.info('Pull '+ fileName +  ' from cache size ' + imageFile.size + ' name ' + imageFile.name + ' isFile ' + imageFile.isFile());
+		Ti.API.info(imageFile.resolve());
+	}
+	// dispose of file handles
+	imageFile = null;
+	
+	return cachedImage;
+}
+
 function window(args) {
 	return Ti.UI.createWindow(args);
 }
@@ -39,7 +67,16 @@ function setDynamicWebviewHeight(e)
 	{
 		e.source.height = docHeight;
 	}
-}						
+}		
+
+function newImagesToCache()
+{
+	var imageDir = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, Ti.App.Properties.getString('version'));
+	Ti.API.info('Version: ' + Ti.App.Properties.getString('version'));
+	var newImages = !imageDir.exists();
+	imageDir = null;
+	return newImages;
+}				
 
 function stylizeHTML(htmlString)
 {
@@ -48,12 +85,12 @@ function stylizeHTML(htmlString)
 
 var webserver;
 
-Ti.App.Properties.setString("Mode","Prod");
+Ti.App.Properties.setString("Mode","Dev");
 var mode = Ti.App.Properties.getString("Mode");
 if (mode == "Dev")
 {
 	// dev mode logic
-	webserver = "http://192.168.1.14:3000";
+	webserver = "http://192.168.1.16:3000";
 }
 else
 {
@@ -233,9 +270,9 @@ function getDrillBrowseCategories(activity_id, dactivityIndicator, drillsTable)
 				for (var i=0; i<json.length; i++)
 				{
 					var row = Ti.UI.createTableViewRow({height: 60, hasChild: true, strength_id: json[i]["id"]});
-					var name = Ti.UI.createLabel({text: json[i]["name"], top: 5, left: 10, font: { fontSize:14, fontWeight: 'bold' }});
+					var name = Ti.UI.createLabel({color: "#000", text: json[i]["name"], top: 5, left: 10, font: { fontSize:14, fontWeight: 'bold' }});
 					row.add(name);
-					var description = Ti.UI.createLabel({text: json[i]["description"], top: 25, left: 10, font: { fontSize:10 }});
+					var description = Ti.UI.createLabel({color: "#000", text: json[i]["description"], top: 25, left: 10, font: { fontSize:10 }});
 					row.add(description);
 					tableData.push(row);
 				}
@@ -267,18 +304,18 @@ function getVideoCategories(activity_id, vactivityIndicator, videoCategoriesTabl
 			if (json.length != 0)
 			{
 				var row = Ti.UI.createTableViewRow({height: 60, hasChild: true, strength_id: '0' });
-				var name = Ti.UI.createLabel({text: 'Highlights', top: 5, left: 10, font: { fontSize:14, fontWeight: 'bold' }});
+				var name = Ti.UI.createLabel({color: "#000", text: 'Highlights', top: 5, left: 10, font: { fontSize:14, fontWeight: 'bold' }});
 				row.add(name);
-				var description = Ti.UI.createLabel({text: 'A collection of highlight videos', top: 25, left: 10, font: { fontSize:10 }});
+				var description = Ti.UI.createLabel({color: "#000", text: 'A collection of highlight videos', top: 25, left: 10, font: { fontSize:10 }});
 				row.add(description);
 				tableData.push(row);
 					
 				for (var i=0; i<json.length; i++)
 				{
 					var row = Ti.UI.createTableViewRow({height: 60, hasChild: true, strength_id: json[i]["id"]});
-					var name = Ti.UI.createLabel({text: json[i]["name"], top: 5, left: 10, font: { fontSize:14, fontWeight: 'bold' }});
+					var name = Ti.UI.createLabel({color: "#000", text: json[i]["name"], top: 5, left: 10, font: { fontSize:14, fontWeight: 'bold' }});
 					row.add(name);
-					var description = Ti.UI.createLabel({text: json[i]["description"], top: 25, left: 10, font: { fontSize:10 }});
+					var description = Ti.UI.createLabel({color: "#000", text: json[i]["description"], top: 25, left: 10, font: { fontSize:10 }});
 					row.add(description);
 					tableData.push(row);
 				}

@@ -73,13 +73,13 @@ function buildUI()
 				currentPriority = i+1;
 				updatedPriority = i+1;
 
-				currentPriorityLabel = Ti.UI.createLabel({text: 'Adjust ' + strength + ' training priority', left: 20, top: 30});
+				currentPriorityLabel = Ti.UI.createLabel({color: "#000", text: 'Adjust ' + strength + ' training priority', left: 20, top: 30});
 				$.focusWin.add(currentPriorityLabel);
 				
 				var performanceImage = Ti.UI.createImageView({image: getTeamPerformanceImagePath(json["assessments"][i]["level"]), top: 90, left: 20, height:20, width:20, touchEnabled: false});
 			  	$.focusWin.add(performanceImage);
 			  	
-			  	var currentRating = Ti.UI.createLabel({text: 'Currently rated: ' + json["assessments"][i]["assessment"] + ' level', left: 50, top: 90, font: {fontSize: 10}});
+			  	var currentRating = Ti.UI.createLabel({color: "#000", text: 'Currently rated: ' + json["assessments"][i]["assessment"] + ' level', left: 50, top: 90, font: {fontSize: 10}});
 				$.focusWin.add(currentRating);
 			}				
 		}
@@ -102,8 +102,8 @@ function buildUI()
 		prioritySlider.addEventListener('change', function(e) {
 		    newPriority.text = 'New Priority ' + Math.round(e.source.value);
 		});
-		var startingPriority = Ti.UI.createLabel({text: 'Current Priority ' + currentPriority, left: 20, top: 120});
-		var newPriority = Ti.UI.createLabel({text: 'New Priority ' + updatedPriority, left: 20, top: 150});
+		var startingPriority = Ti.UI.createLabel({color: "#000", text: 'Current Priority ' + currentPriority, left: 20, top: 120});
+		var newPriority = Ti.UI.createLabel({color: "#000", text: 'New Priority ' + updatedPriority, left: 20, top: 150});
 		
 		$.focusWin.add(startingPriority);
 		$.focusWin.add(newPriority);

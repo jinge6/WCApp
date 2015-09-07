@@ -1,7 +1,9 @@
 <Alloy>
 	<Window id="inviteDetail" backgroundColor="white">
-		<Label top="70" left="10" id="inviteText"></Label>
-		<Button id="acceptBtn" top="200" onClick="doAccept">Accept</Button>
-        <Button id="rejectBtn" top="250" onClick="doReject">No Thanks</Button>
+		<Label color="black" top="70" left="10" id="inviteText"></Label>
+		<Button id="acceptBtn" backgroundColor="#FA6900" color="white"  top="200" onClick="doAccept" platform="android" >Accept</Button>
+        <Button id="rejectBtn" backgroundColor="#FA6900" color="white"  top="250" onClick="doReject" platform="android" >No Thanks</Button>
+        <Button id="acceptBtn" color="#FA6900" top="200" onClick="doAccept" platform="ios" >Accept</Button>
+        <Button id="rejectBtn" color="#FA6900" top="250" onClick="doReject" platform="ios" >No Thanks</Button>
 	</Window>
 </Alloy>

@@ -33,7 +33,7 @@ function getTrainingPriorities(assignment_id)
 			prioritiesTable.setData(tableData);
 
 			prioritiesTable.top = 100;
-			includeLabel = Ti.UI.createLabel({text: 'Include top ' + focusOnTop + ' priorities in Training', left: 20, top: 30});
+			includeLabel = Ti.UI.createLabel({color: "#000", text: 'Include top ' + focusOnTop + ' priorities in Training', left: 20, top: 30});
 			includeSlider = Ti.UI.createSlider({
 				    top: 50,
 				    min: 1,
@@ -84,14 +84,14 @@ function buildPrioritiesTable(prioritiesJSON, focusOnTop)
 		}
 		var row = Ti.UI.createTableViewRow({height: 60, assignment_id: assignment_id, backgroundColor: color, strength: prioritiesJSON["assessments"][i]["strength"], strengthDescription: prioritiesJSON["assessments"][i]["description"], summary: prioritiesJSON["assessments"][i]["summary"], level: prioritiesJSON["assessments"][i]["level"], assessment: prioritiesJSON["assessments"][i]["assessment"]});
 		
-		var strength = Ti.UI.createLabel({text: prioritiesJSON["assessments"][i]["strength"], top: 20, left: 50, font: { fontSize:12, fontWeight: 'bold' }});
+		var strength = Ti.UI.createLabel({color: "#000", text: prioritiesJSON["assessments"][i]["strength"], top: 20, left: 50, font: { fontSize:12, fontWeight: 'bold' }});
 		row.add(strength);
-		var description = Ti.UI.createLabel({text: prioritiesJSON["assessments"][i]["description"], top: 40, left: 50, font: { fontSize:10}});
+		var description = Ti.UI.createLabel({color: "#000", text: prioritiesJSON["assessments"][i]["description"], top: 40, left: 50, font: { fontSize:10}});
 		row.add(description);
 		var performanceImage = Ti.UI.createImageView({image: getTeamPerformanceImagePath(prioritiesJSON["assessments"][i]["level"]), top: 10, left: 10, height:20, width:20, touchEnabled: false});
 	  	row.add(performanceImage);
 	  	
-	  	var assessment = Ti.UI.createLabel({text: prioritiesJSON["assessments"][i]["assessment"], top: 6, left: 50, font: { fontSize:10, fontWeight: 'bold'}});
+	  	var assessment = Ti.UI.createLabel({color: "#000", text: prioritiesJSON["assessments"][i]["assessment"], top: 6, left: 50, font: { fontSize:10, fontWeight: 'bold'}});
 		row.add(assessment);
 		tableData.push(row);
 	}

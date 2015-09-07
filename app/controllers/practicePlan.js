@@ -30,7 +30,7 @@ function getTrainingpracticePlans(assignment_id)
 				for (var i=0; i<practicePlanJSON["practiceplans"].length; i++)
 				{
 					var row = Ti.UI.createTableViewRow({height: 60, assignment_id: assignment_id, practice_plan_id: practicePlanJSON["practiceplans"][i]["id"]});
-					var practicePlan = Ti.UI.createLabel({text: practicePlanJSON["practiceplans"][i]["name"], top: 25, left: 15, font: { fontSize:12, fontWeight: 'bold' }});
+					var practicePlan = Ti.UI.createLabel({color: "#000", text: practicePlanJSON["practiceplans"][i]["name"], top: 25, left: 15, font: { fontSize:12, fontWeight: 'bold' }});
 					row.add(practicePlan);
 					
 					var button = Titanium.UI.createButton({
@@ -51,7 +51,7 @@ function getTrainingpracticePlans(assignment_id)
 			}
 			else
 			{
-				var noPracticePlansLabel = Ti.UI.createLabel({text: "No practice plans created yet!", top: 160, font: { fontSize:12}});
+				var noPracticePlansLabel = Ti.UI.createLabel({color: "#000", text: "Add practice plans at https://www.winnerscircle.world", top: 160, font: { fontSize:12}});
 				$.practicePlanWin.add(noPracticePlansLabel);	
 			}	
 			

@@ -25,9 +25,9 @@ function getEventStats()
 				for (var i=0; i<json.length; i++)
 				{
 					var row = Ti.UI.createTableViewRow({height: 40, touchEnabled: false});
-					var name = Ti.UI.createLabel({text: json[i]["athlete"], touchEnabled: false, top: 15, left: 20, font: { fontSize:10, fontWeight: 'bold' }});
+					var name = Ti.UI.createLabel({color: "#000", text: json[i]["athlete"], touchEnabled: false, top: 15, left: 20, font: { fontSize:10, fontWeight: 'bold' }});
 					row.add(name);
-					var kpi = Ti.UI.createLabel({text: json[i]["kpi"], touchEnabled: false, top: 15, left: 150, font: { fontSize:10, fontWeight: 'bold' }});
+					var kpi = Ti.UI.createLabel({color: "#000", text: json[i]["kpi"], touchEnabled: false, top: 15, left: 150, font: { fontSize:10, fontWeight: 'bold' }});
 					row.add(kpi);
 					tableData.push(row);
 				}
@@ -36,7 +36,7 @@ function getEventStats()
 			}
 			else
 			{	
-				var no_stats = Ti.UI.createLabel({text: "No stats available yet", touchEnabled: false, font: { fontSize:12, fontWeight: 'bold' }});
+				var no_stats = Ti.UI.createLabel({color: "#000", text: "No stats available yet", touchEnabled: false, font: { fontSize:12, fontWeight: 'bold' }});
 				$.eventStats.add(no_stats);
 			}
 			$.activityIndicator.hide();

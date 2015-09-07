@@ -42,6 +42,18 @@ function goAssignment(e){
 			activityView.open();
 		}
 	}
+	else if (e.row.role == "builder")
+	{
+		var builderView = Alloy.createController('builder').getView();
+		if (Ti.Platform.osname == 'iphone')
+		{
+			$.navAssignment.openWindow(builderView);
+		}
+		else
+		{
+			builderView.open();
+		}
+	}
 	else if (e.row.role == "invite")
 	{
 		if (invitesJSON.length == 1)
@@ -95,10 +107,7 @@ Ti.App.addEventListener('goInviteDetail', function(e) {
 
 //add behavior to refresh home screen
 Ti.App.addEventListener('refreshAssignments', function(e) {
-	if (e.actionType == "inviteProcessed")
-	{
-		getAssignments();
-	}
+	getAssignments();
 });
 
 //add behavior for goActivityDetail
@@ -364,7 +373,7 @@ function getAssignments()
 			  	{
 			  		inviteText = "You have " + json["invites"].length + " invites";
 			  	}
-				var invitesName = Ti.UI.createLabel({text: inviteText, top: 30, left: 80, font: { fontSize:12, fontWeight: 'bold' }});
+				var invitesName = Ti.UI.createLabel({color: "#000", text: inviteText, top: 30, left: 80, font: { fontSize:12, fontWeight: 'bold' }});
 				row.add(invitesName);
 			  	sectionHeader.add(row);	
 			  	tableData.push(sectionHeader);
@@ -392,11 +401,11 @@ function getAssignments()
 				
 				var assignmentLogo = image({image: imageName, left: 15, width: 55, touchEnabled: false});
 			  	row.add(assignmentLogo);
-				var assignmentName = Ti.UI.createLabel({text: json["assignments"][i]["name"], top: 20, left: 80, font: { fontSize:12, fontWeight: 'bold' }});
+				var assignmentName = Ti.UI.createLabel({color: "#000", text: json["assignments"][i]["name"], top: 20, left: 80, font: { fontSize:12, fontWeight: 'bold' }});
 				row.add(assignmentName);
-				var assignmentStartDate = Ti.UI.createLabel({text: 'Start: ' + json["assignments"][i]["startDate"], top: 40, left: 80, font: { fontSize:8}});
+				var assignmentStartDate = Ti.UI.createLabel({color: "#000", text: 'Start: ' + json["assignments"][i]["startDate"], top: 40, left: 80, font: { fontSize:8}});
 				row.add(assignmentStartDate);
-				var assignmentEndDate = Ti.UI.createLabel({text: 'End: ' + json["assignments"][i]["endDate"], top: 50, left: 80, font: { fontSize:8}});
+				var assignmentEndDate = Ti.UI.createLabel({color: "#000", text: 'End: ' + json["assignments"][i]["endDate"], top: 50, left: 80, font: { fontSize:8}});
 				row.add(assignmentEndDate);
 			  	sectionHeader.add(row);	
 			}
@@ -413,7 +422,19 @@ function getAssignments()
 			var imageName = 'missing_logo.png';
 			var wcLogo = image({image: imageName, left: 15, width: 55, touchEnabled: false});
 		  	row.add(wcLogo);
-			var goToName = Ti.UI.createLabel({text: "Drill Library", top: 30, left: 80, font: { fontSize:12, fontWeight: 'bold' }});
+			var goToName = Ti.UI.createLabel({color: "#000", text: "Drill Library", top: 30, left: 80, font: { fontSize:12, fontWeight: 'bold' }});
+			row.add(goToName);
+		  	sectionHeader.add(row);	
+		  	tableData.push(sectionHeader);
+		  	
+		  	// Always add the Training Session Builder row
+			sectionHeader = Ti.UI.createTableViewSection({headerTitle: "Training Session Builder", height: 30});
+
+			var row = Ti.UI.createTableViewRow({className: 'row', height: 80, role: "builder", hasChild: true});
+			var imageName = 'missing_logo.png';
+			var wcLogo = image({image: imageName, left: 15, width: 55, touchEnabled: false});
+		  	row.add(wcLogo);
+			var goToName = Ti.UI.createLabel({color: "#000", text: "Create Training Session", top: 30, left: 80, font: { fontSize:12, fontWeight: 'bold' }});
 			row.add(goToName);
 		  	sectionHeader.add(row);	
 		  	tableData.push(sectionHeader);

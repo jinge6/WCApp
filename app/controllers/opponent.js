@@ -66,7 +66,7 @@ function getOppositionDetails()
 				  	}
 				  	var diagram = image({image: imageName, height: Ti.UI.SIZE, width: Ti.UI.SIZE, left: 5, touchEnabled: false});
 				  	row.add(diagram);
-				  	var drillName = Ti.UI.createLabel({touchEnabled: false, text: json["drills"][i]["name"], top: 10, left: 110, width: Ti.UI.SIZE, font: { fontSize:12, fontWeight: 'bold' }});
+				  	var drillName = Ti.UI.createLabel({color: "#000", touchEnabled: false, text: json["drills"][i]["name"], top: 10, left: 110, width: Ti.UI.SIZE, font: { fontSize:12, fontWeight: 'bold' }});
 					row.add(drillName);
 					var drillRating = new RatingView(json["drills"][i]["rating"], 5, json["drills"][i]["total_ratings"], 30, 105, true, false);
 					row.add(drillRating);

@@ -1,0 +1,14 @@
+<Alloy>
+	<Window id="builder" backgroundColor="white">
+		<Label color="#000" text="Mens Lacrosse"  top="150" left="20"></Label>
+		<Switch id="mensSwitch" value="true" onChange="mensChange" top="150" left="200"></Switch>
+		<Label color="#000" text="Womens Lacrosse" top="190" left="20"></Label>
+		<Switch id="womensSwitch" value="false" onChange="womensChange" top="190" left="200"></Switch>
+		<Label color="#000" text="Adult" top="230" left="20"></Label>
+		<Switch id="adultSwitch" value="true" onChange="adultChange" top="230" left="200"></Switch>
+		<Label color="#000" text="Youth" top="270" left="20"></Label>
+		<Switch id="youthSwitch" value="false" onChange="youthChange" top="270" left="200"></Switch>
+		<Button id="createBtn" backgroundColor="#FA6900" color="white" platform="android" top="320" onClick="doCreate" title="Create New Builder"></Button>
+		<Button id="createBtn" color="#FA6900" platform="ios" top="320" onClick="doCreate" title="Create New Builder"></Button>
+	</Window>
+</Alloy>

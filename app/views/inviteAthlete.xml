@@ -1,7 +1,8 @@
 <Alloy>
-	<Window id="inviteAthleteWindow">
-		<TextField id="email" hintText="Email" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" color="black" backgroundColor="white" keyboardToolbarColor="#999" keyboardToolbarHeight="40"
+	<Window id="inviteAthleteWindow" backgroundColor="white">
+		<TextField id="email" hintText="Email" hintTextColor="#3B3E40" borderStyle="Titanium.UI.INPUT_BORDERSTYLE_LINE" borderColor="#3B3E40" color="black" keyboardToolbarColor="#999" keyboardToolbarHeight="40"
             top="120" height="35" width="200"/>
-        <Button id="inviteBtn" top="160" onClick="doInvite">Invite</Button>
+        <Button id="inviteBtn" top="160" backgroundColor="#FA6900" color="white" platform="android" onClick="doInvite">Invite</Button>
+        <Button id="inviteBtn" top="160" color="#FA6900" platform="ios" onClick="doInvite">Invite</Button>
 	</Window>
 </Alloy>
